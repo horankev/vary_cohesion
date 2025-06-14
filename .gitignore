@@ -5,7 +5,8 @@
 models/
 models_altpriors/
 scripts_altpriors/
-data/
+data/boundaries/
+data/census21/
 priors_sims_report.html
 priors_sims_report.Rmd
 simulations/sim_mods/
