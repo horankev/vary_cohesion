@@ -1,0 +1,143 @@
+---
+title: "Untitled"
+output: html_document
+date: "2025-05-22"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(here, quietly = TRUE)
+library(tidyverse, quietly = TRUE)
+```
+
+```{r}
+priors <- tribble(
+  ~priors, ~intercept, ~slopes, ~`description of priors`,
+  "brms_default", "student_t(3, -2.70178132071088, 2.5)", "flat", "brms default",
+  "brmsint_normalslope", "student_t(3, -2.70178132071088, 2.5)", "normal(0, 10)", "brms default intercept, normal slopes",
+  "brmsint_normalslope2", "normal(0, 4)", "normal(0, 4)", "normal intercept and slope (low sd)", 
+  "brmsint_normalslope3", "normal(0, 20)", "normal(0, 20)", "normal intercept and slope (high sd)",
+  "flat", "flat", "flat", "flat intercept and slope",
+  "normal(0,10)", "normal(0, 10)", "normal(0, 10)", "normal intercept and slope (mid sd)"
+)
+
+```
+
+```{r}
+# all .rds files in the directory
+rds_files <- list.files(here("mods24","mods_ld"), pattern = "^margloglik.*\\.rds$", full.names = TRUE)
+
+# create a named list with each object
+ld_marglik <- setNames(
+  lapply(rds_files, readRDS),
+  tools::file_path_sans_ext(basename(rds_files))
+) |> 
+  lapply(function(inner) inner$logml) |> 
+  data.frame() |> 
+  t() |> 
+  data.frame() |> 
+  rownames_to_column() |> 
+  tidyr::extract(
+    col = rowname,
+    into = c("model", "party", "priors"),
+    regex = "margloglik_mod(\\d+)_(ld)(?:_(.*))?"
+  ) |> 
+  mutate(priors = if_else(is.na(priors) | priors == "", "normal(0,10)", priors)) |> 
+  rename(logmarginallikelihood = 4) |> 
+  mutate(priors = str_replace_all(priors, "flat_auto_int", "brms_default")) |>
+  arrange(priors, desc(logmarginallikelihood)) |> 
+  left_join(priors, by="priors") |> 
+  select(-priors) |> 
+  select(model, intercept, slopes, logmarginallikelihood, `description of priors`)
+
+```
+
+
+```{r}
+# all .rds files in the directory
+rds_files <- list.files(here("mods24","mods_lab"), pattern = "^margloglik.*\\.rds$", full.names = TRUE)
+
+# create a named list with each object
+lab_marglik <- setNames(
+  lapply(rds_files, readRDS),
+  tools::file_path_sans_ext(basename(rds_files))
+) |> 
+  lapply(function(inner) inner$logml) |> 
+  data.frame() |> 
+  t() |> 
+  data.frame() |> 
+  rownames_to_column() |> 
+  tidyr::extract(
+    col = rowname,
+    into = c("model", "party", "priors"),
+    regex = "margloglik_mod(\\d+)_(lab)(?:_(.*))?"
+  ) |> 
+  mutate(priors = if_else(is.na(priors) | priors == "", "normal(0,10)", priors)) |> 
+  rename(logmarginallikelihood = 4) |> 
+  mutate(priors = str_replace_all(priors, "flat_auto_int", "brms_default")) |>
+  arrange(priors, desc(logmarginallikelihood)) |> 
+  left_join(priors, by="priors")
+
+```
+
+
+```{r}
+# all .rds files in the directory
+rds_files <- list.files(here("mods24","mods_con"), pattern = "^margloglik.*\\.rds$", full.names = TRUE)
+
+# create a named list with each object
+con_marglik <- setNames(
+  lapply(rds_files, readRDS),
+  tools::file_path_sans_ext(basename(rds_files))
+) |> 
+  lapply(function(inner) inner$logml) |> 
+  data.frame() |> 
+  t() |> 
+  data.frame() |> 
+  rownames_to_column() |> 
+  tidyr::extract(
+    col = rowname,
+    into = c("model", "party", "priors"),
+    regex = "margloglik_mod(\\d+)_(con)(?:_(.*))?"
+  ) |> 
+  mutate(priors = if_else(is.na(priors) | priors == "", "normal(0,10)", priors)) |> 
+  rename(logmarginallikelihood = 4) |> 
+  mutate(priors = str_replace_all(priors, "flat_auto_int", "brms_default")) |>
+  arrange(priors, desc(logmarginallikelihood)) |> 
+  left_join(priors, by="priors")
+
+```
+
+
+```{r}
+# all .rds files in the directory
+rds_files <- list.files(here("mods24","mods_ruk"), pattern = "^margloglik.*\\.rds$", full.names = TRUE)
+
+# create a named list with each object
+ruk_marglik <- setNames(
+  lapply(rds_files, readRDS),
+  tools::file_path_sans_ext(basename(rds_files))
+) |> 
+  lapply(function(inner) inner$logml) |> 
+  data.frame() |> 
+  t() |> 
+  data.frame() |> 
+  rownames_to_column() |> 
+  tidyr::extract(
+    col = rowname,
+    into = c("model", "party", "priors"),
+    regex = "margloglik_mod(\\d+)_(ruk)(?:_(.*))?"
+  ) |> 
+  mutate(priors = if_else(is.na(priors) | priors == "", "normal(0,10)", priors)) |> 
+  rename(logmarginallikelihood = 4) |> 
+  mutate(priors = str_replace_all(priors, "flat_auto_int", "brms_default")) |>
+  arrange(priors, desc(logmarginallikelihood)) |> 
+  left_join(priors, by="priors")
+
+```
+
+
+

@@ -1,0 +1,542 @@
+---
+title: "simulations"
+output: html_document
+date: "2025-05-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Sample
+
+```{r}
+sample_number <- 40
+
+sdcar <- 1.3
+region_effect <- c(-1.5, 1, -0.5, 0.5, 1, 1.2)
+
+```
+
+## Libraries
+
+```{r, echo=FALSE}
+library(dplyr, quietly = TRUE)
+library(ggplot2, quietly = TRUE)
+library(stringr, quietly = TRUE)
+library(tidyr, quietly = TRUE)
+library(tibble, quietly = TRUE)
+library(sf, quietly = TRUE)
+library(here, quietly = TRUE)
+library(janitor, quietly = TRUE)
+library(sfislands, quietly = TRUE)
+library(sfdep, quietly = TRUE)
+library(rmapshaper, quietly = TRUE)
+library(janitor, quietly = TRUE)
+
+library(brms, quietly = TRUE)
+library(rstan, quietly = TRUE)
+library(geostan) # for prep_icar_data() function
+
+set.seed(12345)
+```
+
+## Data preparation
+
+```{r, echo=FALSE}
+
+# ## boundaries for constituencies and regions 2024
+# ## keep only three regions
+# dfsmall <- st_read(here("data","boundaries","geoConstituencies.json"), quiet = TRUE) |> 
+#   st_make_valid() |> 
+#   select(PCON24CD,PCON24NM,name3,regionNM,geometry) |> 
+#   rename(con_name = PCON24NM,
+#          con_code = PCON24CD,
+#          reg_name = regionNM,
+#          con_abb = name3) |> 
+#   filter(reg_name %in% c("Yorkshire and the Humber", "East Midlands")) |> 
+#   mutate(con_name = factor(con_name),
+#          reg_name = factor(reg_name))
+# 
+# ## generate six fake regions using k-means of centroids
+# dfsmall_centroids <- st_centroid(dfsmall)
+# 
+# coords <- st_coordinates(dfsmall_centroids)
+# set.seed(123)
+# kmeans_result <- kmeans(coords, centers = 6)
+# dfsmall$reg_name <- factor(kmeans_result$cluster)
+# 
+# saveRDS(dfsmall, here("simulations2_wider_sd","dfsmall.rds"))
+
+dfsmall <- readRDS(here("simulations2_wider_sd","dfsmall.rds"))
+regions <- dfsmall |>
+  ms_dissolve("reg_name")
+
+ggplot() +
+  geom_sf(data=dfsmall, aes(fill=reg_name)) +
+  geom_sf(data=regions, colour="black", fill=NA)
+
+```
+
+## Stan code
+
+```{stan, output.var = "compiled_model4_sim"}
+data {
+  int<lower=1> N;                  // number of observations
+  int<lower=1> Nloc;              // number of spatial locations
+  array[N] int<lower=1> Jloc;     // which spatial location for each obs
+  int<lower=0> Nedges;            // number of edges in adjacency
+  array[Nedges] int<lower=1> edges1;
+  array[Nedges] int<lower=1> edges2;
+  real sdcar;    // SD for spatial term
+  vector[Nloc] region_effect;    // region-specific SDs for spatial term
+  int prior_only;                 // if true, skip likelihood
+}
+
+transformed data {
+  // Empty block, not centring anything here
+}
+
+parameters {
+  real Intercept;
+  real beta;                      // one covariate
+  vector[N] zcar;                 // ICAR base spatial term
+}
+
+transformed parameters {
+  vector[N] rcar;
+  for (n in 1:N) {
+    rcar[n] = zcar[n] * sdcar;  // scale by SD
+  }
+}
+
+model {
+  // Priors
+  Intercept ~ normal(6.9, 0.5);   // Centre log-rate around log(1000)
+  beta ~ normal(0, 0.5);          // Small to moderate slope
+
+  // ICAR prior
+  target += -0.5 * dot_self(zcar[edges1] - zcar[edges2]);
+  target += normal_lpdf(sum(zcar) | 0, 0.001 * Nloc);
+
+  // Skip likelihood in prior-only mode
+  if (!prior_only) {
+    reject("This version is only for generating fake data. Use prior_only = 1.");
+  }
+}
+
+generated quantities {
+  vector[N] X_sim;
+  array[N] int Y_sim;
+  for (n in 1:N) {
+    X_sim[n] = beta_rng(2, 2);  // symmetric, U-shaped around 0.5, between 0 and 1
+    real mu = Intercept + beta * X_sim[n] + region_effect[Jloc[n]] + rcar[n];
+    Y_sim[n] = poisson_log_rng(mu);
+  }
+}
+
+```
+
+```{r}
+# matrix version of nb df for stan:
+dfsmall <- st_bridges(dfsmall, "con_name", nb_structure = "matrix")
+
+W <- dfsmall$nb
+
+data_prep <- prep_icar_data(dfsmall$nb)
+
+datalist <- list(N = nrow(dfsmall),
+                 Nloc = length(unique(dfsmall$reg_name)),
+                 Jloc = as.numeric(dfsmall$reg_name),
+                 Nedges = data_prep$n_edges,
+                 edges1 = data_prep$node1,
+                 edges2 = data_prep$node2,
+                 sdcar = sdcar,
+                 region_effect = region_effect,
+                 prior_only = 1)
+
+fit_sim <- rstan::sampling(
+  compiled_model4_sim,
+  data = datalist,
+  chains = 1,
+  iter = 200,
+  seed = 12345
+)
+
+```
+
+
+```{r}
+# Extract fake data
+sim_list <- rstan::extract(fit_sim)
+Y_sim <- sim_list$Y_sim
+X_sim <- sim_list$X_sim
+
+```
+
+```{r}
+# visualise one of the rcar samples 
+sim_data_rcar <- rstan::extract(fit_sim, pars = "rcar") |> 
+  data.frame() |> 
+  t() |> 
+  data.frame() |> 
+  mutate(geometry = dfsmall$geometry) |> 
+  st_as_sf()
+
+ggplot() + 
+  geom_sf(data = sim_data_rcar, aes(fill = !!sym(paste0("X", sample_number)))) + 
+  scale_fill_distiller(palette = "RdBu") + 
+  geom_sf(data = regions, colour="black", fill=NA)
+
+dfsmall <- dfsmall |>
+  mutate(reg_eff = region_effect[reg_name])
+
+sim_data_rcar_region <- sim_data_rcar |> 
+  mutate(across(-geometry, ~ . + dfsmall$reg_eff))
+
+ggplot() + 
+  geom_sf(data = sim_data_rcar_region, aes(fill = !!sym(paste0("X", sample_number)))) + 
+  scale_fill_distiller(palette = "RdBu") + 
+  geom_sf(data = regions, colour="black", fill=NA)
+
+# saveRDS(sim_data_rcar_region, here("simulations2_wider_sd","sim_geo_data_sd1.3","sim_data_rcar_region_mod5_sd1.3.rds"))
+
+```
+
+
+## Priors and data for brms models
+
+```{r}
+priors <- c(
+  prior(normal(0, 10), class = "Intercept"),
+  prior(normal(0, 10), class = "b")
+)
+
+dfsmall$Y_sim <- Y_sim[sample_number,]
+dfsmall$X_sim <- X_sim[sample_number,]
+
+```
+
+## Model 3
+
+```{r}
+
+m4_fit_to_3_sd1.3 <- brm(
+  Y_sim ~ 1 + X_sim +
+    car(W, gr = con_name, type = "icar"),
+  data = dfsmall,
+  data2 = list(W = W),
+  family = poisson(),
+  prior = priors,
+  seed = 12345,
+  cores = 4,
+  chains = 4,
+  warmup = 1000,
+  iter = 40000,
+  control = list(adapt_delta = 0.99,
+                 max_treedepth = 14),
+  save_pars = save_pars(all = TRUE)
+)
+saveRDS(m4_fit_to_3_sd1.3, here("simulations2_wider_sd","sim_mods","m4_fit_to_3_sd1.3_sample40.rds"))
+
+# m4_fit_to_3_sd1.3 <- readRDS(here("simulations2_wider_sd","sim_mods","m4_fit_to_3_sd1.3_sample40.rds"))
+
+```
+
+
+```{r}
+summary(m4_fit_to_3_sd1.3)
+
+```
+
+
+```{r}
+ml_m4_fit_to_3_sd1.3 <- bridge_sampler(m4_fit_to_3_sd1.3)
+saveRDS(ml_m4_fit_to_3_sd1.3, here("simulations2_wider_sd","sim_mods","ml_m4_fit_to_3_sd1.3_sample40.rds"))
+
+# ml_m4_fit_to_3_sd1.3 <- readRDS(here("simulations2_wider_sd","sim_mods","ml_m4_fit_to_3_sd1.3_sample40.rds"))
+
+```
+
+## Model 4
+
+```{r}
+m4_fit_to_4_sd1.3 <- brm(
+  Y_sim ~ 1 + X_sim + reg_name +
+    car(W, gr = con_name, type = "icar"),
+  data = dfsmall,
+  data2 = list(W = W),
+  family = poisson(),
+  prior = priors,
+  seed = 12345,
+  cores = 4,
+  chains = 4,
+  warmup = 1000,
+  iter = 30000,
+  control = list(adapt_delta = 0.99,
+                 max_treedepth = 15),
+  save_pars = save_pars(all = TRUE)
+)
+saveRDS(m4_fit_to_4_sd1.3, here("simulations2_wider_sd","sim_mods","m4_fit_to_4_sd1.3_sample40.rds"))
+
+# m4_fit_to_4_sd1.3 <- readRDS(here("simulations2_wider_sd","sim_mods","m4_fit_to_4_sd1.3_sample40.rds"))
+
+```
+
+
+```{r}
+summary(m4_fit_to_4_sd1.3)
+
+```
+
+```{r}
+ml_m4_fit_to_4_sd1.3 <- bridge_sampler(m4_fit_to_4_sd1.3)
+saveRDS(ml_m4_fit_to_4_sd1.3, here("simulations2_wider_sd","sim_mods","ml_m4_fit_to_4_sd1.3_sample40.rds"))
+
+# ml_m4_fit_to_4_sd1.3 <- readRDS(here("simulations2_wider_sd","sim_mods","ml_m4_fit_to_4_sd1.3_sample40.rds"))
+
+```
+
+## Model 6 
+
+### Stan code
+
+```{stan, output.var = "compiled_model_icar_varysd"}
+
+data {
+  int<lower=1> N;  // total number of observations
+  array[N] int Y;  // response variable
+  int<lower=1> K;  // number of population-level effects
+  matrix[N, K] X;  // population-level design matrix
+  int<lower=1> Kc;  // number of population-level effects after centering
+  // data for the CAR structure
+  int<lower=1> Nloc;
+  array[N] int<lower=1> Jloc;
+  int<lower=0> Nedges;
+  array[Nedges] int<lower=1> edges1;
+  array[Nedges] int<lower=1> edges2;
+  int prior_only;  // should the likelihood be ignored?
+}
+
+transformed data {
+  matrix[N, Kc] Xc;  // centered version of X without an intercept
+  vector[Kc] means_X;  // column means of X before centering
+  for (i in 2:K) {
+    means_X[i - 1] = mean(X[, i]);
+    Xc[, i - 1] = X[, i] - means_X[i - 1];
+  }
+}
+
+parameters {
+  vector[Kc] b;  // regression coefficients
+  real Intercept;  // temporary intercept for centered predictors
+  vector<lower=0> [Nloc] sdcar;  // SD of the CAR structure
+  // parameters for the ICAR structure
+  vector[N] zcar;
+}
+
+transformed parameters {
+  // scaled parameters for the ICAR structure
+  vector[N] rcar;
+  real lprior = 0;  // prior contributions to the log posterior
+  // compute scaled parameters for the ICAR structure
+  for (n in 1:N) {
+    rcar[n] = zcar[n] .* sdcar[Jloc[n]];
+  }
+  lprior += student_t_lpdf(sdcar | 3, 0, 2.5)
+    - 1 * student_t_lccdf(0 | 3, 0, 2.5);
+}
+
+model {
+  // =====================================================
+  // PRIORS
+  // =====================================================
+  target += lprior;                    // prior on sdcar via student_t
+  
+  Intercept ~ normal(0, 10);             // prior on Intercept
+  b ~ normal(0, 10);                     // prior on regression coefficients
+  
+  target += -0.5 * dot_self(zcar[edges1] - zcar[edges2]);  // ICAR prior on zcar
+  target += normal_lpdf(sum(zcar) | 0, 0.001 * Nloc);      // soft sum-to-zero constraint on zcar
+  
+  // =====================================================
+  // LIKELIHOOD
+  // =====================================================
+  if (!prior_only) {
+    vector[N] mu = rep_vector(0.0, N);
+    mu += Intercept + Xc * b;
+    for (n in 1:N) {
+      mu[n] += rcar[n];
+    }
+    target += poisson_log_lpmf(Y | mu);
+  }
+}
+
+generated quantities {
+  // actual population-level intercept
+  real b_Intercept = Intercept - dot_product(means_X, b);
+  
+  // Log likelihood for observed data
+  vector[N] log_lik;  // log likelihood for each observation
+  for (n in 1:N) {
+    log_lik[n] = poisson_log_lpmf(Y[n] | Intercept + Xc[n] * b + rcar[n]);
+  }
+}
+
+```
+
+```{r}
+modmat <- model.matrix(Y_sim ~ X_sim, 
+                       data=dfsmall)
+
+X <- modmat
+Y <- dfsmall$Y_sim
+
+data_prep <- prep_icar_data(dfsmall$nb)
+
+datalist <- list(N = nrow(X),         # number of observations
+                 K = ncol(X),         # number of coefficients
+                 Kc = ncol(X)-1,
+                 X = X,               # design matrix
+                 Y = Y,               # observed number of cases
+                 W_n = sum(W) / 2,    # number of neighbour pairs
+                 W = W,
+                 Nloc = length(unique(dfsmall$reg_name)),
+                 Jloc = as.numeric(dfsmall$reg_name),
+                 Nedges = data_prep$n_edges,
+                 edges1 = data_prep$node1,
+                 edges2 = data_prep$node2,
+                 prior_only = 0)
+
+```
+
+
+```{r}
+m4_fit_to_6_sd1.3 <- rstan::sampling(
+  compiled_model_icar_varysd,
+  data = datalist,
+  chains = 4,
+  warmup = 1000,
+  iter = 30000,
+  cores = 4,
+  refresh = 100,
+  verbose = FALSE,
+  thin = 10,
+  control = list(adapt_delta = 0.99,
+                 max_treedepth = 15),
+  seed = 12345
+)
+saveRDS(m4_fit_to_6_sd1.3, here("simulations2_wider_sd","sim_mods","m4_fit_to_6_sd1.3_sample40.rds"))
+
+# m4_fit_to_6_sd1.3 <- readRDS(here("simulations2_wider_sd","sim_mods","m4_fit_to_6_sd1.3_sample40.rds"))
+
+```
+
+
+```{r}
+summary(m4_fit_to_6_sd1.3) |> 
+  data.frame() |> 
+  head()
+
+```
+
+```{r}
+# To use bridge sampling with a saved rather than freshly-run model...
+
+# Recreate a clean stanfit object of same dimensions with no sampling
+dummy_fit <- sampling(
+  compiled_model_icar_varysd,
+  data = datalist,
+  chains = 4,
+  iter = 20000,
+  warmup = 1000,
+  algorithm = "Fixed_param",  # Prevent actual sampling
+  refresh = 0
+)
+```
+
+```{r}
+# Inject real posterior draws into dummy object
+
+dummy_fit@sim <- m4_fit_to_6_sd1.3@sim
+dummy_fit@inits <- m4_fit_to_6_sd1.3@inits
+dummy_fit@mode <- m4_fit_to_6_sd1.3@mode
+dummy_fit@stanmodel <- compiled_model_icar_varysd  # Make sure compiled
+
+```
+
+```{r}
+# Run bridge sampling
+
+ml_m4_fit_to_6_sd1.3 <- bridge_sampler(
+  samples = dummy_fit,
+  data = datalist,
+  silent = TRUE
+)
+saveRDS(ml_m4_fit_to_6_sd1.3, here("simulations2_wider_sd","sim_mods","ml_m4_fit_to_6_sd1.3_sample40.rds"))
+
+# ml_m4_fit_to_6_sd1.3 <- readRDS(here("simulations2_wider_sd","sim_mods","ml_m4_fit_to_6_sd1.3_sample40.rds"))
+
+```
+
+
+
+
+
+## Model BYM2
+
+```{r}
+# m4_fit_to_bym_sd1.3 <- brm(
+#   Y_sim ~ 1 + X_sim + reg_name +
+#     car(W, gr = con_name, type = "bym2"),
+#   data = dfsmall,
+#   data2 = list(W = W),
+#   family = poisson(),
+#   prior = priors,
+#   seed = 12345,
+#   cores = 4,
+#   chains = 4,
+#   warmup = 1000,
+#   iter = 30000,
+#   control = list(adapt_delta = 0.99,
+#                  max_treedepth = 15),
+#   save_pars = save_pars(all = TRUE)
+# )
+# saveRDS(m4_fit_to_bym_sd1.3, here("simulations2_wider_sd","sim_mods","m4_fit_to_bym_sd1.3_sample40.rds"))
+
+# m4_fit_to_bym_sd1.3 <- readRDS(here("simulations2_wider_sd","sim_mods","m4_fit_to_bym_sd1.3_sample40.rds"))
+
+```
+
+
+```{r}
+# summary(m4_fit_to_bym_sd1.3)
+
+```
+
+```{r}
+# ml_m4_fit_to_bym_sd1.3 <- bridge_sampler(m4_fit_to_bym_sd1.3)
+# saveRDS(ml_m4_fit_to_bym_sd1.3, here("simulations2_wider_sd","sim_mods","ml_m4_fit_to_bym_sd1.3_sample40.rds"))
+
+# ml_m4_fit_to_bym_sd1.3 <- readRDS(here("simulations2_wider_sd","sim_mods","ml_m4_fit_to_bym_sd1.3_sample40.rds"))
+
+```
+
+
+## Compare
+
+```{r}
+ml_mod5simulations2_sd1.3 <- data.frame(
+  model = c("3","4","6"
+            # "BYM2"
+            ),
+  logmarglik = c(ml_m4_fit_to_3_sd1.3$logml, ml_m4_fit_to_4_sd1.3$logml, ml_m4_fit_to_6_sd1.3$logml
+                 # ml_m4_fit_to_bym_sd1.3$logml
+                 )
+) |> 
+  arrange(desc(logmarglik))
+ml_mod5simulations2_sd1.3
+
+saveRDS(ml_mod5simulations2_sd1.3, here("simulations2_wider_sd","sim_ml","ml_mod5simulations2_sd1.3_sample40.rds"))
+
+```

@@ -1,0 +1,16 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+models/
+models_altpriors/
+scripts_altpriors/
+data/
+priors_sims_report.html
+priors_sims_report.Rmd
+simulations/sim_mods/
+simulations2_wider_sd/sim_mods/
+jrss_resubmission/jrss_response.Rmd
+jrss_resubmission/jrss_response.pdf
+jrss_resubmission/references.bib
+jrss_resubmission/.DS_Store
