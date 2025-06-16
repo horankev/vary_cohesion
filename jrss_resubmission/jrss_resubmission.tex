@@ -130,6 +130,9 @@ Ireland%
 \newtheorem{remark}{Remark}
 \theoremstyle{thmstylethree}
 \newtheorem{definition}{Definition}
+\renewcommand\normalsize{\fontsize{10}{12}\selectfont}
+\normalsize
+\usepackage[font=normalsize]{caption}
 % Pandoc header-include feature
 \usepackage{booktabs}
 \usepackage{longtable}
@@ -452,6 +455,7 @@ Liberal Democrat candidate in 541, and a Reform UK candidate in 521.
 
 \caption{\label{tab:elecsummary}Percentage vote share, seat count, and percentage of seat totals in England for parties in the 2024 General Election. Four parties achieved a vote share greater than 10\%, totalling 89\% of the total votes cast and over 98\% of seats won.}
 \centering
+\fontsize{8}{10}\selectfont
 \begin{tabular}[t]{l|r|r|r}
 \hline
 party & percentage of votes & seat count & percentage of seats\\
@@ -532,8 +536,8 @@ reasons as the socio-economic explanatory variables, these majorities
 were also scaled.
 
 While Reform UK are shown separately in the second place map in Figure
-\ref{fig:figplacement} (c), they were the second placed party in only 1
-constituency in 2019. For this reason, they were included in the
+\ref{fig:figplacement} (c), they were the second placed party in only
+one constituency in 2019. For this reason, they were included in the
 \emph{other} category for this variable in the modelling process, along
 with other parties and independent candidates.
 
@@ -644,6 +648,7 @@ minimal prior knowledge or assumptions about their values.
 
 \caption{\label{tab:tabcovariates}Covariates with a brief description, classified as either coming from the 2021 census or the results of the previous election.}
 \centering
+\fontsize{8}{10}\selectfont
 \begin{tabular}[t]{>{\raggedleft\arraybackslash}p{4cm}>{\raggedright\arraybackslash}p{12cm}}
 \toprule
 explanatory variables & description\\
@@ -732,6 +737,7 @@ regions, and a brief explanation are shown in Table
 
 \caption{\label{tab:tabmodsummary}Type of spatial process(es) incorporated in each model, and whether they occur at region level, constituency level, or both.}
 \centering
+\fontsize{8}{10}\selectfont
 \begin{tabular}[t]{cll}
 \toprule
 model & constituency spatial effect & region spatial effect\\
@@ -839,6 +845,7 @@ proportion of structured variance in the spatial effect.
 
 \caption{\label{tab:tabmodsummary2}Structure of each model, showing which spatial processes are included.}
 \centering
+\fontsize{8}{10}\selectfont
 \begin{tabular}[t]{cl>{\raggedright\arraybackslash}p{6.5cm}}
 \toprule
 model & description & note\\
@@ -927,7 +934,7 @@ complexity.
 
 \begin{figure*}[th]
 
-{\centering \includegraphics[width=0.8\linewidth]{jrss_resubmission_files/figure-latex/narrowsds-1} 
+{\centering \includegraphics[width=0.9\linewidth]{jrss_resubmission_files/figure-latex/narrowsds-1} 
 
 }
 
@@ -936,7 +943,7 @@ complexity.
 
 \begin{figure*}[th]
 
-{\centering \includegraphics[width=0.8\linewidth]{jrss_resubmission_files/figure-latex/widesds-1} 
+{\centering \includegraphics[width=0.9\linewidth]{jrss_resubmission_files/figure-latex/widesds-1} 
 
 }
 
@@ -967,6 +974,7 @@ original guidelines of \citet{jeffreys1939}) as shown in Table
 
 \caption{\label{tab:tablewagenmakers}Lee and Wagenmakers' interpretation of Bayes factors, quantifying how much more likely data are under one model compared to another.}
 \centering
+\fontsize{8}{10}\selectfont
 \begin{tabular}[t]{l|l}
 \hline
 bayes factor range & evidence supporting one model over another\\
@@ -1002,7 +1010,8 @@ the order of preference of models is consistent across parties.
 
 \caption{\label{tab:tablik}Comparison of models across parties, ranked by decreasing log marginal likelihood, alongside the degree of evidence for model improvement provided by Bayes factor comparison with the model immediately below it. The sequence is generally the same for each party with Model 7 being the most plausible.}
 \centering
-\begin{tabular}[t]{>{\centering\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.8cm}r>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}p{1.4cm}l}
+\fontsize{8}{10}\selectfont
+\begin{tabular}[t]{>{\centering\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{4cm}r>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}p{1.4cm}l}
 \toprule
 model & constituency level effects & region level effects & log marg lik & log bayes factor & bayes factor & evidence\\
 \midrule

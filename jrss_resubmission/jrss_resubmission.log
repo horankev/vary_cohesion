@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.9.25)  14 JUN 2025 19:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.9.25)  16 JUN 2025 18:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -626,24 +626,24 @@ File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 ) (./jrss_resubmission.aux)
 \openout1 = `jrss_resubmission.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 149.
-LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
 (/usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count348
@@ -665,9 +665,9 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package crop Info: requested driver: `' on input line 149.
-Package crop Info: detected driver: `pdftex' on input line 149.
-Package crop Info: using `pdftex' graphics driver on input line 149.
+Package crop Info: requested driver: `' on input line 152.
+Package crop Info: detected driver: `pdftex' on input line 152.
+Package crop Info: using `pdftex' graphics driver on input line 152.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: float package is loaded.
@@ -681,16 +681,16 @@ Package caption Info: rotating package is loaded.
 Package caption Info: threeparttable package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Redeclaring symbol font `AMSa' on input line 149.
+LaTeX Font Info:    Redeclaring symbol font `AMSa' on input line 152.
 LaTeX Font Info:    Overwriting symbol font `AMSa' in version `normal'
-(Font)                  U/msa/m/n --> U/msa/m/n on input line 149.
+(Font)                  U/msa/m/n --> U/msa/m/n on input line 152.
 LaTeX Font Info:    Overwriting symbol font `AMSa' in version `bold'
-(Font)                  U/msa/m/n --> U/msa/m/n on input line 149.
+(Font)                  U/msa/m/n --> U/msa/m/n on input line 152.
 (/usr/local/texlive/2021/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
 )
 \c@lstlisting=\count354
-Package hyperref Info: Link coloring ON on input line 149.
+Package hyperref Info: Link coloring ON on input line 152.
 (/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (/usr/local/texlive/2021/texmf-dist/tex/latex/refcount/refcount.sty
@@ -702,9 +702,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count355
 )
-LaTeX Info: Redefining \ref on input line 149.
-LaTeX Info: Redefining \pageref on input line 149.
-LaTeX Info: Redefining \nameref on input line 149.
+LaTeX Info: Redefining \ref on input line 152.
+LaTeX Info: Redefining \pageref on input line 152.
+LaTeX Info: Redefining \nameref on input line 152.
 (./jrss_resubmission.out) (./jrss_resubmission.out)
 \@outlinefile=\write3
 \openout3 = `jrss_resubmission.out'.
@@ -715,17 +715,17 @@ LaTeX Info: Redefining \nameref on input line 149.
 \c@ADDR@DEF=\count359
 \c@ADDR@GHI=\count360
 
-Overfull \hbox (53.5pt too wide) in paragraph at lines 246--246
+Overfull \hbox (53.5pt too wide) in paragraph at lines 249--249
 | [][][] 
  []
 
 
-Overfull \hbox (53.5pt too wide) in paragraph at lines 246--246
+Overfull \hbox (53.5pt too wide) in paragraph at lines 249--249
 | [][][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 246--246
+Underfull \hbox (badness 10000) in paragraph at lines 249--249
 
  []
 
@@ -733,65 +733,59 @@ Underfull \hbox (badness 10000) in paragraph at lines 246--246
 LaTeX Warning: No \author given.
 
 LaTeX Font Info:    Calculating math sizes for size <13.04874> on input line 24
-6.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 246
+9.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 249
 .
 (/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 246
+LaTeX Font Info:    Trying to load font information for U+msb on input line 249
 .
 (/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for U+rsfs on input line 24
-6.
+9.
 (/usr/local/texlive/2021/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <13.04874> not available
-(Font)              size <12> substituted on input line 246.
+(Font)              size <12> substituted on input line 249.
 
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <6.52437> not available
-(Font)              size <7> substituted on input line 246.
+(Font)              size <7> substituted on input line 249.
 
 \c@ADDRLBL@ABC=\count361
 \c@ADDRLBL@DEF=\count362
 \c@ADDRLBL@GHI=\count363
-LaTeX Font Info:    Calculating math sizes for size <7.52812> on input line 246
-.
 
-LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <7.52812> not available
-(Font)              size <8> substituted on input line 246.
+LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <7.5> not available
+(Font)              size <7> substituted on input line 249.
 
-
-LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <3.76405> not available
-(Font)              size <5> substituted on input line 246.
-
-LaTeX Font Info:    Calculating math sizes for size <6.52437> on input line 246
+LaTeX Font Info:    Calculating math sizes for size <6.52437> on input line 249
 .
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <4.56703> not available
-(Font)              size <5> substituted on input line 246.
+(Font)              size <5> substituted on input line 249.
 
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <3.26218> not available
-(Font)              size <5> substituted on input line 246.
+(Font)              size <5> substituted on input line 249.
 
 
-Overfull \hbox (53.5pt too wide) in paragraph at lines 246--246
+Overfull \hbox (53.5pt too wide) in paragraph at lines 249--249
 [][][] 
  []
 
 
-Overfull \hbox (53.5pt too wide) in paragraph at lines 246--246
+Overfull \hbox (53.5pt too wide) in paragraph at lines 249--249
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 246--246
+Underfull \hbox (badness 10000) in paragraph at lines 249--249
 
  []
 
@@ -802,175 +796,165 @@ Non-PDF special ignored!
 
 
 {/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [2
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
 ]
-<jrss_resubmission_files/figure-latex/figvoteshare-1.pdf, id=196, 850.17625pt x
- 278.03876pt>
-File: jrss_resubmission_files/figure-latex/figvoteshare-1.pdf Graphic file (typ
-e pdf)
-<use jrss_resubmission_files/figure-latex/figvoteshare-1.pdf>
-Package pdftex.def Info: jrss_resubmission_files/figure-latex/figvoteshare-1.pd
-f  used on input line 491.
-(pdftex.def)             Requested size: 488.5pt x 159.76073pt.
-<jrss_resubmission_files/figure-latex/figsocec-1.pdf, id=200, 818.05624pt x 284
-.06125pt>
-File: jrss_resubmission_files/figure-latex/figsocec-1.pdf Graphic file (type pd
-f)
-<use jrss_resubmission_files/figure-latex/figsocec-1.pdf>
-Package pdftex.def Info: jrss_resubmission_files/figure-latex/figsocec-1.pdf  u
-sed on input line 519.
-(pdftex.def)             Requested size: 488.5pt x 169.6275pt.
-
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [3
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
 ]
-<jrss_resubmission_files/figure-latex/figplacement-1.pdf, id=221, 823.075pt x 2
+<jrss_resubmission_files/figure-latex/figvoteshare-1.pdf, id=208, 850.17625pt x
+ 278.03876pt>
+File: jrss_resubmission_files/figure-latex/figvoteshare-1.pdf Graphic file (typ
+e pdf)
+<use jrss_resubmission_files/figure-latex/figvoteshare-1.pdf>
+Package pdftex.def Info: jrss_resubmission_files/figure-latex/figvoteshare-1.pd
+f  used on input line 495.
+(pdftex.def)             Requested size: 488.5pt x 159.76073pt.
+<jrss_resubmission_files/figure-latex/figsocec-1.pdf, id=212, 818.05624pt x 284
+.06125pt>
+File: jrss_resubmission_files/figure-latex/figsocec-1.pdf Graphic file (type pd
+f)
+<use jrss_resubmission_files/figure-latex/figsocec-1.pdf>
+Package pdftex.def Info: jrss_resubmission_files/figure-latex/figsocec-1.pdf  u
+sed on input line 523.
+(pdftex.def)             Requested size: 488.5pt x 169.6275pt.
+<jrss_resubmission_files/figure-latex/figplacement-1.pdf, id=219, 823.075pt x 2
 85.065pt>
 File: jrss_resubmission_files/figure-latex/figplacement-1.pdf Graphic file (typ
 e pdf)
 <use jrss_resubmission_files/figure-latex/figplacement-1.pdf>
 Package pdftex.def Info: jrss_resubmission_files/figure-latex/figplacement-1.pd
-f  used on input line 541.
+f  used on input line 545.
 (pdftex.def)             Requested size: 488.5pt x 169.18733pt.
-<jrss_resubmission_files/figure-latex/figregionstree-1.pdf, id=229, 843.15pt x 
-641.39626pt>
-File: jrss_resubmission_files/figure-latex/figregionstree-1.pdf Graphic file (t
-ype pdf)
-<use jrss_resubmission_files/figure-latex/figregionstree-1.pdf>
-Package pdftex.def Info: jrss_resubmission_files/figure-latex/figregionstree-1.
-pdf  used on input line 583.
-(pdftex.def)             Requested size: 439.64702pt x 334.44794pt.
 
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [4
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
- <./jrss_resubmission_files/figure-latex/figvoteshare-1.pdf> <./jrss_resubmissi
-on_files/figure-latex/figsocec-1.pdf>]
-<jrss_resubmission_files/figure-latex/figspatial-1.pdf, id=263, 468.75125pt x 2
-82.05376pt>
-File: jrss_resubmission_files/figure-latex/figspatial-1.pdf Graphic file (type 
-pdf)
-<use jrss_resubmission_files/figure-latex/figspatial-1.pdf>
-Package pdftex.def Info: jrss_resubmission_files/figure-latex/figspatial-1.pdf 
- used on input line 592.
-(pdftex.def)             Requested size: 488.5pt x 293.9358pt.
-
+ <./jrss_resubmission_files/figure-latex/figvoteshare-1.pdf>]
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [5
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
- <./jrss_resubmission_files/figure-latex/figplacement-1.pdf> <./jrss_resubmissi
-on_files/figure-latex/figregionstree-1.pdf>]
-<jrss_resubmission_files/figure-latex/fignonspatial-1.pdf, id=294, 842.14626pt 
-x 284.06125pt>
-File: jrss_resubmission_files/figure-latex/fignonspatial-1.pdf Graphic file (ty
-pe pdf)
-<use jrss_resubmission_files/figure-latex/fignonspatial-1.pdf>
-Package pdftex.def Info: jrss_resubmission_files/figure-latex/fignonspatial-1.p
-df  used on input line 677.
-(pdftex.def)             Requested size: 488.5pt x 164.7773pt.
+ <./jrss_resubmission_files/figure-latex/figsocec-1.pdf> <./jrss_resubmission_f
+iles/figure-latex/figplacement-1.pdf>]
+<jrss_resubmission_files/figure-latex/figregionstree-1.pdf, id=276, 843.15pt x 
+641.39626pt>
+File: jrss_resubmission_files/figure-latex/figregionstree-1.pdf Graphic file (t
+ype pdf)
+<use jrss_resubmission_files/figure-latex/figregionstree-1.pdf>
+Package pdftex.def Info: jrss_resubmission_files/figure-latex/figregionstree-1.
+pdf  used on input line 587.
+(pdftex.def)             Requested size: 439.64702pt x 334.44794pt.
+<jrss_resubmission_files/figure-latex/figspatial-1.pdf, id=277, 468.75125pt x 2
+82.05376pt>
+File: jrss_resubmission_files/figure-latex/figspatial-1.pdf Graphic file (type 
+pdf)
+<use jrss_resubmission_files/figure-latex/figspatial-1.pdf>
+Package pdftex.def Info: jrss_resubmission_files/figure-latex/figspatial-1.pdf 
+ used on input line 596.
+(pdftex.def)             Requested size: 488.5pt x 293.9358pt.
 
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [6
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
- <./jrss_resubmission_files/figure-latex/figspatial-1.pdf>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
+ <./jrss_resubmission_files/figure-latex/figregionstree-1.pdf>]
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [7
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
- <./jrss_resubmission_files/figure-latex/fignonspatial-1.pdf>]
-<jrss_resubmission_files/figure-latex/pseudoregions-1.pdf, id=345, 244.915pt x 
-264.99pt>
-File: jrss_resubmission_files/figure-latex/pseudoregions-1.pdf Graphic file (ty
+ <./jrss_resubmission_files/figure-latex/figspatial-1.pdf>]
+<jrss_resubmission_files/figure-latex/fignonspatial-1.pdf, id=325, 842.14626pt 
+x 284.06125pt>
+File: jrss_resubmission_files/figure-latex/fignonspatial-1.pdf Graphic file (ty
 pe pdf)
-<use jrss_resubmission_files/figure-latex/pseudoregions-1.pdf>
-Package pdftex.def Info: jrss_resubmission_files/figure-latex/pseudoregions-1.p
-df  used on input line 887.
-(pdftex.def)             Requested size: 122.125pt x 132.1348pt.
+<use jrss_resubmission_files/figure-latex/fignonspatial-1.pdf>
+Package pdftex.def Info: jrss_resubmission_files/figure-latex/fignonspatial-1.p
+df  used on input line 682.
+(pdftex.def)             Requested size: 488.5pt x 164.7773pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [8
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
-]
-<jrss_resubmission_files/figure-latex/narrowsds-1.pdf, id=357, 696.6025pt x 621
-.32124pt>
-File: jrss_resubmission_files/figure-latex/narrowsds-1.pdf Graphic file (type p
-df)
-<use jrss_resubmission_files/figure-latex/narrowsds-1.pdf>
-Package pdftex.def Info: jrss_resubmission_files/figure-latex/narrowsds-1.pdf  
-used on input line 930.
-(pdftex.def)             Requested size: 390.80148pt x 348.56325pt.
-
+ <./jrss_resubmission_files/figure-latex/fignonspatial-1.pdf>]
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [9
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
- <./jrss_resubmission_files/figure-latex/pseudoregions-1.pdf>]
-<jrss_resubmission_files/figure-latex/widesds-1.pdf, id=379, 696.6025pt x 411.5
-375pt>
-File: jrss_resubmission_files/figure-latex/widesds-1.pdf Graphic file (type pdf
-)
-<use jrss_resubmission_files/figure-latex/widesds-1.pdf>
-Package pdftex.def Info: jrss_resubmission_files/figure-latex/widesds-1.pdf  us
-ed on input line 939.
-(pdftex.def)             Requested size: 390.80148pt x 230.87387pt.
+]
+<jrss_resubmission_files/figure-latex/pseudoregions-1.pdf, id=359, 244.915pt x 
+264.99pt>
+File: jrss_resubmission_files/figure-latex/pseudoregions-1.pdf Graphic file (ty
+pe pdf)
+<use jrss_resubmission_files/figure-latex/pseudoregions-1.pdf>
+Package pdftex.def Info: jrss_resubmission_files/figure-latex/pseudoregions-1.p
+df  used on input line 894.
+(pdftex.def)             Requested size: 122.125pt x 132.1348pt.
+<jrss_resubmission_files/figure-latex/narrowsds-1.pdf, id=366, 696.6025pt x 621
+.32124pt>
+File: jrss_resubmission_files/figure-latex/narrowsds-1.pdf Graphic file (type p
+df)
+<use jrss_resubmission_files/figure-latex/narrowsds-1.pdf>
+Package pdftex.def Info: jrss_resubmission_files/figure-latex/narrowsds-1.pdf  
+used on input line 937.
+(pdftex.def)             Requested size: 439.64702pt x 392.13602pt.
 
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [10
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
- <./jrss_resubmission_files/figure-latex/narrowsds-1.pdf>]
-<jrss_resubmission_files/figure-latex/figsocecposts-1.pdf, id=404, 569.12625pt 
-x 167.62625pt>
-File: jrss_resubmission_files/figure-latex/figsocecposts-1.pdf Graphic file (ty
-pe pdf)
-<use jrss_resubmission_files/figure-latex/figsocecposts-1.pdf>
-Package pdftex.def Info: jrss_resubmission_files/figure-latex/figsocecposts-1.p
-df  used on input line 1076.
-(pdftex.def)             Requested size: 415.22798pt x 122.30475pt.
+]
+<jrss_resubmission_files/figure-latex/widesds-1.pdf, id=380, 696.6025pt x 411.5
+375pt>
+File: jrss_resubmission_files/figure-latex/widesds-1.pdf Graphic file (type pdf
+)
+<use jrss_resubmission_files/figure-latex/widesds-1.pdf>
+Package pdftex.def Info: jrss_resubmission_files/figure-latex/widesds-1.pdf  us
+ed on input line 946.
+(pdftex.def)             Requested size: 439.64702pt x 259.73468pt.
 
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [11
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
- <./jrss_resubmission_files/figure-latex/widesds-1.pdf> <./jrss_resubmission_fi
-les/figure-latex/figsocecposts-1.pdf>]
+ <./jrss_resubmission_files/figure-latex/pseudoregions-1.pdf>]
+<jrss_resubmission_files/figure-latex/figsocecposts-1.pdf, id=409, 569.12625pt 
+x 167.62625pt>
+File: jrss_resubmission_files/figure-latex/figsocecposts-1.pdf Graphic file (ty
+pe pdf)
+<use jrss_resubmission_files/figure-latex/figsocecposts-1.pdf>
+Package pdftex.def Info: jrss_resubmission_files/figure-latex/figsocecposts-1.p
+df  used on input line 1085.
+(pdftex.def)             Requested size: 415.22798pt x 122.30475pt.
+
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [12
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
-]
-<jrss_resubmission_files/figure-latex/figspatialposts-1.pdf, id=432, 857.2025pt
- x 856.19875pt>
-File: jrss_resubmission_files/figure-latex/figspatialposts-1.pdf Graphic file (
-type pdf)
-<use jrss_resubmission_files/figure-latex/figspatialposts-1.pdf>
-Package pdftex.def Info: jrss_resubmission_files/figure-latex/figspatialposts-1
-.pdf  used on input line 1143.
-(pdftex.def)             Requested size: 488.5pt x 487.93384pt.
-
+ <./jrss_resubmission_files/figure-latex/narrowsds-1.pdf>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -979,14 +963,23 @@ Overfull \vbox (1.0pt too high) has occurred while \output is active []
 [13
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
- <./jrss_resubmission_files/figure-latex/figspatialposts-1.pdf>]
-<jrss_resubmission_files/figure-latex/figexceedances-1.pdf, id=458, 850.17625pt
+ <./jrss_resubmission_files/figure-latex/widesds-1.pdf> <./jrss_resubmission_fi
+les/figure-latex/figsocecposts-1.pdf>]
+<jrss_resubmission_files/figure-latex/figspatialposts-1.pdf, id=445, 857.2025pt
+ x 856.19875pt>
+File: jrss_resubmission_files/figure-latex/figspatialposts-1.pdf Graphic file (
+type pdf)
+<use jrss_resubmission_files/figure-latex/figspatialposts-1.pdf>
+Package pdftex.def Info: jrss_resubmission_files/figure-latex/figspatialposts-1
+.pdf  used on input line 1152.
+(pdftex.def)             Requested size: 488.5pt x 487.93384pt.
+<jrss_resubmission_files/figure-latex/figexceedances-1.pdf, id=450, 850.17625pt
  x 356.33125pt>
 File: jrss_resubmission_files/figure-latex/figexceedances-1.pdf Graphic file (t
 ype pdf)
 <use jrss_resubmission_files/figure-latex/figexceedances-1.pdf>
 Package pdftex.def Info: jrss_resubmission_files/figure-latex/figexceedances-1.
-pdf  used on input line 1166.
+pdf  used on input line 1175.
 (pdftex.def)             Requested size: 488.5pt x 204.7475pt.
 
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
@@ -994,17 +987,36 @@ Overfull \vbox (1.0pt too high) has occurred while \output is active []
 [14
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
- <./jrss_resubmission_files/figure-latex/figexceedances-1.pdf>] (./jrss_resubmi
-ssion.bbl
+]
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [15
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
-])
+ <./jrss_resubmission_files/figure-latex/figspatialposts-1.pdf>]
 Overfull \vbox (1.0pt too high) has occurred while \output is active []
 
 [16
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+ <./jrss_resubmission_files/figure-latex/figexceedances-1.pdf>] (./jrss_resubmi
+ssion.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 105--111
+\OT1/cmr/m/n/10 URL [][]$\OT1/cmtt/m/n/10 https : / / commonslibrary . parliame
+nt . uk / boundary-[]review-[]2023-[]which-[]seats-[]will-[]change/$[][]\OT1/cm
+r/m/n/10 .
+ []
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[17
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+])
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[18
 Non-PDF special ignored!
 <special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
 ] (./jrss_resubmission.aux)
@@ -1016,41 +1028,48 @@ Package rerunfilecheck Info: File `jrss_resubmission.out' has not changed.
 (rerunfilecheck)             Checksum: F2739FDEA7BC20130130477E307E7CB7;2782.
  ) 
 Here is how much of TeX's memory you used:
- 16477 strings out of 478994
- 249535 string characters out of 5858184
- 650283 words of memory out of 5000000
- 33518 multiletter control sequences out of 15000+600000
- 431089 words of font info for 132 fonts, out of 8000000 for 9000
+ 16476 strings out of 478994
+ 249348 string characters out of 5858184
+ 651288 words of memory out of 5000000
+ 33513 multiletter control sequences out of 15000+600000
+ 430741 words of font info for 130 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
  86i,18n,88p,17360b,452s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }</usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmb10.pfb><
-/usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
-usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></us
-r/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/
-local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/lo
-cal/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb></usr
-/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/l
-ocal/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/loc
-al/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr
-/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/l
-ocal/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/loca
-l/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/t
-exlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texl
-ive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive
-/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/20
-21/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2021
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2021/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texlive/2021/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2021/texmf
--dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2021/texmf-d
-ist/fonts/type1/public/cm-super/sfrm0500.pfb></usr/local/texlive/2021/texmf-dis
-t/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2021/texmf-dist/
-fonts/type1/public/cm-super/sfrm0900.pfb>
-Output written on jrss_resubmission.pdf (16 pages, 3268797 bytes).
+/usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
+usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></u
+sr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></usr
+/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/l
+ocal/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/loc
+al/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/loca
+l/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local
+/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/t
+exlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/tex
+live/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texli
+ve/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texli
+ve/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive
+/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2
+021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2021
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2021/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2021/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2021/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2021/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2021/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2021/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2021/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2021/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/p
+ublic/cm-super/sfrm0500.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/pub
+lic/cm-super/sfrm0600.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/publi
+c/cm-super/sfrm0900.pfb>
+Output written on jrss_resubmission.pdf (18 pages, 3346703 bytes).
 PDF statistics:
- 625 PDF objects out of 1000 (max. 8388607)
- 527 compressed objects within 6 object streams
- 107 named destinations out of 1000 (max. 500000)
+ 671 PDF objects out of 1000 (max. 8388607)
+ 564 compressed objects within 6 object streams
+ 109 named destinations out of 1000 (max. 500000)
  221 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -37,7 +37,7 @@ competing_interests: |
   The authors declare no competing interest.
 acknowledgments: |
   This article has emanated from research conducted with the financial support of Taighde Éireann – Research Ireland under Grant number 18/CRT/6049. For the purpose of Open Access, the author has applied a CC BY public copyright licence to any Author Accepted Manuscript version arising from this submission.
-
+fontsize: 16pt
 bibliography: references2.bib # Includes refs in OUP example template
 ## When using `citation_package = "default"`, a CSL file can be used
 #csl: https://www.zotero.org/styles/oxford-university-press-note
@@ -70,6 +70,9 @@ header-includes:
   - \newtheorem{remark}{Remark}
   - \theoremstyle{thmstylethree}
   - \newtheorem{definition}{Definition}
+  - \renewcommand\normalsize{\fontsize{10}{12}\selectfont}
+  - \normalsize
+  - \usepackage[font=normalsize]{caption}  # Options: tiny, scriptsize, footnotesize, small, normalsize, large
 ---
 
 ```{r setup, include=FALSE}
@@ -114,10 +117,10 @@ library(tidybayes, quietly = TRUE)
 
 ```{r}
 ## import datasets
-df <- readRDS(here("data","merged_dfs","df"))
-dfhex <- readRDS(here("data","merged_dfs","dfhex"))
-regions <- readRDS(here("data","merged_dfs","regions"))
-hex_reg24 <- readRDS(here("data","merged_dfs","hex_reg24"))
+df <- readRDS(here("data","merged_dfs","df.rds"))
+dfhex <- readRDS(here("data","merged_dfs","dfhex.rds"))
+regions <- readRDS(here("data","merged_dfs","regions.rds"))
+hex_reg24 <- readRDS(here("data","merged_dfs","hex_reg24.rds"))
 
 hex_reg24 <- hex_reg24 |> 
   mutate(reg_name = case_when(reg_name=="Greater London" ~ "London",
@@ -325,7 +328,7 @@ election_summary[is.na(election_summary)] <- 0
 election_summary |> 
   kbl(caption = "Percentage vote share, seat count, and percentage of seat totals in England for parties in the 2024 General Election. Four parties achieved a vote share greater than 10\\%, totalling 89\\% of the total votes cast and over 98\\% of seats won.", 
       align = "lrrr", format = "latex", escape=FALSE, table.envir = "table*", label = "elecsummary") |> 
-  kable_classic()
+  kable_classic(font_size = 8)
 
 ```
 
@@ -439,7 +442,7 @@ ggarrange(
 
 The model also accounts for potential drivers of tactical voting - the winner and second placed party from the previous election, and the size of the majority of the winning party, as shown in Figure \ref{fig:figplacement}. This *marginality* is calculated as the difference between the total number of votes for the first and second placed parties. Because of varying constituency size, it is expressed as a proportion of the total overall number of votes cast in each constituency. There is evidence that tactical voting tends to be higher in marginal seats [@Cain1978tact; @Johnston1992tact]. For the same reasons as the socio-economic explanatory variables, these majorities were also scaled. 
 
-While Reform UK are shown separately in the second place map in Figure \ref{fig:figplacement} (c), they were the second placed party in only 1 constituency in 2019. For this reason, they were included in the *other* category for this variable in the modelling process, along with other parties and independent candidates.
+While Reform UK are shown separately in the second place map in Figure \ref{fig:figplacement} (c), they were the second placed party in only one constituency in 2019. For this reason, they were included in the *other* category for this variable in the modelling process, along with other parties and independent candidates.
 
 ```{r, figplacement, fig.width=12, fig.height=4, fig.cap="(a) First place parties by constituency in 2019, (b) majority as a proportion of total votes cast for Conservative and Labour seats, and (c) second place parties by constituency in 2019. All constituencies are reprojected to 2024 boundaries."}
 ggarrange(
@@ -714,7 +717,7 @@ tabdf1 |>
   kbl(caption = "Covariates with a brief description, classified as either coming from the 2021 census or the results of the previous election.",
       booktabs = TRUE, linesep = "", align = "rl", format = "latex", 
       escape=FALSE, table.envir = "table*", label = "tabcovariates") |> 
-  kable_classic() |> 
+  kable_classic(font_size = 8) |> 
   pack_rows(index = c("census 2021" = 3,
                       "status quo ante" = 4),
             hline_before = TRUE) |> 
@@ -861,7 +864,7 @@ names(tabdf2) <- c("model",
 tabdf2 |> 
   kbl(escape = FALSE, caption = "Type of spatial process(es) incorporated in each model, and whether they occur at region level, constituency level, or both.", 
       booktabs = TRUE, linesep = "", align="cll", table.envir = "table*", label = "tabmodsummary") |> 
-  kable_classic() |> 
+  kable_classic(font_size = 8) |> 
   kable_styling(full_width = FALSE) |> 
   pack_rows(index = c("non-spatial" = 1,
                       "region only" = 2,
@@ -952,7 +955,7 @@ table_data |>
   kbl(escape = FALSE, caption = "Structure of each model, showing which spatial processes are included.", 
       align = "cll", linesep = "", format = "latex", 
       booktabs = TRUE, table.envir = "table*", label = "tabmodsummary2") |>
-  kable_classic() |>
+  kable_classic(font_size = 8) |>
   kable_styling(full_width = FALSE) |> 
   column_spec(3, width = "6.5cm") |> 
   pack_rows(index = c("non-spatial" = 1,
@@ -1242,7 +1245,7 @@ row6 <- ggarrange(plotlist = table_grobs, nrow = 1, ncol = 5)
 ```
 
 
-```{r, narrowsds, fig.width=10, fig.height=8.7, fig.cap="Each row consists of five random samples of data with a known spatial association. The first row are ICAR, the second are ICAR with an additional region effect, the third are ICAR with standard deviation varying by region. In all cases, the use of marginal likelihoods identifies the correct underlying spatial structure as the most plausible.", out.width="80%", fig.align="center"}
+```{r, narrowsds, fig.width=10, fig.height=8.7, fig.cap="Each row consists of five random samples of data with a known spatial association. The first row are ICAR, the second are ICAR with an additional region effect, the third are ICAR with standard deviation varying by region. In all cases, the use of marginal likelihoods identifies the correct underlying spatial structure as the most plausible.", out.width="90%", fig.align="center"}
 blank_plot <- ggplot() + theme_void()
 
 final_plot_sd0.7 <- ggarrange(row1, row2, blank_plot, 
@@ -1364,7 +1367,7 @@ row4 <- ggarrange(plotlist = table_grobs, nrow = 1, ncol = 5)
 ```
 
 
-```{r, widesds, fig.width=10, fig.height=5.8, fig.cap="Each row consists of five random samples of data with a known spatial association. The first row are ICAR, the second are ICAR with an additional region effect. These samples have a larger standard deviation of 1.3 meaning there is less spatial cohesion than in the previous example. In almost all cases, the use of marginal likelihoods identifies the correct underlying spatial structure as the most plausible.", out.width="80%", fig.align="center"}
+```{r, widesds, fig.width=10, fig.height=5.8, fig.cap="Each row consists of five random samples of data with a known spatial association. The first row are ICAR, the second are ICAR with an additional region effect. These samples have a larger standard deviation of 1.3 meaning there is less spatial cohesion than in the previous example. In almost all cases, the use of marginal likelihoods identifies the correct underlying spatial structure as the most plausible.", out.width="90%", fig.align="center"}
 final_plot_sd1.3 <- ggarrange(row1, row2, blank_plot, row3, row4,
                         nrow = 5, heights = c(2, 0.7, 0.2, 2, 0.7))
 
@@ -1400,7 +1403,7 @@ colnames(tabdf4) <- c("bayes factor range", "evidence supporting one model over 
 tabdf4 |> 
   kbl(caption = "Lee and Wagenmakers' interpretation of Bayes factors, quantifying how much more likely data are under one model compared to another.", 
       table.envir = "table*", label = "tablewagenmakers", format = "latex", escape = FALSE) |> 
-  kable_classic() |> 
+  kable_classic(font_size = 8) |> 
   kable_styling(full_width = FALSE)
 
 ```
@@ -1594,15 +1597,20 @@ rbind(con_lik,lab_lik,ruk_lik,ld_lik) |>
   kbl(caption = "Comparison of models across parties, ranked by decreasing log marginal likelihood, alongside the degree of evidence for model improvement provided by Bayes factor comparison with the model immediately below it. The sequence is generally the same for each party with Model 7 being the most plausible.", 
       booktabs = TRUE, linesep = "", escape = FALSE, format = "latex", 
       align = c("c","l","l","r","l","l","l"), table.envir = "table*", label = "tablik") |> 
-  kable_classic() |> 
+  kable_classic(font_size = 8) |> 
   pack_rows(index = c("Conservative" = 8,
                       "Labour" = 8,
                       "Reform UK" = 8,
                       "Liberal Democrat" = 8),
             hline_before = TRUE) |> 
-  column_spec(1, width = "1.8cm") |> 
-  column_spec(2, width = "2.6cm") |> 
-  column_spec(3, width = "3.8cm") |> 
+  # column_spec(1, width = "1.8cm") |> 
+  # column_spec(2, width = "2.6cm") |> 
+  # column_spec(3, width = "3.8cm") |> 
+  # column_spec(5, width = "1.4cm") |> 
+  # column_spec(6, width = "1.4cm")
+  column_spec(1, width = "2.1cm") |> 
+  column_spec(2, width = "2.5cm") |> 
+  column_spec(3, width = "4cm") |> 
   column_spec(5, width = "1.4cm") |> 
   column_spec(6, width = "1.4cm")
 
