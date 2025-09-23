@@ -817,7 +817,7 @@ I_ruk <- moran.mc(res_ruk$Estimate, lw, nsim=999, alternative="greater")
 
 ```
 
-```{r, fignonspatial, fig.width=12, fig.height=4, fig.cap="(a-d) Pearson residuals from non-spatial models for each party. Clusters of positive and negative residuals are visible, in addition to regional patterns, suggesting the presence of spatial processes which have not been accounted for. Further evidence for this is provided by a Moran's-I statistic of spatial autocorrelation for each set of residuals, and the p-values of hypothesis tests for random spatial distribution of values."}
+```{r, fignonspatial, fig.width=12, fig.height=4, fig.cap="(a-d) Pearson residuals from non-spatial models for each party. Clusters of positive and negative residuals are visible, in addition to regional patterns, suggesting the presence of spatial processes which have not been accounted for. Further evidence for this is provided by a Moran's I statistic of spatial autocorrelation for each set of residuals, and the p-values of hypothesis tests for random spatial distribution of values."}
 ggarrange(
   ggplot(res_con) + 
     geom_sf(aes(fill=Estimate, colour=Estimate)) + 
@@ -826,7 +826,7 @@ ggarrange(
     geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
     labs(fill="Conservative\nresiduals",
          colour="Conservative\nresiduals",
-         caption = paste0("Moran's-I statistic: ", round(I_con$statistic, 3), ", p-val: ", I_con$p.value)) + 
+         caption = paste0("Moran's I statistic: ", round(I_con$statistic, 3), ", p-val: ", I_con$p.value)) + 
     theme_void() + 
     theme(legend.title = element_text(size=8, hjust=0.5, face = "bold"),
           legend.key.size = unit(0.4, "cm"),
@@ -839,7 +839,7 @@ ggarrange(
     geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
     labs(fill="Labour\nresiduals",
          colour="Labour\nresiduals",
-         caption = paste0("Moran's-I statistic: ", round(I_lab$statistic, 3), ", p-val: ", I_lab$p.value)) + 
+         caption = paste0("Moran's I statistic: ", round(I_lab$statistic, 3), ", p-val: ", I_lab$p.value)) + 
     theme_void() + 
     theme(legend.title = element_text(size=8, hjust=0.5, face = "bold"),
           legend.key.size = unit(0.4, "cm"),
@@ -852,7 +852,7 @@ ggarrange(
     geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
     labs(fill="Liberal Democrat\nresiduals",
          colour="Liberal Democrat\nresiduals",
-         caption = paste0("Moran's-I statistic: ", round(I_ld$statistic, 3), ", p-val: ", I_ld$p.value)) + 
+         caption = paste0("Moran's I statistic: ", round(I_ld$statistic, 3), ", p-val: ", I_ld$p.value)) + 
     theme_void() + 
     theme(legend.title = element_text(size=8, hjust=0.5, face = "bold"),
           legend.key.size = unit(0.4, "cm"),
@@ -865,7 +865,7 @@ ggarrange(
     geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
     labs(fill="Reform UK\nresiduals",
          colour="Reform UK\nresiduals",
-         caption = paste0("Moran's-I statistic: ", round(I_ruk$statistic, 3), ", p-val: ", I_ruk$p.value)) +  
+         caption = paste0("Moran's I statistic: ", round(I_ruk$statistic, 3), ", p-val: ", I_ruk$p.value)) +  
     theme_void() + 
     theme(legend.title = element_text(size=8, hjust=0.5, face = "bold"),
           legend.key.size = unit(0.4, "cm"),
