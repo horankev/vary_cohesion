@@ -11,9 +11,10 @@ priors_sims_report.html
 priors_sims_report.Rmd
 simulations/sim_mods/
 simulations2_wider_sd/sim_mods/
-jrss_resubmission/jrss_response.Rmd
-jrss_resubmission/jrss_response.pdf
-jrss_resubmission/references.bib
-jrss_resubmission/.DS_Store
+jrss_resubmission/
+jrss_resubmission2/
+jrss_resubmission3/jrss_response3.Rmd
+jrss_resubmission3/jrss_response3.pdf
+jrss_resubmission3/.DS_Store
 .DS_Store
 **/.DS_Store

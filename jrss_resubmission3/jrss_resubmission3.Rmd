@@ -1,0 +1,2410 @@
+---
+title: Incorporating varying degrees of spatial cohesion in models of voter behaviour in the UK General Election 2024
+author:
+  - name: Kevin Horan
+    email: kevin.horan.2021@mumail.ie
+    corresponding_author: TRUE # Automatic footnote using corresponding_author
+    affiliation:
+      - ABC
+  - name: Katarina Domijan
+    email: katarina.domijan@mu.ie
+    affiliation: DEF
+  - name: Chris Brunsdon
+    email: Christopher.Brunsdon@mu.ie
+    affiliation: GHI
+address:
+  - code: ABC
+    department: Hamilton Institute
+    organization: Maynooth University
+    #postcode: 
+    city: Maynooth
+    country: Ireland
+  - code: DEF
+    address: Department of Mathematics and Statistics, Maynooth University, Maynooth, Ireland
+  - code: GHI
+    address: National Centre for Geocomputation, Maynooth University, Maynooth, Ireland
+abstract:
+  - "Fitting models to data where multiple spatial processes are assumed to be operating simultaneously at different levels is often done by combining a hierarchical effects structure at the higher levels (region, county) with autoregressive structures at the lowest (individual data points). When dealing with areal data, an intrinsic conditional autoregressive (ICAR) component is often used to capture these lowest level spillover effects. One of the standard assumptions of ICAR models is a global spatial variance parameter, meaning all areas undergo the same degree of smoothing. We propose allowing this variance parameter to change, reflecting different degrees of spatial cohesion in different regions. We demonstrate an application using voter behaviour in the 2024 UK General Election. This technique has not enjoyed widespread exposure, particularly as regards election data. By fitting a series of models representing different hypothesised spatial processes for the vote count of each of the four largest parties and comparing the resultant marginal likelihoods, we find that this novel approach is the most plausible model, and reveals different patterns of spatial cohesion among the parties."
+keywords:
+  - elections
+  - ICAR modelling
+  - spatial cohesion
+  - spatial regression
+#boxedlist: # Not fully compatible with all document formats
+#  - First point
+#  - Second point
+competing_interests: |
+  The authors declare no competing interest.
+acknowledgments: |
+  This article has emanated from research conducted with the financial support of Taighde Éireann – Research Ireland under Grant number 18/CRT/6049. For the purpose of Open Access, the author has applied a CC BY public copyright licence to any Author Accepted Manuscript version arising from this submission.
+fontsize: 16pt
+bibliography: references2.bib # Includes refs in OUP example template
+## When using `citation_package = "default"`, a CSL file can be used
+#csl: https://www.zotero.org/styles/oxford-university-press-note
+output:
+  rticles::oup_article:
+    oup_version: 1 # 1 = 2020 CTAN OUP CLS package; 0 = 2009 OUP CLS package
+    journal: "Journal Name"
+    document_style: "contemporary" # Can be contemporary, modern, traditional
+    papersize: "large" # Can be large, medium, small
+    #citation_package: "default" # Uncomment when using a CSL; default "natbib"
+    namedate: TRUE # Set FALSE to use numeric refs; Default FALSE
+    #number_sections: FALSE # Uncomment to not number sections; default TRUE
+    #number_lines: TRUE # Use `lineno` package - Default FALSE
+    #number_lines_options: ["mathlines","switch"]  # Options for latex lineno package.
+    onecolumn: TRUE # Uncomment for one column format; default FALSE
+    extra_dependencies:
+      - booktabs # to use with knitr::kable() example below
+      
+## Example of pandoc's variable
+urlcolor: orange
+#linkcolor: green
+#citecolor: red
+header-includes:
+  #- \usepackage[nomarkers,tablesfirst]{endfloat} # For figures and tables at end
+  - \theoremstyle{thmstyleone} # Theorem stuff from OUP template
+  - \newtheorem{theorem}{Theorem} #  meant for continuous numbers. %%\newtheorem{theorem}{Theorem}[section] # meant for sectionwise numbers. optional argument [theorem] produces theorem numbering sequence instead of independent numbers for Proposition
+  - \newtheorem{proposition}[theorem]{Proposition} # %%\newtheorem{proposition}{Proposition}" # to get separate numbers for theorem and proposition etc.
+  - \theoremstyle{thmstyletwo}
+  - \newtheorem{example}{Example}
+  - \newtheorem{remark}{Remark}
+  - \theoremstyle{thmstylethree}
+  - \newtheorem{definition}{Definition}
+  - \renewcommand\normalsize{\fontsize{10}{12}\selectfont}
+  - \normalsize
+  - \usepackage[font=normalsize]{caption}  # Options: tiny, scriptsize, footnotesize, small, normalsize, large
+---
+
+```{r setup, include=FALSE}
+# Latex figure environment
+knitr::opts_chunk$set(
+  echo = FALSE, 
+  warning = FALSE, 
+  message = FALSE, 
+  fig.pos = 'th', # place figures at top or here
+  out.width = '100%', 
+  dpi = 300, # figure resolution
+  fig.env="figure*"
+)
+
+# Latex for kable tables
+options(knitr.table.format = "latex")
+
+```
+
+```{r}
+library(here, quietly = TRUE)
+library(tidyverse, quietly = TRUE)
+library(kableExtra, quietly = TRUE)
+library(sf, quietly = TRUE)
+library(rmapshaper, quietly = TRUE)
+library(janitor, quietly = TRUE)
+library(sfislands, quietly = TRUE)
+library(ggpubr, quietly = TRUE)
+library(spdep, quietly = TRUE)
+library(rstan, quietly = TRUE)
+library(ggnewscale, quietly = TRUE)
+library(grid, quietly = TRUE) # for table and plot combinations
+library(gridExtra, quietly = TRUE) # for table and plot combinations
+library(ggplotify, quietly = TRUE) # for table and plot combinations
+library(gtable, quietly = TRUE) # for table and plot combinations
+library(nngeo, quietly = TRUE) # for st_remove_holes() polygon cleaning
+library(ggrepel, quietly = TRUE)
+library(posterior, quietly = TRUE)
+library(tidybayes, quietly = TRUE)
+
+```
+
+```{r}
+## import datasets
+df <- readRDS(here("data","merged_dfs","df.rds"))
+dfhex <- readRDS(here("data","merged_dfs","dfhex.rds"))
+regions <- readRDS(here("data","merged_dfs","regions.rds"))
+hex_reg24 <- readRDS(here("data","merged_dfs","hex_reg24.rds"))
+
+hex_reg24 <- hex_reg24 |> 
+  mutate(reg_name = case_when(reg_name=="Greater London" ~ "London",
+                              TRUE ~ reg_name))
+
+regions <- regions |> 
+  mutate(reg_name = case_when(reg_name=="Yorkshire and The Humber" ~ "Yorkshire and the Humber",
+                              TRUE ~ reg_name))|> 
+  st_remove_holes()
+
+```
+
+
+```{r}
+# set party colours palette
+custom_palette <- c("lab"="#E4003B",
+                    "con"="#0087DC",
+                    "ld"="#FAA61A",
+                    "ruk"="#12B6CF",
+                    # "ruk"="darkblue", # this gives better separation than suggested colour
+                    "brx"="darkblue", 
+                    "ukip"="darkblue",
+                    "ind"="#8C0064",
+                    "green"="#4BA663",
+                    "pc"="#005B54",
+                    "spk"="#DCDCDC",
+                    "other"="gray20")
+
+custom_palette2 <- c("Labour"="#E4003B",
+                    "Conservative"="#0087DC",
+                    "Liberal Democrat"="#FAA61A",
+                    "Reform UK"="#12B6CF",
+                    "Other"="gray20")
+
+```
+
+```{r}
+# libdem constituencies neighbourhood structure (matrix version for stan)
+dfnbld <- st_bridges(df[df$ld24!=0,], "constituency_name", nb_structure = "matrix") |> 
+  st_manual_join_nb("Isle of Wight East","Gosport") |> 
+  st_manual_join_nb("Isle of Wight West","New Forest West") |> 
+  mutate(first_party19 = factor(first_party19,
+                                levels=c("ld","lab","con","other")),
+         second_party19 = factor(second_party19,
+                                levels=c("ld","lab","con","ruk","other")),
+         third_party19 = factor(third_party19,
+                                levels=c("ld","lab","con","ruk","other")),
+         majority_prop = majority19/valid_votes19,
+         majority_prop_scale = as.numeric(scale(majority19/valid_votes19)),
+         degree_scale = as.numeric(scale(degree)),
+         notgoodhealth_scale = as.numeric(scale(notgoodhealth)),
+         white_scale = as.numeric(scale(white))) |> 
+  mutate(second_party19comp = case_when(second_party19 == "ruk" ~ "other/ruk",
+                                        second_party19 == "other" ~ "other/ruk",
+                                        TRUE ~ second_party19),
+         second_party19comp = factor(second_party19comp,
+                                levels=c("ld","lab","con","other/ruk")))
+
+# conservative constituencies neighbourhood structure (matrix version for stan)
+dfnbcon <- st_bridges(df[df$con24!=0,], "constituency_name", nb_structure = "matrix") |> 
+  st_manual_join_nb("Isle of Wight East","Gosport") |> 
+  st_manual_join_nb("Isle of Wight West","New Forest West") |> 
+  mutate(first_party19 = factor(first_party19,
+                                levels=c("con","lab","ld","other")),
+         second_party19 = factor(second_party19,
+                                levels=c("con","lab","ld","ruk","other")),
+         third_party19 = factor(third_party19,
+                                levels=c("con","lab","ld","ruk","other")),
+         majority_prop = majority19/valid_votes19,
+         majority_prop_scale = as.numeric(scale(majority19/valid_votes19)),
+         degree_scale = as.numeric(scale(degree)),
+         notgoodhealth_scale = as.numeric(scale(notgoodhealth)),
+         white_scale = as.numeric(scale(white))) |> 
+  mutate(second_party19comp = case_when(second_party19 == "ruk" ~ "other/ruk",
+                                        second_party19 == "other" ~ "other/ruk",
+                                        TRUE ~ second_party19),
+         second_party19comp = factor(second_party19comp,
+                                levels=c("con","lab","ld","other/ruk")))
+
+# labour constituencies neighbourhood structure (matrix version for stan)
+dfnblab <- st_bridges(df[df$lab24!=0,], "constituency_name", nb_structure = "matrix") |> 
+  st_manual_join_nb("Isle of Wight East","Gosport") |> 
+  st_manual_join_nb("Isle of Wight West","New Forest West") |> 
+  mutate(first_party19 = factor(first_party19,
+                                levels=c("lab","con","ld","other")),
+         second_party19 = factor(second_party19,
+                                levels=c("lab","con","ld","ruk","other")),
+         third_party19 = factor(third_party19,
+                                levels=c("lab","con","ld","ruk","other")),
+         majority_prop = majority19/valid_votes19,
+         majority_prop_scale = as.numeric(scale(majority19/valid_votes19)),
+         degree_scale = as.numeric(scale(degree)),
+         notgoodhealth_scale = as.numeric(scale(notgoodhealth)),
+         white_scale = as.numeric(scale(white))) |> 
+  mutate(second_party19comp = case_when(second_party19 == "ruk" ~ "other/ruk",
+                                        second_party19 == "other" ~ "other/ruk",
+                                        TRUE ~ second_party19),
+         second_party19comp = factor(second_party19comp,
+                                levels=c("lab","con","ld","other/ruk")))
+
+# reform constituencies neighbourhood structure (matrix version for stan)
+dfnbruk <- st_bridges(df[df$ruk24!=0,], "constituency_name", nb_structure = "matrix") |> 
+  st_manual_join_nb("Isle of Wight East","Gosport") |> 
+  st_manual_join_nb("Isle of Wight West","New Forest West") |> 
+  mutate(first_party19 = factor(first_party19,
+                                levels=c("lab","con","ld","other")),
+         second_party19 = factor(second_party19,
+                                levels=c("ruk","lab","con","ld","other")),
+         third_party19 = factor(third_party19,
+                                levels=c("ruk","lab","con","ld","other")),
+         majority_prop = majority19/valid_votes19,
+         majority_prop_scale = as.numeric(scale(majority19/valid_votes19)),
+         degree_scale = as.numeric(scale(degree)),
+         notgoodhealth_scale = as.numeric(scale(notgoodhealth)),
+         white_scale = as.numeric(scale(white))) |> 
+  mutate(second_party19comp = case_when(second_party19 == "ruk" ~ "other/ruk",
+                                        second_party19 == "other" ~ "other/ruk",
+                                        TRUE ~ second_party19),
+         second_party19comp = factor(second_party19comp,
+                                levels=c("other/ruk","lab","con","ld")))
+
+```
+
+# Introduction
+
+When modelling spatial data, it is well understood that there is a tendency for nearby data points to be more similar than distant ones. It is also possible that groups of these data points can be seen as comprising regions, where a certain difference between and similarity within region is to be expected. Each of these phenomena describes a different type of spatial process, occurring at a different level of data aggregation. The practice of incorporating both of these processes simultaneously in a model has been termed hierarchical spatial autoregressive modelling (HSAM) by @dong2015. They describe this as analogous to a combination of vertical and horizontal spatial processes.
+
+The vertical processes can be captured using hierarchical modelling structures [@goldstein1997]. When applied in a geographical context, where the levels might refer to administrative units such as regions and counties [@jones1991], this top-down structure positions a spatial unit within a tree structure (e.g. a location in a town which lies within a province within a country). While this can do a good job at grouping potentially similar places together and sharing information across such groups, it can still lead to a situation where the potential relationship between neighbouring data points which happen to lie on either side of an administrative boundary is ignored.
+
+The horizontal process can capture such neighbourhood relationships, regardless of group boundaries. This relies on an autoregressive structure to model spillover effects where each data point is dependent on nearby data points. Spatial units which are neighbours are expected to share similarities. One commonly-used such structure in areal models is an intrinsic conditional autoregressive (ICAR) component [@besag1974] which contributes a set of spatially smoothed random effects at the level of individual data points which are correlated according to contiguity, with each unit's effect being Normally distributed around the mean of that of its neighbours. The strength of this smoothing is controlled by a single variance parameter for the entire area.
+
+Variations on this approach, particularly in the field of disease-modelling, include the BYM model [@besag1991] which combines this spatially structured component based on contiguity with an additional unstructured effect (i.i.d. Gaussian), and the related BYM2 model [@Riebler2016] which further parametrises the structure with a component to account for the relative proportion of each source of variation.
+
+We propose a technique which combines group structures and an autoregressive component in a different way. Rather than capturing higher level group differences with a set of random effects where each group has a different mean divergence from the global mean, we instead incorporate group variation in the ICAR process itself, by allowing the variance parameter to vary by region, meaning that the strength of the spatial smoothing differs across groups. For units within each region, the random effect still depends on the average of the neighbours’ random effects, but the amount of random variation around this average is determined by the group-specific variance parameter. Regions with lower variance exhibit stronger spatial smoothing (smaller variability among neighbours), while regions with higher variance allow for greater heterogeneity in the random effects within that region. This allows us to capture differences in spatial cohesion which may better account for the process than region random effects.
+
+There are other approaches to the idea of a non-stationary variance component in the literature. @Brewer2007 introduced edge-specific weights within the contiguity structure to enable locally varying smoothness between all pairs of units. An iterative algorithm was proposed by @DuncanLee2014 to detect spatial discontinuities and update the adjacency structure itself. @Jack2019 used a spatio-temporal model where the degree of spatial cohesion could vary with time. However, these methods do not seek to incorporate a hypothesised hierarchical structure within the ICAR variance parameter.
+
+In this article, we examine an application of this approach using data from the 2024 UK General Election to see if it proves more plausible than other hypothesised approaches. Before discussing the spatial processes which we will consider, we first mention some other factors which are at play in the modelling of voting behaviour. 
+
+As @griffiths2024brexit point out, it is well known that socio-economic factors - predominantly social class [@Butler1974], education, age, deprivation and ethnicity - have long been strongly associated with political preferences in the UK, although @Jennings2024 observe that both their strength and direction of association have been changing over time for different parties.
+
+In the coverage of this particular election, there was also a strong narrative of potential tactical voting where a voter might choose which party to vote for not based on a preference for that party but with the aim of maximising the chances of unseating the incumbent. This is particularly encouraged by the UK's first-past-the-post electoral system. Although difficult to model explicitly, it is clearly connected to the marginality and incumbency of a seat [@Muller2015]. The size of the lead held by an incumbent party, whether or not that party is currently in government, and the identity of its closest competitor could all influence the likelihood of tactical voting occurring. By controlling for the incumbent party in each constituency, and also the second placed party from the previous election and the size of the majority, we seek to capture trends which are consistent with this type of behaviour.
+
+Having controlled for these socio-economic and *status quo ante* factors, we still theorise that there would be unaccounted for spatial processes at play in determining voter behaviour. There are a number of reasons why voters might behave in a way which would reflect a vertical regional structure. Different parts of the country have deep-rooted political cultures associated with place and may be reluctant to change from these. The regional scale has proven useful [@pattie1995region] and can, for some contextual effects, be more powerful than local scales [@Pattie2013]. Furthermore, policies which a party proposes in a manifesto can have a spatial aspect to them which can make them more or less appealing to voters in a particular region. In the UK context, this could apply to "levelling-up", issues regarding the green belt, energy policy etc.
+
+We would also expect a horizontal neighbourhood component when modelling voter behaviour. People who live nearby, work together, or associate together in bars, clubs and other organisations have a tendency to align in their political views, as summarised by @pattie2000 in the maxim "those who speak together vote together", referencing work done by @Miller1977.
+
+These two types of processes have been combined together in a HSAM framework in the context of voting behaviour by @Horan2024, more specifically, examining swing between Labour and Conservatives in the 2019 election.
+
+In the following application, to avoid complications arising from parties which competed only in Scotland, Wales and Northern Ireland, we restrict the study area to England where this election saw increased party system fragmentation [@Prosser2024] with the emergence of four dominant parties (each receiving greater than 10% of the national vote and a combined total of almost 90%): Labour, Conservatives, Liberal Democrats and Reform UK (see Table \ref{tab:elecsummary}). We aim to model the number of votes obtained by each party in each constituency using a Bayesian approach. We propose a selection of credible models and compare their plausibility using log marginal likelihoods. Before turning to the 2024 election data, exploratory simulations are carried out to examine whether this approach can correctly identify known underlying model structures as being the most plausible. For the election data, we first fit models with no explicitly spatial component and examine their residuals. The presence of residual spatial patterns justifies the subsequent modelling exercises. Seven further models are then fitted for each of the four parties. These models increase in complexity from those which contain only one spatial process to others using a HSAM framework with combined processes. One such model is our novel approach allowing the variance of the ICAR structure to change by region. We are then in a position to be able to rank these models according to marginal likelihood and determine which is most plausible for each party, given the voting data. In our example, we find that the novel approach is the best model for all four parties, revealing different patterns of spatial cohesion for each.
+
+The utility of this model is not only that it seems to provide a more plausible mechanism than other models in some circumstances. The set of variance parameters which it estimates are of interest in their own right as a measure of the degree to which nearby places tend to be similar. Their interpretation will vary depending on the field of study, but they offer an additional avenue of investigation for spatial processes.
+
+# Data
+
+## Election 2024
+
+The 2024 UK General Election saw Labour defeat the incumbent Conservative government. In England, the focus of this model, Labour increased their seat count by 166, the Conservatives lost 229 seats, the Liberal Democrats increased their seat count by 59, while Reform UK won 5 seats. However, owing to the first-past-the-post electoral system, these numbers are far from reflective of the relative number of votes cast for each party, particularly so in this election [@Pattie2024]. Summaries of these seat and vote counts for each party are shown in Table \ref{tab:elecsummary}. Despite winning only a fraction of the number of seats which the Liberal Democrats attained, Reform UK actually acquired a greater number of votes across England. This is a result of the voting system and its interplay with differences in concentration and distribution of votes by location, emphasising the particularly key role played by geography in UK elections. For the purposes of this study, we are not concerned with whether or not parties won a particular seat. Instead, we attempt the model the total number of votes gained by a party in each constituency.
+
+The two data sources in this study are the 2021 census and the results of the 2024 and 2019 General Elections. Census results were sourced from the @census2021 and voting data from the @elections_data. The census results are available at the level of the 2024 constituency boundaries so these were joined with the most recent election results. When including results from the 2019 election as covariates, some complications arose because of boundary changes. As a result, it has been necessary for the purposes of comparison to re-project the 2019 constituency vote counts to their 2024 equivalents. This was achieved by assigning 2019 constituency votes to 2024 constituencies according to the proportion of population living in areas of overlap [@boundary_changes].^[The conversion procedure is outlined in more detail at <https://github.com/horankev/voteReproject>.]
+
+Of the 543 constituencies in England, 542 were considered. We omitted Chorley as this was the constituency of the Speaker of the House which, by convention, is not contested by the major parties. In subsequent maps, it can be identified as an uncoloured unit towards the north west. A Labour candidate competed in all 542 constituencies, a Conservative or Liberal Democrat candidate in 541, and a Reform UK candidate in 521.
+
+```{r}
+# calculate vote shares, seats and their percentages in England by party
+votes24eng <- read.csv(here("data","results","HoC-GE2024-results-by-constituency.csv")) |> 
+  clean_names() |> 
+  filter(country_name == "England") |> 
+  rename(con_code = ons_id) |> 
+  rename(other = all_other_candidates) |> 
+  select(con_code,constituency_name,region_name,first_party,valid_votes,con,lab,ld,ruk,green,pc,other) |> 
+  mutate(first_party = case_when(first_party == "Ind" ~ "other",
+                                 TRUE ~ first_party)) |> 
+  mutate(first_party = factor(tolower(first_party),
+                              levels = c("con","lab","ld","ruk","pc","green","other"))) |> 
+  filter(first_party != "spk")
+  
+winner24eng <- votes24eng |> 
+  count(first_party) |>  
+  mutate(percentage = round(100 * n / sum(n), 1))
+names(winner24eng) <- c("Party","Seat Count","Percentage of Seats")
+
+voteshare24eng <- votes24eng |> 
+  select(valid_votes:other) |> 
+  colSums() |> 
+  t() |> 
+  data.frame() |> 
+  mutate(con = round(100*con/valid_votes,1),
+         lab = round(100*lab/valid_votes,1),
+         ld = round(100*ld/valid_votes,1),
+         ruk = round(100*ruk/valid_votes,1),
+         green = round(100*green/valid_votes,1),
+         other = round(100*other/valid_votes,1)) |> 
+  select(-valid_votes, -pc) |> 
+  t() |> 
+  data.frame() |> 
+  rownames_to_column(var = "Party")
+names(voteshare24eng)[2] <- "Percentage of Votes"
+
+election_summary <- voteshare24eng |> 
+  left_join(winner24eng) |> 
+  arrange(desc(`Percentage of Votes`)) |> 
+  select(Party, `Percentage of Votes`, `Seat Count`, `Percentage of Seats`) |> 
+  mutate(Party = case_when(Party == "lab" ~ "Labour",
+                           Party == "con" ~ "Conservative",
+                           Party == "ld" ~ "Liberal Democrat",
+                           Party == "ruk" ~ "Reform UK",
+                           Party == "green" ~ "Green",
+                           Party == "other" ~ "Other",
+                           TRUE ~ Party))
+election_summary[is.na(election_summary)] <- 0
+
+election_summary |> 
+  kbl(caption = "Percentage vote share, seat count, and percentage of seat totals in England for parties in the 2024 General Election. Four parties achieved a vote share greater than 10\\%, totalling 89\\% of the total votes cast and over 98\\% of seats won.", 
+      align = "lrrr", format = "latex", escape=FALSE, table.envir = "table*", label = "elecsummary") |> 
+  kable_classic(font_size = 8)
+
+```
+
+## Dependent variable
+
+The outcome we are seeking to model is vote count per constituency for each party. To give an idea of the spatial patterns and variation between parties, Figure \ref{fig:figvoteshare} shows the percentage of votes which each party attained in 2024, diverging about the overall median. We show percentages in this figure to control for different constituencies having different populations. In these maps, the constituencies are shown as hexagons of equal size, while still approximating relative position. This overcomes the problem of invisibility arising from some small, densely populated urban constituencies. In later maps, where a more precise idea of relative position and contiguity is an important consideration (as is the case when exploring neighbourhood relationships) maps will be shown in regular projection.
+
+```{r, figvoteshare, fig.width=12, fig.height=4, fig.cap="(a-d) Percentage vote share by constituency for four largest parties in 2024 UK General Election. The white hexagon towards the north west in these and subsequent maps represents the Speaker's seat which, by custom, is not contested."}
+# not layering with regions yet, so overlay outline of hex structure
+dfhex_outline <- dfhex |> ms_dissolve()
+
+ggarrange(
+  ggplot(dfhex) + 
+    geom_sf(aes(fill=con24_pct, colour=con24_pct)) + 
+    scale_fill_gradient2(low="gray20", mid="white", high="#0087DC", midpoint = 20, breaks=c(0,20,40,60)) + 
+    scale_colour_gradient2(low="gray20", mid="white", high="#0087DC", midpoint = 20, breaks=c(0,20,40,60)) + 
+    geom_sf(data=dfhex_outline, fill=NA, colour="black", linewidth=0.3) +
+    labs(fill="Conservative\n% voteshare",
+         colour="Conservative\n% voteshare") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=1, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ggplot(dfhex) + 
+    geom_sf(aes(fill=lab24_pct, colour=lab24_pct)) + 
+    scale_fill_gradient2(low="gray20", mid="white", high="#E4003B", midpoint = 20, breaks=c(0,20,40,60)) + 
+    scale_colour_gradient2(low="gray20", mid="white", high="#E4003B", midpoint = 20, breaks=c(0,20,40,60)) + 
+    geom_sf(data=dfhex_outline, fill=NA, colour="black", linewidth=0.3) +
+    labs(fill="Labour\n% voteshare",
+         colour="Labour\n% voteshare") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=1, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ggplot(dfhex) + 
+    geom_sf(aes(fill=ld24_pct, colour=ld24_pct)) + 
+    scale_fill_gradient2(low="gray20", mid="white", high="#FAA61A", midpoint = 20, breaks=c(0,20,40,60)) + 
+    scale_colour_gradient2(low="gray20", mid="white", high="#FAA61A", midpoint = 20, breaks=c(0,20,40,60)) + 
+    geom_sf(data=dfhex_outline, fill=NA, colour="black", linewidth=0.3) +
+    labs(fill="Liberal Democrat\n% voteshare",
+         colour="Liberal Democrat\n% voteshare") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=1, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ggplot(dfhex) + 
+    geom_sf(aes(fill=ruk24_pct, colour=ruk24_pct)) + 
+    scale_fill_gradient2(low="gray20", mid="white", high="#12B6CF", midpoint = 20, breaks=c(0,20,40,60)) + 
+    scale_colour_gradient2(low="gray20", mid="white", high="#12B6CF", midpoint = 20, breaks=c(0,20,40,60)) + 
+    geom_sf(data=dfhex_outline, fill=NA, colour="black", linewidth=0.3) +
+    labs(fill="Reform UK\n% voteshare",
+         colour="Reform UK\n% voteshare") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=1, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ncol = 4,
+  legend = "bottom",
+  labels = c("(a)","(b)","(c)","(d)"),
+  font.label = list(size = 12, color = "black", face = "plain", family = NULL)
+)
+
+```
+
+## Explanatory variables
+
+The three socio-economic variables included in the model from the 2021 census are shown in Figure \ref{fig:figsocec}, diverging about their median values. They represent, respectively, the proportion of the population of each constituency with a degree, the proportion self-reporting fair, bad or very bad health, and the proportion of white ethnicity. These three variables are a subset of those considered by @beecham2018 in a study of the connection between the narrative of "left-behind" places and voting behaviour in the Brexit referendum. Other variables which they considered included professional occupations, younger adults, English as main language and home ownership. They were, however, interested in examining individual relationships between these variables and voting behaviour. As we are modelling these covariates together, issues of multicollinearity would arise without careful selection. These three variables were found to be highly correlated with (and thus good proxies for) many other socio-demographic variables (e.g. degree education with professional occupations, poor health with age, white with English-speaking, Christian and single-ethnicity households), while also not leading to problematic levels of multicollinearity, In the subsequent models, they are scaled to have a mean of 0 and standard deviation of 1 to improve sampling efficiency and stability in a Bayesian context.
+
+```{r, figsocec, fig.width=12, fig.height=4, fig.cap="Proportion of population by constituency (a) with a degree, (b) with fair, bad or very bad health, and (c) of white ethnicity."}
+ggarrange(
+  ggplot(dfhex) + 
+    geom_sf(aes(fill=degree, colour=degree)) + 
+    scale_fill_gradient2(low="gray", high = "blue",midpoint = median(df$degree), breaks=c(0.2,0.4,0.6)) + 
+    scale_colour_gradient2(low="gray", high = "blue",midpoint = median(df$degree), breaks=c(0.2,0.4,0.6)) + 
+    geom_sf(data=dfhex_outline, fill=NA, colour="black", linewidth=0.3) +
+    labs(fill="proportion with\ndegree",
+         colour="proportion with\ndegree") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=1, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ggplot(dfhex) + 
+    geom_sf(aes(fill=notgoodhealth, colour=notgoodhealth)) + 
+    scale_fill_gradient2(low="gray", high = "blue",midpoint = median(df$notgoodhealth), breaks=c(0.15,0.25)) + 
+    scale_colour_gradient2(low="gray", high = "blue",midpoint = median(df$notgoodhealth), breaks=c(0.15,0.25)) + 
+    geom_sf(data=dfhex_outline, fill=NA, colour="black", linewidth=0.3) +
+    labs(fill="proportion with\nnot good health",
+         colour="proportion with\nnot good health") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=1, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ggplot(dfhex) + 
+    geom_sf(aes(fill=white, colour=white)) + 
+    scale_fill_gradient2(low="gray", high = "blue",midpoint = median(df$white), breaks=c(0.3,0.6,0.9)) + 
+    scale_colour_gradient2(low="gray", high = "blue",midpoint = median(df$white), breaks=c(0.3,0.6,0.9)) + 
+    geom_sf(data=dfhex_outline, fill=NA, colour="black", linewidth=0.3) +
+    labs(fill="proportion\nwhite",
+         colour="proportion\nwhite") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=1, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ncol = 3,
+  legend = "bottom",
+  labels = c("(a)","(b)","(c)"),
+  font.label = list(size = 12, color = "black", face = "plain", family = NULL)
+)
+
+```
+
+The model also accounts for potential drivers of tactical voting - the winner and second placed party from the previous election, and the size of the majority of the winning party, as shown in Figure \ref{fig:figplacement}. This *marginality* is calculated as the difference between the total number of votes for the first and second placed parties. Because of varying constituency size, it is expressed as a proportion of the total overall number of votes cast in each constituency. There is evidence that tactical voting tends to be higher in marginal seats [@Cain1978tact; @Johnston1992tact]. For the same reasons as the socio-economic explanatory variables, these majorities were also scaled. 
+
+While Reform UK are shown separately in the second place map in Figure \ref{fig:figplacement} (c), they were the second placed party in only one constituency in 2019. For this reason, they were included in the *other* category for this variable in the modelling process, along with other parties and independent candidates.
+
+```{r, figplacement, fig.width=12, fig.height=4, fig.cap="(a) First place parties by constituency in 2019, (b) majority as a proportion of total votes cast for Conservative and Labour seats, and (c) second place parties by constituency in 2019. All constituencies are reprojected to 2024 boundaries."}
+
+dfhex$first_party19_long <- case_when(
+  dfhex$first_party19 == "ruk" ~ "Reform UK",
+  dfhex$first_party19 == "ld" ~ "Liberal Democrat",
+  dfhex$first_party19 == "lab" ~ "Labour",
+  dfhex$first_party19 == "con" ~ "Conservative",
+  dfhex$first_party19 == "other" ~ "Other"
+)
+
+dfhex$second_party19_long <- case_when(
+  dfhex$second_party19 == "ruk" ~ "Reform UK",
+  dfhex$second_party19 == "ld" ~ "Liberal Democrat",
+  dfhex$second_party19 == "lab" ~ "Labour",
+  dfhex$second_party19 == "con" ~ "Conservative",
+  dfhex$second_party19 == "other" ~ "Other"
+)
+
+ggarrange(
+  ggplot(dfhex) + 
+    geom_sf(aes(fill=first_party19_long, colour=first_party19_long)) + 
+    scale_fill_manual(values = custom_palette2) + 
+    scale_colour_manual(values = custom_palette2) + 
+    guides(fill = guide_legend(nrow = 2)) + 
+    guides(colour = guide_legend(nrow = 2)) + 
+    geom_sf(data=dfhex_outline, fill=NA, colour="black", linewidth=0.3) +
+    labs(fill="1st place\nparty\n2019",
+         colour="1st place\nparty\n2019") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=1, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ggplot() + 
+    geom_sf(data = dfhex |> filter(first_party19 == "con"),
+            aes(fill=majority19/valid_votes19, colour=majority19/valid_votes19)) + 
+    scale_colour_steps(low="white", high="#0087DC") +
+    scale_fill_steps(low="white", high="#0087DC") +
+    labs(fill="% Conservative\nmajority\n2019",
+         colour="% Conservative\nmajority\n2019") + 
+    guides(colour = "none") + 
+    new_scale_colour() + 
+    new_scale_fill() + 
+    geom_sf(data = dfhex |> filter(first_party19 == "lab"),
+            aes(fill=majority19/valid_votes19, colour=majority19/valid_votes19), linewidth=0.1) + 
+    scale_colour_steps(low="white", high="#E4003B") +
+    scale_fill_steps(low="white", high="#E4003B") +
+    labs(fill="% Labour\nmajority\n2019",
+         colour="% Labour\nmajority\n2019") + 
+    geom_sf(data = dfhex |> filter(!first_party19 %in% c("con","lab")), fill="black") + 
+    geom_sf(data=dfhex_outline, fill=NA, colour="black", linewidth=0.3) +
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=1, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ggplot(dfhex) + 
+    geom_sf(aes(fill=second_party19_long, colour=second_party19_long)) + 
+    scale_fill_manual(values = custom_palette2) + 
+    scale_colour_manual(values = custom_palette2) + 
+    guides(fill = guide_legend(nrow = 2)) + 
+    guides(colour = guide_legend(nrow = 2)) + 
+    geom_sf(data=dfhex_outline, fill=NA, colour="black", linewidth=0.3) +
+    labs(fill="2nd place\nparty\n2019",
+         colour="2nd place\nparty\n2019") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=1, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ncol = 3,
+  legend = "bottom",
+  labels = c("(a)","(b)","(c)"),
+  font.label = list(size = 12, color = "black", face = "plain", family = NULL)
+)
+
+```
+
+## Spatial structures
+
+When discussing space in these models, we will be concerned with vertical location as part of a tree with regions as its branches (Figure \ref{fig:figregionstree}), and horizontal location as captured by contiguity (Figure \ref{fig:figspatial}). The nine regions of England which will form part of the modelling process and future discussion are mapped in Figure \ref{fig:figregionstree}. They are the highest tier of sub-national division in England. They have a history of association as former constituencies for European Parliament elections, between 1994 and 2011 they had partly devolved functions, and they were previously the first level NUTS regions^[Nomenclature of Territorial Units for Statistics (NUTS) is a Eurostat geocode standard for referencing the administrative divisions of countries for statistical purposes.] within the European Union.
+
+When describing connectivity between constituencies in a neighbourhood matrix, as is required for ICAR models, the presence of islands or otherwise disconnected units can lead to issues with computation. While there are no longer any island constituencies in England after the division of the Isle of Wight into two separate seats, we are still left with the situation where the constituencies of Isle of Wight East and West are entirely separate from the rest of the graph. The island is served by two regular ferry services which facilitate commuting for work, socialising and cultural exchange in a way that is consistent with the theory of how voter interaction can lead to neighbourhood effects. For this reason, using the package `sfislands` [@sfislands2024], additional neighbour connections have been added between Isle of Wight West and New Forest West, and between Isle of Wight East and Gosport. These correspond to the ferry connection routes. Even though Reform UK only competed in 521 out of 542 constituencies, this relative sparsity did not lead to any disconnected units. The resultant neighbourhood structures for Labour and Reform UK can be seen in Figures \ref{fig:figspatial} (a) and (b) respectively. The Conservative and Liberal Democrat contiguity maps, with 541 competing constituencies, closely resemble that of Labour.
+
+```{r, fig.width=12, fig.height=3.5}
+# tree structure image
+
+# count constituencies per region
+region_counts <- df |>
+  group_by(region_name) |>
+  summarise(n_cons = n()) |>
+  arrange(region_name) |>
+  mutate(region_id = row_number()) |>    # X position
+  mutate(label_color = ifelse(region_id %in% c(2, 4, 6), "white", "black")) |> 
+  mutate(region_name = case_when(
+    region_name == "East of England" ~ "East of\nEngland",
+    region_name == "Yorkshire and The Humber" ~ "Yorkshire and\nThe Humber",
+    TRUE ~ region_name
+  )) |> 
+  mutate(reg_y_pos = c(1.1,1.15,1.1,1.1,1.1,1.1,1.1,1.1,1.15))
+
+# one line per constituency, vertically under each region
+line_data <- df |>
+  st_drop_geometry() |> 
+  left_join(region_counts) |>
+  group_by(region_name) |>
+  mutate(line_id = row_number()) |>
+  mutate(x = region_id) |>
+  ungroup()
+
+# lines fanning to constituencies
+fan_data <- region_counts %>%
+  rowwise() %>%
+  mutate(fan_lines = list({
+    n_fans <- min(n_cons, 7)  # Limit the number of lines for clarity
+    offsets <- seq(-0.2, 0.2, length.out = n_fans)
+    data.frame(
+      x = region_id,
+      xend = region_id + offsets,
+      y = 1,
+      yend = 0.2
+    )
+  })) %>%
+  tidyr::unnest(fan_lines)
+
+regions_tree <- ggplot() +
+  # fan lines from each region
+  geom_segment(data = fan_data,
+               aes(x = x, xend = xend, y = y, yend = yend),
+               linewidth = 0.3, color = "grey40") + 
+  # England root node
+  geom_point(aes(x = mean(region_counts$region_id), y = 2), size = 3.5) +
+  geom_label(aes(x = mean(region_counts$region_id), y = 2.15, label = "England"),
+             size = 6) +
+  # edges from England to each region
+  geom_segment(data = region_counts,
+               aes(x = mean(region_counts$region_id), xend = region_id, y = 2, yend = 1),
+               linewidth = 0.3, color = "black") +
+  # region nodes
+  geom_point(data = region_counts,
+             aes(x = region_id, y = 1), size = 3) +
+  # region labels and text
+  geom_label(
+    data = region_counts,
+    aes(x = region_id, y = reg_y_pos, label = region_name, fill = region_name),
+    color = "black",           # ensures the box border is black
+    label.size = 0.4,          # thickness of border
+    size = 4,                  # text size
+    show.legend = FALSE,
+    label.padding = unit(0.35, "lines")
+  ) + 
+  geom_text(
+    data = region_counts,
+    aes(x = region_id, y = reg_y_pos, label = region_name, color = label_color),
+    size = 4,
+    show.legend = FALSE
+  ) + 
+  scale_color_identity() + 
+  scale_fill_brewer(palette = "Paired") + 
+  # constituency count labels
+  geom_label(data = region_counts,
+             aes(x = region_id, y = 0.1, label = paste0(n_cons, " constituencies"), fill=region_name),
+             alpha=0.3, size = 3.5) +
+  
+  guides(fill="none") + 
+  theme_void()
+
+```
+
+```{r, fig.align="center"}
+regions_map <- ggarrange(
+  ggplot(hex_reg24) + 
+    geom_sf(aes(fill=reg_name), colour="black", alpha=0.7) + 
+    scale_fill_brewer(palette = "Paired") +
+    geom_sf_label(aes(label=reg_name), size=3, fontface="bold") +
+    guides(x="none",
+           fill="none",
+           label="none") + 
+    theme_void() + 
+    theme(legend.position = "bottom",
+          legend.text = element_blank(), 
+          legend.title = element_blank(), 
+          legend.key.height = unit(0, "cm"),
+          legend.key.width = unit(0, "cm"),
+          legend.spacing.x = unit(0, "cm")),
+  
+  ggplot(regions) + 
+    geom_sf(aes(fill=reg_name), colour="black", alpha=0.7) + 
+    scale_fill_brewer(palette = "Paired") +
+    geom_label_repel(aes(label=reg_name, geometry=geometry), size=3, fontface="bold", stat = "sf_coordinates") + 
+    guides(x="none",
+           fill="none",
+           label="none") + 
+    theme_void() + 
+    theme(legend.position = "bottom",
+          legend.text = element_blank(), 
+          legend.title = element_blank(), 
+          legend.key.height = unit(0, "cm"),
+          legend.key.width = unit(0, "cm"),
+          legend.spacing.x = unit(0, "cm")),
+  
+  ncol = 2,
+  labels = c("(a)","(b)"),
+  font.label = list(size = 12, color = "black", face = "plain", family = NULL)
+)
+
+```
+
+```{r, figregionstree, fig.width=12, fig.height=9, fig.align="center", out.width="90%", fig.cap="Regions of England corresponding to (a) constituency hexagon maps and (b) regular projection. (c) Constituencies and regions of England visualised as a hierarchical tree structure. This can be seen as vertical modelling because only constituencies which branch from a common higher level region are assumed to share share similarities."}
+ggarrange(
+  regions_map,
+  regions_tree,
+  nrow = 2,
+  labels = c("","(c)"),
+  heights = c(1,0.7),
+  font.label = list(size = 14, color = "black", face = "plain", family = NULL)
+)
+```
+
+```{r, figspatial, fig.width=7, fig.height=4, fig.align="center", fig.cap="Constituencies linked according to queen contiguity for (a) Labour and (b) Reform UK, with an additional connection made between each Isle of Wight constituency and the mainland constituency providing ferry connection. All contiguities are free to cross region boundaries. Conservative and Liberal Democrat contiguity structures (not mapped) only differ from Labour by one constituency each. In (b), constituencies where Reform UK did not compete are shown in grey."}
+# constituencies where labour competed (which is all constituencies) but reform did not
+condiff <- anti_join(dfnblab |> select(constituency_name),
+                     dfnbruk |> select(constituency_name) |> st_drop_geometry())
+
+ggarrange(
+  st_quickmap_nb(dfnblab, pointsize = 0.01, fillcol = "white", bordercol = "gray40") + 
+    geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
+    labs(x = "contiguity structure\nwhere Labour competed (N=542)") + 
+    theme_minimal() + 
+    theme(axis.title.x = element_text(size=6, hjust=0.5, face = "bold"),
+          axis.text = element_blank(),
+          panel.grid = element_blank()),
+  
+  st_quickmap_nb(dfnbruk, pointsize = 0.01, fillcol = "white", bordercol = "gray40") + 
+    geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
+    geom_sf(data=condiff, fill="gray70", colour="black", linewidth=0.1) + 
+    labs(x = "contiguity structure\nwhere Reform UK competed (N=521)") + 
+    theme_minimal() + 
+    theme(axis.title.x = element_text(size=6, hjust=0.5, face = "bold"),
+          axis.text = element_blank(),
+          panel.grid = element_blank()),
+  
+  ncol = 2,
+  legend = "bottom",
+  labels = c("(a)","(b)"),
+  font.label = list(size = 7, color = "black", face = "plain", family = NULL)
+)
+
+```
+
+
+# Methods
+
+## Non-spatial model
+
+Prior to an examination of the relative merits of different spatial processes, we first seek to establish that there are indeed such processes which need to be accounted for. The proposed general structure for this model, without incorporating any spatial information, is a Poisson generalised linear model where the dependent variable $Y_i$ is the count of the number of votes cast for a party in each constituency. We seek to model this as a linear combination of variables via a log link function. One such group of variables, as discussed above, is a set of covariates from the census. These have been used in previous models of electoral behaviour and serve as proxies for a broad range of socio-economic conditions. We also control for the political status quo ante by including as predictors the first and second placed parties from the previous election, the size of the majority, and its interaction with the second-placed party. An offset of the log of the total number of votes cast controls for different exposures due to the varying sizes of electorates by constituency. The model is fitted in a Bayesian framework in R using the `brms` package [@brms2017]. To assess convergence in these and subsequent models, we considered the convergence diagnostic R-hat [@Vehtari2021], as well as the individual parameter trace plots.
+
+Such a model structure has the following likelihood for the distribution of votes cast in each constituency $i$:
+
+$$
+Y_i \sim \text{Poisson}(\mu_i), 
+$$
+
+where 
+
+$$
+\log(\mu_i) = \mathbf{x}_i^\top \boldsymbol{\beta} + \text{offset}_i
+$$
+
+The covariates in the $\mathbf{x}_i^\top \boldsymbol{\beta}$ component are arranged according to the structure in Table \ref{tab:tabcovariates}. We assign weakly informative but proper priors, $\text{Normal}(0, 10)$, to all $\beta$ parameters, reflecting minimal prior knowledge or assumptions about their values.
+
+```{r}
+tabdf1 <- data.frame(
+  first = c(
+    "degree",
+    "not good health",
+    "white",
+    "first-placed party 2019", 
+    "second-placed party 2019",
+    "marginality",
+    "interaction of second-placed party and majority"),
+  
+  second = c(
+    "scaled proportion of constituency population with a degree",
+    "scaled proportion of constituency population reporting fair, bad, or very bad health",
+    "scaled proportion of constituency population of white ethnicity",
+    "winner from the previous election", 
+    "closest party to winner from previous election", 
+    "scaled difference between winning party and closest rival, as proportion of total votes", 
+    "influence of marginality can vary according to closest competitor")
+)
+
+colnames(tabdf1) <- c("Explanatory Variables", "Description")
+
+tabdf1 |> 
+  kbl(caption = "Covariates with a brief description, classified as either coming from the 2021 census or the results of the previous election.",
+      booktabs = TRUE, linesep = "", align = "rl", format = "latex", 
+      escape=FALSE, table.envir = "table*", label = "tabcovariates") |> 
+  kable_classic(font_size = 8) |> 
+  pack_rows(index = c("census 2021" = 3,
+                      "status quo ante" = 4),
+            hline_before = TRUE) |> 
+  kable_styling(full_width = FALSE) |> 
+  column_spec(1, "4cm") |>
+  column_spec(2, "12cm")
+
+```
+
+When we fit the model described above, which contains no spatial components, a visual examination of its Pearson residuals, mapped in Figure \ref{fig:fignonspatial}, shows clear spatial patterns. We see, at constituency level, clusters of positive and negative residuals, suggesting that neighbours have a tendency to be similar to neighbours. At a regional level, we can see that some regions display similarities which are quite different to those of others.
+
+```{r}
+# get residuals of non-spatial models
+
+mod0_ld <- readRDS(here("models","mod0_ld.rds"))
+mod0_con <- readRDS(here("models","mod0_con.rds"))
+mod0_lab <- readRDS(here("models","mod0_lab.rds"))
+mod0_ruk <- readRDS(here("models","mod0_ruk.rds"))
+
+res_con <- residuals(mod0_con, summary = TRUE, type = "pearson") |> 
+  data.frame() |> 
+  cbind(dfnbcon$geometry) |> 
+  cbind(dfnbcon$region_name) |> 
+  rename(region_name = `dfnbcon$region_name`) |> 
+  st_as_sf()
+
+res_lab <- residuals(mod0_lab, summary = TRUE, type = "pearson") |> 
+  data.frame() |> 
+  cbind(dfnblab$geometry) |> 
+  cbind(dfnblab$region_name) |> 
+  rename(region_name = `dfnblab$region_name`) |> 
+  st_as_sf()
+
+res_ld <- residuals(mod0_ld, summary = TRUE, type = "pearson") |> 
+  data.frame() |> 
+  cbind(dfnbld$geometry) |> 
+  cbind(dfnbld$region_name) |> 
+  rename(region_name = `dfnbld$region_name`) |> 
+  st_as_sf()
+
+res_ruk <- residuals(mod0_ruk, summary = TRUE, type = "pearson") |> 
+  data.frame() |> 
+  cbind(dfnbruk$geometry) |> 
+  cbind(dfnbruk$region_name) |> 
+  rename(region_name = `dfnbruk$region_name`) |> 
+  st_as_sf()
+
+```
+
+```{r}
+# get moran's I for each set of residuals
+nb <- poly2nb(res_con, queen=TRUE)
+lw <- nb2listw(nb, style="W", zero.policy=TRUE)
+I_con <- moran.mc(res_con$Estimate, lw, nsim=999, alternative="greater")
+
+nb <- poly2nb(res_lab, queen=TRUE)
+lw <- nb2listw(nb, style="W", zero.policy=TRUE)
+I_lab <- moran.mc(res_lab$Estimate, lw, nsim=999, alternative="greater")
+
+nb <- poly2nb(res_ld, queen=TRUE)
+lw <- nb2listw(nb, style="W", zero.policy=TRUE)
+I_ld <- moran.mc(res_ld$Estimate, lw, nsim=999, alternative="greater")
+
+nb <- poly2nb(res_ruk, queen=TRUE)
+lw <- nb2listw(nb, style="W", zero.policy=TRUE)
+I_ruk <- moran.mc(res_ruk$Estimate, lw, nsim=999, alternative="greater")
+
+```
+
+```{r, fignonspatial, fig.width=12, fig.height=4, fig.cap="(a-d) Pearson residuals from non-spatial models for each party. Clusters of positive and negative residuals are visible, in addition to regional patterns, suggesting the presence of spatial processes which have not been accounted for. Further evidence for this is provided by a Moran's-I statistic of spatial autocorrelation for each set of residuals, and the p-values of hypothesis tests for random spatial distribution of values."}
+ggarrange(
+  ggplot(res_con) + 
+    geom_sf(aes(fill=Estimate, colour=Estimate)) + 
+    scale_fill_gradient2(low="gray20", mid="white", high="#0087DC") + 
+    scale_colour_gradient2(low="gray20", mid="white", high="#0087DC") + 
+    geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
+    labs(fill="Conservative\nresiduals",
+         colour="Conservative\nresiduals",
+         caption = paste0("Moran's-I statistic: ", round(I_con$statistic, 3), ", p-val: ", I_con$p.value)) + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=0.5, face = "bold"),
+          legend.key.size = unit(0.4, "cm"),
+          plot.caption = element_text(hjust = 0.5)),
+  
+  ggplot(res_lab) + 
+    geom_sf(aes(fill=Estimate, colour=Estimate)) + 
+    scale_fill_gradient2(low="gray20", mid="white", high="#E4003B", breaks=c(-100,0,100)) + 
+    scale_colour_gradient2(low="gray20", mid="white", high="#E4003B", breaks=c(-100,0,100)) + 
+    geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
+    labs(fill="Labour\nresiduals",
+         colour="Labour\nresiduals",
+         caption = paste0("Moran's-I statistic: ", round(I_lab$statistic, 3), ", p-val: ", I_lab$p.value)) + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=0.5, face = "bold"),
+          legend.key.size = unit(0.4, "cm"),
+          plot.caption = element_text(hjust = 0.5)),
+  
+  ggplot(res_ld) + 
+    geom_sf(aes(fill=Estimate, colour=Estimate)) + 
+    scale_fill_gradient2(low="gray20", mid="white", high="#FAA61A", breaks=c(-100,0,150,300)) + 
+    scale_colour_gradient2(low="gray20", mid="white", high="#FAA61A", breaks=c(-100,0,150,300)) + 
+    geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
+    labs(fill="Liberal Democrat\nresiduals",
+         colour="Liberal Democrat\nresiduals",
+         caption = paste0("Moran's-I statistic: ", round(I_ld$statistic, 3), ", p-val: ", I_ld$p.value)) + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=0.5, face = "bold"),
+          legend.key.size = unit(0.4, "cm"),
+          plot.caption = element_text(hjust = 0.5)),
+  
+  ggplot(res_ruk) + 
+    geom_sf(aes(fill=Estimate, colour=Estimate)) + 
+    scale_fill_gradient2(low="gray20", mid="white", high="#12B6CF") + 
+    scale_colour_gradient2(low="gray20", mid="white", high="#12B6CF") + 
+    geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
+    labs(fill="Reform UK\nresiduals",
+         colour="Reform UK\nresiduals",
+         caption = paste0("Moran's-I statistic: ", round(I_ruk$statistic, 3), ", p-val: ", I_ruk$p.value)) +  
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=0.5, face = "bold"),
+          legend.key.size = unit(0.4, "cm"),
+          plot.caption = element_text(hjust = 0.5)),
+  
+  ncol = 4,
+  legend = "bottom", 
+  labels = c("(a)","(b)","(c)","(d)"),
+  font.label = list(size = 12, color = "black", face = "plain", family = NULL)
+)
+
+```
+
+## Spatial models
+
+The presence of these patterns suggests our model could be improved by accounting for spatial processes. We allow for the possibility that these could be at constituency level, region level, or both. With this in mind, seven further candidate models are fitted for each party containing different combinations of hypothesised processes, as summarised in Table \ref{tab:tabmodsummary}.
+
+For Models 1 and 2, we take the non-spatial model described above and additionally include region random effects only. In the case of Model 1, each effect is modelled as a dummy variable, considered to come from an independent sample. For Model 2, these effects are drawn from a common distribution of region effects as is the case in hierarchical modelling frameworks.
+
+Model 3 includes only constituency level effects, where we account for the theory that the behaviour of voters in one constituency is likely to be similar to that of its neighbours using an ICAR process. This enforces a constant degree of spatial smoothing across the surface. Model 4 is the BYM2 variant of the ICAR model with a combination of spatially structured and unstructured effects at constituency level, whose relative proportion is also estimated.
+
+Models 5 and 6 combine the region effects of Models 1 and 2 respectively with the ICAR component of Model 3. These fall into the category of hierarchical spatial autoregressive modelling (HSAM), as previously discussed.
+
+Finally, Model 7 contains a novel feature. Despite only featuring a constituency level ICAR component, in this scenario we account for regional variation by dropping the constraint that the standard deviation of the constituency level effects is constant, and allow it to vary by region. This allows the degree of spatial cohesion to be modelled and for this to be reflected in the resulting ICAR component. In some parts of the country, there may be a stronger or weaker tendency to behave like your neighbours than in other places. This feature allows a regional effect to operate in a more subtle way than by simply raising or lowering the mean region level through a random effect.
+
+Models 1-6 are fitted in R using the `brms` package which relies on implementations by @Morris2019. Model 7 uses the `rstan` package [@rstan2024] with a modification of the Stan code of Model 3, as generated using the `brms` function `get_stancode()`.
+
+A summary of the structural component of each model, $\log(\mu_i)$ or $\log(\mu_{ik})$ as appropriate for $i$ constituencies and $k$ regions, and a brief explanation are shown in Table \ref{tab:tabmodsummary2}.
+
+```{r}
+tabdf2 <- data.frame(
+  first = c("non-spatial",1:7),
+  second = c("---",
+             "---",
+             "---",
+             "ICAR process",
+             "BYM2 (ICAR process + unstructured effect)",
+             "ICAR process",
+             "ICAR process",
+             "ICAR process"),
+  third = c("---",
+            "independent region random effects",
+            "region random effects from common distribution",
+            "---",
+            "---",
+            "independent region random effects",
+            "region random effects from common distribution",
+            "varying icar sd by region")
+)
+names(tabdf2) <- c("Model",
+                   "Constituency Spatial Effect",
+                   "Region Spatial Effect")
+
+tabdf2 |> 
+  kbl(escape = FALSE, caption = "Type of spatial process(es) incorporated in each model, and whether they occur at region level, constituency level, or both.", 
+      booktabs = TRUE, linesep = "", align="cll", table.envir = "table*", label = "tabmodsummary") |> 
+  kable_classic(font_size = 8) |> 
+  kable_styling(full_width = FALSE) |> 
+  pack_rows(index = c("non-spatial" = 1,
+                      "region only" = 2,
+                      "constituency only" = 2,
+                      "region and constituency" = 3),
+            hline_before = TRUE)
+
+```
+
+### Priors
+
+As in the non-spatial model, we assign weakly informative but proper priors, $\text{Normal}(0, 10)$, to all $\beta$ parameters, reflecting minimal prior knowledge or assumptions about their values. In addition to the census variables and the previous election effects, such priors also apply to region effects where they form a part of the model.
+
+The priors for the two different types of ICAR component, $\phi_i$ and $\phi_{ik}$, are defined as follows. When incorporating an ICAR process, the conditional distribution of a constituency-level spatial random effect $\phi_i$, given its neighbours, is:
+
+$$
+p(\phi_i \mid \phi_j, {j \neq i}, \sigma) \sim \text{Normal}\left( \frac{\sum_{i \sim j} \phi_i} {d_i}, \frac{\sigma^2}{d_i} \right)
+$$
+
+where $d_i$ is the number of neighbours for constituency $i$, and $i \sim j$ refers to pairs of neighbouring constituencies. The individual spatial random variable $\phi_i$ for constituency $i$ which has a set of neighbours $j \neq i$ whose cardinality is $d_i$, is Normally distributed with a mean equal to the average of its neighbours. Its variance decreases as the number of neighbours increases.
+
+The joint distribution for the vector of all spatial random effects $\boldsymbol{\phi} = (\phi_1,...,\phi_N)$ can be written as a pairwise difference:
+
+$$
+p(\boldsymbol{\phi} \mid \sigma) \propto \exp \left( -\frac{1}{2\sigma^2} \sum_{i \sim j} (\phi_i - \phi_j)^2 \right)
+$$
+
+This enforces similarity among neighbouring locations. If locations $i$ and $j$ are neighbours, their effects $\phi_i$ and $\phi_j$ are penalised for being different.
+
+To ensure identifiability, a soft sum-to-zero constraint is applied:
+
+$$
+\sum_{i=1}^N \phi_i \sim \text{Normal}(0, 0.001 \cdot N)
+$$
+
+Instead of this $\phi_i$ ICAR effect, the BYM2 formulation in Model 4 includes a random effect $\psi_i$ which is a combination of structured (ICAR) and unstructured effects at constituency level:
+
+$$
+\psi_i = \sigma\sqrt{1-\rho} \, \upsilon_i + \sqrt{\rho} \, \phi_i^*
+$$
+
+where $\sigma$ is the overall standard deviation, $\phi_i^*$, the spatially structured effect, is a scaled version of the ICAR prior with unit variance, $\upsilon_i$ represents unstructured noise, with $\upsilon_i \sim \text{Normal}(0, 1)$, and $\rho$ is the proportion of spatial variance in the mixing of these structured and unstructured components. A proper, uninformative prior of $\text{Beta}(1,1)$, uniform in the interval [0,1], is used for $\rho$. A value of 0 for $\rho$ implies that all spatial variation is unstructured (independent random effects) while a value of 1 is equivalent to a pure ICAR model.
+
+In Model 7, where the smoothness of the ICAR effect is allowed to vary by region $k$, the spatial prior changes to the following, where $\sigma_k$ represents a different standard deviation for each region:
+
+$$
+p(\phi_{ik} \mid \phi_j, {j \neq i}, \sigma_{k}) \sim \text{Normal}\left( \frac{\sum_{i \sim j} \phi_{ik}} {d_i}, \frac{\sigma^2_{k}}{d_i} \right)
+$$
+
+The soft sum-to-zero constraint, this time for $\phi_{ik}$, remains unchanged. The hyper-parameters $\sigma$ or $\sigma_k$, representing the fixed or varying smoothness of the ICAR component respectively were initially assigned uniform priors. This, however, led to very inefficient sampling. Instead, a tighter prior was chosen with a probability distribution function derived from a generator of random values from a Student-t distribution with mean 0, standard deviation 2.5, and degrees of freedom 3, where the absolute value of each draw is used, implying an expectation that the value will be close to zero but not ruling out the possibility of much larger values: 
+
+$$
+\sigma \sim \text{Student-t}(3, 0, 2.5), \quad \sigma > 0
+$$
+
+This achieved similar results to the uniform prior but with much less computation time. This prior is also used for the $\sigma_R$ hyper-parameter of the $\gamma_k$ region effect distribution in Models 2 and 5.
+
+
+
+
+```{r}
+table_data <- data.frame(
+  model = c(
+    "non-spatial",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+  ),
+  description = c(
+    "$ \\log(\\mu_i) = \\mathbf{x}_i^\\top \\boldsymbol{\\beta} + \\text{offset}_i $",
+    "$ \\log(\\mu_i) = \\tilde{\\mathbf{x}}_i^\\top\\tilde{\\boldsymbol{\\beta}} + \\text{offset}_i $",
+    "$ \\log(\\mu_{ik}) = \\mathbf{x}_i^\\top \\boldsymbol{\\beta} + \\gamma_k + \\text{offset}_i $",
+    "$ \\log(\\mu_i) = \\mathbf{x}_i^\\top \\boldsymbol{\\beta} + \\phi_i + \\text{offset}_i $",
+    "$ \\log(\\mu_i) = \\mathbf{x}_i^\\top \\boldsymbol{\\beta} + \\psi_i + \\text{offset}_i $",
+    "$ \\log(\\mu_i) = \\tilde{\\mathbf{x}}_i^\\top\\tilde{\\boldsymbol{\\beta}} + \\phi_i + \\text{offset}_i $",
+    "$ \\log(\\mu_{ik}) = \\mathbf{x}_i^\\top \\boldsymbol{\\beta} + \\gamma_k + \\phi_i + \\text{offset}_i $",
+    "$ \\log(\\mu_{ik}) = \\mathbf{x}_i^\\top \\boldsymbol{\\beta} + \\gamma_k + \\phi_{ik} + \\text{offset}_i $"
+  ),
+  note = c(
+    "where $\\mathbf{x}_i^\\top \\boldsymbol{\\beta}$ contains explanatory variables from census and previous election",
+    "where $\\tilde{\\mathbf{x}}_i^\\top\\tilde{\\boldsymbol{\\beta}}$ includes an additional region component",
+    "where $\\gamma_k$ is a region random effect from a common distribution, with $\\gamma_k \\sim \\text{Normal}(0, \\sigma^2_R)$",
+    "where $\\phi_i$ is a constituency random effect from an ICAR process",
+    "where $\\psi_i$ is a mixture of spatial effects and unstructured noise according to a mixing parameter $\\rho$",
+    "region effects of model 1 and constituency effects of model 3",
+    "region effects of model 2 and constituency effects of model 3",
+    "where $\\phi_{ik}$ allows for varying standard deviation by region in the ICAR process"
+  )
+)
+
+colnames(table_data) <- c("Model", "Description", "Note")
+
+table_data |>
+  kbl(escape = FALSE, caption = "Structure of each model, showing which spatial processes are included.", 
+      align = "cll", linesep = "", format = "latex", 
+      booktabs = TRUE, table.envir = "table*", label = "tabmodsummary2") |>
+  kable_classic(font_size = 8) |>
+  kable_styling(full_width = FALSE) |> 
+  column_spec(3, width = "6.5cm") |> 
+  pack_rows(index = c("non-spatial" = 1,
+                      "region only" = 2,
+                      "constituency only" = 2,
+                      "region and constituency" = 3),
+            hline_before = TRUE)
+
+```
+
+# Exploratory simulations
+
+Before fitting a sequence of competing models for each party, we first seek to verify that the proposed approach of using marginal likelihoods to determine relative plausibility is effective. If the underlying spatial structure is known, will the corresponding model emerge as the most plausible? This is done using some exploratory simulations.
+
+To create a realistic but less computationally intensive geographical setting, we extract the 101 constituencies from the regions of Yorkshire and the Humber and the East of England. We then divide these into six pseudo-regions, with each containing only contiguous constituencies, by a process of hierarchical clustering about their centroid positions (see Figure \ref{fig:pseudoregions}).
+
+```{r, pseudoregions, fig.width=4, fig.height=4, fig.align="center", out.width="25%", fig.cap="A spatial structure for performing simulations is created by extracting the boundaries of constituencies from the East of England and Yorkshire and The Humber and dividing them into 6 pseudo-regions, each containing only contiguous constituencies, by a process of hierarchical clustering about their centroid positions."}
+# import pseudo spatial data
+dfsmall <- readRDS(here("simulations","dfsmall.rds"))
+
+# outline of pseudo data
+regions_small <- dfsmall |>
+  ms_dissolve("reg_name")
+
+ggplot() +
+  geom_sf(data=dfsmall, aes(fill=reg_name), colour="gray20", alpha=0.7, linewidth=0.1) +
+  geom_sf(data=regions_small, colour="black", linewidth=0.5, fill=NA) + 
+  scale_fill_brewer(palette = "Paired") +
+  labs(fill = "pseudo\nregions") + 
+  theme_void() + 
+  theme(legend.title = element_text(size=14, hjust=1, face = "bold"),
+        legend.text = element_text(size=12, hjust=1),
+        legend.key.size = unit(0.6, "cm"))
+
+```
+
+
+Three distinct types of spatially structured data are randomly generated, each with five independent replicates: the first type follows an ICAR structure (as in Model 3); the second combines an ICAR structure with a region effect (Model 5); and the third uses an ICAR structure with region-specific variance $\sigma_k$ (Model 7).
+
+We then fit our eight competing models to each of the simulated structures and estimate the log marginal likelihood using the `bridgesampling` package [@Gronau2017], which provides a stable and accurate estimate via bridge sampling [@meng1996simulating]. For Models 3 and 5, we begin with a relatively tight ICAR variance ($\sigma$) of 0.7. In the Model 5 structure, a range of six region effects is introduced: –1.5, 1, –0.5, 0.5, 1, and 1.2. For Model 7, samples are generated using six region-specific ICAR variances ($\sigma_k$): 0.2, 0.6, 1, 1.4, 1.8, and 2.2. Figure \ref{fig:narrowsds} displays each of these structures, with the three most plausible models (based on log marginal likelihood) shown below each map. In all cases, the correct model is preferred.
+
+Additional noise is then introduced by increasing the ICAR $\sigma$ value to 1.3 in Models 3 and 5 (see Figure \ref{fig:widesds}). In one of the five replicates, the model with region-specific ICAR variance ($\sigma_k$) was marginally preferred over the true underlying ICAR structure. This outcome is expected: when spatial data are generated with high noise, it is not surprising that a more flexible structure (such as varying $\sigma_k$) may occasionally offer a better or equally good fit. In all other cases, the correct models were preferred.
+
+While this exploratory simulation is not exhaustive, it provides preliminary evidence that the method can correctly identify the true underlying structure as the most plausible among competing alternatives, rather than favouring, for example, the model with the greatest complexity. 
+
+```{r}
+# read simulated data and comparisons
+
+# these ones are from sample 50
+ml_mod3simulations <- readRDS(here("simulations","sim_ml","ml_mod3simulations.rds"))
+ml_mod5simulations <- readRDS(here("simulations","sim_ml","ml_mod5simulations.rds"))
+ml_mod7simulations <- readRDS(here("simulations","sim_ml","ml_mod7simulations.rds"))
+
+# then four other samples 10,20,30,40 for mod3
+ml_mod3simulations_sample10 <- readRDS(here("simulations","sim_ml","ml_mod3simulations_sample10.rds"))
+ml_mod3simulations_sample20 <- readRDS(here("simulations","sim_ml","ml_mod3simulations_sample20.rds"))
+ml_mod3simulations_sample30 <- readRDS(here("simulations","sim_ml","ml_mod3simulations_sample30.rds"))
+ml_mod3simulations_sample40 <- readRDS(here("simulations","sim_ml","ml_mod3simulations_sample40.rds"))
+
+# # then four other samples 10,20,30,40 for mod4
+ml_mod5simulations_sample10 <- readRDS(here("simulations","sim_ml","ml_mod5simulations_sample10.rds"))
+ml_mod5simulations_sample20 <- readRDS(here("simulations","sim_ml","ml_mod5simulations_sample20.rds"))
+ml_mod5simulations_sample30 <- readRDS(here("simulations","sim_ml","ml_mod5simulations_sample30.rds"))
+ml_mod5simulations_sample40 <- readRDS(here("simulations","sim_ml","ml_mod5simulations_sample40.rds"))
+
+# # then four other samples 10,20,30,40 for mod6
+ml_mod7simulations_sample10 <- readRDS(here("simulations","sim_ml","ml_mod7simulations_sample10.rds"))
+ml_mod7simulations_sample20 <- readRDS(here("simulations","sim_ml","ml_mod7simulations_sample20.rds"))
+ml_mod7simulations_sample30 <- readRDS(here("simulations","sim_ml","ml_mod7simulations_sample30.rds"))
+ml_mod7simulations_sample40 <- readRDS(here("simulations","sim_ml","ml_mod7simulations_sample40.rds"))
+
+# and those with wider sd's, not necessary for model 6
+
+# these ones are from sample 50
+ml_mod3simulations2_sd1.3 <- readRDS(here("simulations2_wider_sd","sim_ml","ml_mod3simulations2_sd1.3.rds"))
+ml_mod5simulations2_sd1.3 <- readRDS(here("simulations2_wider_sd","sim_ml","ml_mod5simulations2_sd1.3.rds"))
+
+# then four other samples 10,20,30,40 for mod3
+ml_mod3simulations2_sd1.3_sample10 <- readRDS(here("simulations2_wider_sd","sim_ml","ml_mod3simulations2_sd1.3_sample10.rds"))
+ml_mod3simulations2_sd1.3_sample20 <- readRDS(here("simulations2_wider_sd","sim_ml","ml_mod3simulations2_sd1.3_sample20.rds"))
+ml_mod3simulations2_sd1.3_sample30 <- readRDS(here("simulations2_wider_sd","sim_ml","ml_mod3simulations2_sd1.3_sample30.rds"))
+ml_mod3simulations2_sd1.3_sample40 <- readRDS(here("simulations2_wider_sd","sim_ml","ml_mod3simulations2_sd1.3_sample40.rds"))
+
+# # then four other samples 10,20,30,40 for mod4
+ml_mod5simulations2_sd1.3_sample10 <- readRDS(here("simulations2_wider_sd","sim_ml","ml_mod5simulations2_sd1.3_sample10.rds"))
+ml_mod5simulations2_sd1.3_sample20 <- readRDS(here("simulations2_wider_sd","sim_ml","ml_mod5simulations2_sd1.3_sample20.rds"))
+ml_mod5simulations2_sd1.3_sample30 <- readRDS(here("simulations2_wider_sd","sim_ml","ml_mod5simulations2_sd1.3_sample30.rds"))
+ml_mod5simulations2_sd1.3_sample40 <- readRDS(here("simulations2_wider_sd","sim_ml","ml_mod5simulations2_sd1.3_sample40.rds"))
+
+```
+
+
+```{r}
+sim_data_rcar_mod3 <- readRDS(here("simulations","sim_geo_data","sim_data_rcar_mod3.rds"))
+
+plotlist_mod3 <- list()
+sample_number <- c(50,40,30,20,10)
+
+for (i in 1:length(sample_number)) {
+  plotlist_mod3[[i]] <- ggplot() + 
+    geom_sf(data = sim_data_rcar_mod3, 
+            aes(fill = !!sym(paste0("X", sample_number[i])),
+                colour = !!sym(paste0("X", sample_number[i]))
+                )) + 
+    scale_fill_distiller(palette = "RdBu") + 
+    scale_colour_distiller(palette = "RdBu") + 
+    geom_sf(data = regions_small, colour = "black", fill = NA) + 
+    guides(fill = "none",
+           colour="none") + 
+    theme_void()
+  
+}
+
+row1 <- ggarrange(plotlist = plotlist_mod3, nrow = 1, ncol = 5) |> 
+  annotate_figure(top = text_grob("(a) Model 3: ICAR constant sd (= 0.7)", 
+                                  face = "bold", size = 11, hjust = 0, x = 0))
+
+```
+
+```{r}
+tbls_mod3 <- list(
+  ml_mod3simulations[1:3,],
+  ml_mod3simulations_sample40,
+  ml_mod3simulations_sample30,
+  ml_mod3simulations_sample20,
+  ml_mod3simulations_sample10
+)
+
+# model names have changed slightly...
+tbls_mod3 <- map(tbls_mod3, ~ .x %>%
+  mutate(model = case_when(
+    model == "6" ~ "7",
+    model == "5" ~ "6", 
+    model == "4" ~ "5",
+    model == "BYM2" ~ "4",
+    TRUE ~ model  # keeps any other values unchanged
+  ))
+)
+
+# function to convert a data frame to a plain table plot
+as_plain_table_plot <- function(df, fontsize = 8.5) {
+  tg <- tableGrob(df, rows = NULL)
+
+  # styles to each grob
+  tg$grobs <- lapply(seq_along(tg$grobs), function(i) {
+    g <- tg$grobs[[i]]
+    name <- tg$layout$name[i]
+
+    if (inherits(g, "rect")) {
+      g$gp <- gpar(fill = NA, col = NA)  # no background or borders
+    }
+
+    if (inherits(g, "text")) {
+      if (grepl("^colhead", name)) {
+        g$gp <- gpar(fontface = "bold", fontsize = fontsize)
+      } else {
+        g$gp <- gpar(fontface = "plain", fontsize = fontsize)
+      }
+    }
+
+    g
+  })
+
+  # row heights proportional to font size
+  n_rows <- nrow(df) + 1  # +1 for header row
+  tg$heights <- unit(rep(1, n_rows), "lines") * (fontsize / 11)
+
+  as.ggplot(tg)
+}
+
+# convert tables to grob-based plots
+table_grobs <- lapply(tbls_mod3, as_plain_table_plot)
+
+row2 <- ggarrange(plotlist = table_grobs, nrow = 1, ncol = 5, align = "hv")
+
+```
+
+```{r}
+sim_data_rcar_region_mod5 <- readRDS(here("simulations","sim_geo_data","sim_data_rcar_region_mod5.rds"))
+
+plotlist_mod5 <- list()
+sample_number <- c(50,40,30,20,10)
+
+for (i in 1:length(sample_number)) {
+  plotlist_mod5[[i]] <- ggplot() + 
+    geom_sf(data = sim_data_rcar_region_mod5,  
+            aes(fill = !!sym(paste0("X", sample_number[i])),
+                colour = !!sym(paste0("X", sample_number[i]))
+                )) + 
+    scale_fill_distiller(palette = "RdBu") + 
+    scale_colour_distiller(palette = "RdBu") + 
+    geom_sf(data = regions_small, colour = "black", linewidth=0.3, fill = NA) + 
+    guides(fill = "none",
+           colour="none") + 
+    theme_void()
+  
+}
+
+row3 <- ggarrange(plotlist = plotlist_mod5, nrow = 1, ncol = 5) |> 
+  annotate_figure(top = text_grob("(b) Model 5: ICAR constant sd (= 0.7) + region effects", 
+                                  face = "bold", size = 11, hjust = 0, x = 0))
+
+```
+
+```{r}
+tbls_mod5 <- list(
+  ml_mod5simulations[1:3,],
+  ml_mod5simulations_sample40,
+  ml_mod5simulations_sample30,
+  ml_mod5simulations_sample20,
+  ml_mod5simulations_sample10
+)
+
+# model names have changed slightly...
+tbls_mod5 <- map(tbls_mod5, ~ .x %>%
+  mutate(model = case_when(
+    model == "6" ~ "7",
+    model == "5" ~ "6", 
+    model == "4" ~ "5",
+    model == "BYM2" ~ "4",
+    TRUE ~ model  # keeps any other values unchanged
+  ))
+)
+
+table_grobs <- lapply(tbls_mod5, function(df) {
+  as.ggplot(as_plain_table_plot(df))
+})
+
+row4 <- ggarrange(plotlist = table_grobs, nrow = 1, ncol = 5)
+
+```
+
+
+```{r}
+sim_data_rcar_mod7 <- readRDS(here("simulations","sim_geo_data","sim_data_rcar_mod7.rds"))
+
+plotlist_mod7 <- list()
+sample_number <- c(50,40,30,20,10)
+
+for (i in 1:length(sample_number)) {
+  plotlist_mod7[[i]] <- ggplot() + 
+    geom_sf(data = sim_data_rcar_mod7,  
+            aes(fill = !!sym(paste0("X", sample_number[i])),
+                colour = !!sym(paste0("X", sample_number[i]))
+            )) +  
+    scale_fill_distiller(palette = "RdBu") + 
+    scale_colour_distiller(palette = "RdBu") + 
+    geom_sf(data = regions_small, colour = "black", linewidth=0.3, fill = NA) + 
+    guides(fill = "none",
+           colour="none") + 
+    theme_void()
+}
+
+row5 <- ggarrange(plotlist = plotlist_mod7, 
+                  nrow = 1, ncol = 5) |> 
+  annotate_figure(top = text_grob("(c) Model 7: ICAR with sd varying by region", 
+                                  face = "bold", size = 11, hjust = 0, x = 0))
+
+```
+
+```{r}
+tbls_mod7 <- list(
+  ml_mod7simulations[1:3,],
+  ml_mod7simulations_sample40,
+  ml_mod7simulations_sample30,
+  ml_mod7simulations_sample20,
+  ml_mod7simulations_sample10
+)
+
+# model names have changed slightly...
+tbls_mod7 <- map(tbls_mod7, ~ .x %>%
+  mutate(model = case_when(
+    model == "6" ~ "7",
+    model == "5" ~ "6", 
+    model == "4" ~ "5",
+    model == "BYM2" ~ "4",
+    TRUE ~ model  # keeps any other values unchanged
+  ))
+)
+
+table_grobs <- lapply(tbls_mod7, function(df) {
+  as.ggplot(as_plain_table_plot(df))
+})
+
+row6 <- ggarrange(plotlist = table_grobs, nrow = 1, ncol = 5)
+
+```
+
+
+```{r, narrowsds, fig.width=10, fig.height=8.7, fig.cap="Each row consists of five random samples of data with a known spatial association. The first row are ICAR, the second are ICAR with an additional region effect, the third are ICAR with standard deviation varying by region. In all cases, the use of marginal likelihoods identifies the correct underlying spatial structure as the most plausible.", out.width="90%", fig.align="center"}
+blank_plot <- ggplot() + theme_void()
+
+final_plot_sd0.7 <- ggarrange(row1, row2, blank_plot, 
+                        row3, row4, blank_plot,
+                        row5, row6, 
+                        nrow = 8, heights = c(2, 0.7, 0.2, 2, 0.7, 0.2, 2, 0.7))
+
+final_plot_sd0.7
+
+```
+
+
+```{r}
+sim_data_rcar_mod3_sd1.3 <- readRDS(here("simulations2_wider_sd","sim_geo_data_sd1.3","sim_data_rcar_mod3_sd1.3.rds"))
+
+plotlist_mod3 <- list()
+sample_number <- c(50,40,30,20,10)
+
+for (i in 1:length(sample_number)) {
+  plotlist_mod3[[i]] <- ggplot() + 
+    geom_sf(data = sim_data_rcar_mod3_sd1.3,  
+            aes(fill = !!sym(paste0("X", sample_number[i])),
+                colour = !!sym(paste0("X", sample_number[i]))
+                )) + 
+    scale_fill_distiller(palette = "RdBu") + 
+    scale_colour_distiller(palette = "RdBu") + 
+    geom_sf(data = regions_small, colour = "black", fill = NA) + 
+    guides(fill = "none",
+           colour="none") + 
+    theme_void()
+  
+}
+
+row1 <- ggarrange(plotlist = plotlist_mod3, nrow = 1, ncol = 5) |> 
+  annotate_figure(top = text_grob("(a) Model 3: ICAR constant sd (= 1.3)", 
+                                  face = "bold", size = 11, hjust = 0, x = 0))
+
+```
+
+```{r}
+tbls_mod3 <- list(
+  ml_mod3simulations2_sd1.3[1:3,],
+  ml_mod3simulations2_sd1.3_sample40,
+  ml_mod3simulations2_sd1.3_sample30,
+  ml_mod3simulations2_sd1.3_sample20,
+  ml_mod3simulations2_sd1.3_sample10
+)
+
+# model names have changed slightly...
+tbls_mod3 <- map(tbls_mod3, ~ .x %>%
+  mutate(model = case_when(
+    model == "6" ~ "7",
+    model == "5" ~ "6", 
+    model == "4" ~ "5",
+    model == "BYM2" ~ "4",
+    TRUE ~ model  # keeps any other values unchanged
+  ))
+)
+
+# convert tables to grob-based plots
+table_grobs <- lapply(tbls_mod3, as_plain_table_plot)
+
+row2 <- ggarrange(plotlist = table_grobs, nrow = 1, ncol = 5, align = "hv")
+
+```
+
+```{r}
+sim_data_rcar_region_mod5_sd1.3 <- readRDS(here("simulations2_wider_sd","sim_geo_data_sd1.3","sim_data_rcar_region_mod5_sd1.3.rds"))
+
+plotlist_mod5 <- list()
+sample_number <- c(50,40,30,20,10)
+
+for (i in 1:length(sample_number)) {
+  plotlist_mod5[[i]] <- ggplot() + 
+    geom_sf(data = sim_data_rcar_region_mod5_sd1.3,  
+            aes(fill = !!sym(paste0("X", sample_number[i])),
+                colour = !!sym(paste0("X", sample_number[i]))
+            )) + 
+    scale_fill_distiller(palette = "RdBu") + 
+    scale_colour_distiller(palette = "RdBu") + 
+    geom_sf(data = regions_small, colour = "black", linewidth=0.3, fill = NA) + 
+    guides(fill = "none",
+           colour="none") + 
+    theme_void()
+}
+
+row3 <- ggarrange(plotlist = plotlist_mod5, nrow = 1, ncol = 5) |> 
+  annotate_figure(top = text_grob("(b) Model 5: ICAR constant sd (= 1.3) + region effects", 
+                                  face = "bold", size = 11, hjust = 0, x = 0))
+
+```
+
+```{r}
+tbls_mod5 <- list(
+  ml_mod5simulations2_sd1.3[1:3,],
+  ml_mod5simulations2_sd1.3_sample40,
+  ml_mod5simulations2_sd1.3_sample30,
+  ml_mod5simulations2_sd1.3_sample20,
+  ml_mod5simulations2_sd1.3_sample10
+)
+
+# model names have changed slightly...
+tbls_mod5 <- map(tbls_mod5, ~ .x %>%
+  mutate(model = case_when(
+    model == "6" ~ "7",
+    model == "5" ~ "6", 
+    model == "4" ~ "5",
+    model == "BYM2" ~ "4",
+    TRUE ~ model  # keeps any other values unchanged
+  ))
+)
+
+table_grobs <- lapply(tbls_mod5, function(df) {
+  as.ggplot(as_plain_table_plot(df))
+})
+
+row4 <- ggarrange(plotlist = table_grobs, nrow = 1, ncol = 5)
+
+```
+
+
+```{r, widesds, fig.width=10, fig.height=5.8, fig.cap="Each row consists of five random samples of data with a known spatial association. The first row are ICAR, the second are ICAR with an additional region effect. These samples have a larger standard deviation of 1.3 meaning there is less spatial cohesion than in the previous example. In almost all cases, the use of marginal likelihoods identifies the correct underlying spatial structure as the most plausible.", out.width="90%", fig.align="center"}
+final_plot_sd1.3 <- ggarrange(row1, row2, blank_plot, row3, row4,
+                        nrow = 5, heights = c(2, 0.7, 0.2, 2, 0.7))
+
+final_plot_sd1.3
+
+```
+
+# Results
+
+## Model comparison
+
+For each party, we evaluate eight competing models, each representing a different probabilistic structure that could have generated the observed voting data. We compute the log marginal likelihood of each model using bridge sampling. These marginal likelihoods can also be expressed as Bayes factors, enabling evidence-based comparison between models.
+
+A Bayes factor compares the likelihood of the observed data under two competing models. Specifically, the Bayes factor for Model 1 relative to Model 2 quantifies how much more likely the data are under Model 1 than under Model 2. Values greater than 1 indicate evidence in favour of Model 1, while values less than 1 support Model 2. The magnitude of the Bayes factor reflects the strength of this evidence. We interpret these values using the scale proposed by @Lee2014 (an update to the original guidelines of @jeffreys1939) as shown in Table \ref{tab:tablewagenmakers}.
+
+```{r}
+tabdf4 <- data.frame(
+  first = c("$> 0, < 1$",
+            "$\\geq 1, < 3$",
+            "$\\geq 3, < 10$",
+            "$\\geq 10, < 30$",
+            "$\\geq 30, < 100$",
+            "$\\geq 100$"),
+  second = c("negative",
+             "anecdotal",
+             "moderate",
+             "strong",
+             "very strong",
+             "extreme")
+)
+colnames(tabdf4) <- c("Bayes Factor Range", "Evidence Supporting One Model Over Another")
+
+tabdf4 |> 
+  kbl(caption = "Lee and Wagenmakers' interpretation of Bayes factors, quantifying how much more likely data are under one model compared to another.", 
+      table.envir = "table*", label = "tablewagenmakers", format = "latex", escape = FALSE) |> 
+  kable_classic(font_size = 8) |> 
+  kable_styling(full_width = FALSE)
+
+```
+
+Table \ref{tab:tablik} shows the results of comparing the merits of the eight potential models for each of the four parties using this classification structure. The models are ranked for each party according to decreasing log marginal likelihood. Bayes factors are shown comparing each model to the model immediately below it. Because they have been ranked, Bayes factor values of less than 1 do not occur. For all sets of models in Table \ref{tab:tablik}, the most plausible is Model 7, with an ICAR component whose standard deviation is allowed to vary by region. The evidence in favour of this model over its closest competitor is in each case classified as \textit{extreme}. With some minor exceptions, the order of preference of models is consistent across parties.
+
+```{r}
+# read in all marginal log likelihoods
+directory_path <- here("margloglik")
+
+# all files in the directory
+file_names <- list.files(directory_path, full.names = TRUE)
+
+# initialize a list to store the results
+results <- list()
+
+# loop over each file, read the list, and extract $logml
+for (file in file_names) {
+  list_data <- readRDS(file)
+  
+  # Extract $logml and store it along with file name
+  results[[file]] <- list(
+    file_name = basename(file),  # get just file name (not full path)
+    logml = list_data$logml      # extract $logml component
+  )
+}
+
+results_df <- do.call(rbind, lapply(results, as.data.frame)) |> 
+  rename(model = file_name) |> 
+  mutate(model = str_remove_all(model, "margloglik_")) |> 
+  separate(model, into = c("model", "party"), sep = "_") |> 
+  mutate(model = str_remove_all(model, "mod")) |> 
+  mutate(model = case_when(model == "0" ~ "non-spatial", 
+                           # model == "bym2" ~ "4", 
+                           # model == "4" ~ "5", 
+                           # model == "5" ~ "6", 
+                           # model == "6" ~ "7", 
+                           TRUE ~ model)) |> 
+  mutate(constituency = case_when(
+    model == "non-spatial" ~ "---",
+    model == "1" ~ "---",
+    model == "2" ~ "---",
+    model == "3" ~ "ICAR",
+    model == "4" ~ "BYM2",
+    model == "5" ~ "ICAR",
+    model == "6" ~ "ICAR",
+    model == "7" ~ "ICAR")) |> 
+  mutate(region = case_when(
+    model == "non-spatial" ~ "---",
+    model == "1" ~ "independent distributions",
+    model == "2" ~ "common distribution",
+    model == "3" ~ "---",
+    model == "4" ~ "---",
+    model == "5" ~ "independent distributions",
+    model == "6" ~ "common distribution",
+    model == "7" ~ "varying ICAR sd")) |> 
+  mutate(party = str_remove(party, "\\.rds$")) |> 
+  rename(`constituency level effects` = constituency,
+         `region level effects` = region)
+row.names(results_df) <- NULL
+
+```
+
+```{r}
+# Make separate df for each party, ordered by logml ascending
+
+# con
+con_lik <- results_df |> 
+  filter(party == "con") |> 
+  arrange(desc(logml)) |> 
+  mutate(temp = lead(logml),
+         log_bayes_factor = signif(logml - temp,2)) |>
+  mutate(bayes_factor = signif(exp(log_bayes_factor),2)) |> 
+  select(-temp) |> 
+  # Lee and Wagenmakers's scale (2014)
+  mutate(evidence = case_when(
+    bayes_factor >= 1 & bayes_factor < 3 ~ "anecdotal",
+    bayes_factor >= 3 & bayes_factor < 10 ~ "moderate",
+    bayes_factor >= 10 & bayes_factor < 30 ~ "strong",
+    bayes_factor >= 30 & bayes_factor < 100 ~ "very strong",
+    bayes_factor >= 100 ~ "extreme",
+    TRUE ~ NA_character_  # catch any unexpected values
+  ))
+
+con_lik$bayes_factor <- ifelse(
+  abs(con_lik$bayes_factor) > 1e+6,  
+  "$>$1e+6",
+  con_lik$bayes_factor
+)
+con_lik[is.na(con_lik)] <- "---"
+con_lik <- con_lik |> 
+  rename(`log marg lik` = logml, 
+         `bayes factor` = bayes_factor,
+         `log bayes factor` = log_bayes_factor) |> 
+  select(model, `constituency level effects`, `region level effects`, everything(), -party)
+
+# lab
+lab_lik <- results_df |> 
+  filter(party == "lab") |> 
+  arrange(desc(logml)) |> 
+  mutate(temp = lead(logml),
+         log_bayes_factor = signif(logml - temp,2)) |>
+  mutate(bayes_factor = signif(exp(log_bayes_factor),2)) |> 
+  select(-temp) |> 
+  # Lee and Wagenmakers's scale (2014)
+  mutate(evidence = case_when(
+    bayes_factor >= 1 & bayes_factor < 3 ~ "anecdotal",
+    bayes_factor >= 3 & bayes_factor < 10 ~ "moderate",
+    bayes_factor >= 10 & bayes_factor < 30 ~ "strong",
+    bayes_factor >= 30 & bayes_factor < 100 ~ "very strong",
+    bayes_factor >= 100 ~ "extreme",
+    TRUE ~ NA_character_  # catch any unexpected values
+  ))
+
+lab_lik$bayes_factor <- ifelse(
+  abs(lab_lik$bayes_factor) > 1e+6,  
+  "$>$1e+6",
+  lab_lik$bayes_factor
+)
+lab_lik[is.na(lab_lik)] <- "---"
+lab_lik <- lab_lik |> 
+  rename(`log marg lik` = logml, 
+         `bayes factor` = bayes_factor,
+         `log bayes factor` = log_bayes_factor) |> 
+  select(model, `constituency level effects`, `region level effects`, everything(), -party)
+
+# libdem
+ld_lik <- results_df |> 
+  filter(party == "ld") |> 
+  arrange(desc(logml)) |> 
+  mutate(temp = lead(logml),
+         log_bayes_factor = signif(logml - temp,2)) |>
+  mutate(bayes_factor = signif(exp(log_bayes_factor),2)) |> 
+  select(-temp) |> 
+  # Lee and Wagenmakers's scale (2014)
+  mutate(evidence = case_when(
+    bayes_factor >= 1 & bayes_factor < 3 ~ "anecdotal",
+    bayes_factor >= 3 & bayes_factor < 10 ~ "moderate",
+    bayes_factor >= 10 & bayes_factor < 30 ~ "strong",
+    bayes_factor >= 30 & bayes_factor < 100 ~ "very strong",
+    bayes_factor >= 100 ~ "extreme",
+    TRUE ~ NA_character_  # catch any unexpected values
+  ))
+
+ld_lik$bayes_factor <- ifelse(
+  abs(ld_lik$bayes_factor) > 1e+6,  
+  "$>$1e+6",
+  ld_lik$bayes_factor
+)
+ld_lik[is.na(ld_lik)] <- "---"
+ld_lik <- ld_lik |> 
+  rename(`log marg lik` = logml, 
+         `bayes factor` = bayes_factor,
+         `log bayes factor` = log_bayes_factor) |> 
+  select(model, `constituency level effects`, `region level effects`, everything(), -party)
+
+# reform
+ruk_lik <- results_df |> 
+  filter(party == "ruk") |> 
+  arrange(desc(logml)) |> 
+  mutate(temp = lead(logml),
+         log_bayes_factor = signif(logml - temp,2)) |>
+  mutate(bayes_factor = signif(exp(log_bayes_factor),2)) |> 
+  select(-temp) |> 
+  # Lee and Wagenmakers's scale (2014)
+  mutate(evidence = case_when(
+    bayes_factor >= 1 & bayes_factor < 3 ~ "anecdotal",
+    bayes_factor >= 3 & bayes_factor < 10 ~ "moderate",
+    bayes_factor >= 10 & bayes_factor < 30 ~ "strong",
+    bayes_factor >= 30 & bayes_factor < 100 ~ "very strong",
+    bayes_factor >= 100 ~ "extreme",
+    TRUE ~ NA_character_  # catch any unexpected values
+  ))
+
+ruk_lik$bayes_factor <- ifelse(
+  abs(ruk_lik$bayes_factor) > 1e+6,  
+  "$>$1e+6",
+  ruk_lik$bayes_factor
+)
+ruk_lik[is.na(ruk_lik)] <- "---"
+ruk_lik <- ruk_lik |> 
+  rename(`log marg lik` = logml, 
+         `bayes factor` = bayes_factor,
+         `log bayes factor` = log_bayes_factor) |> 
+  select(model, `constituency level effects`, `region level effects`, everything(), -party)
+
+```
+
+```{r}
+tab_comparison <- rbind(con_lik,lab_lik,ruk_lik,ld_lik)
+colnames(tab_comparison) <- c("Model", "Constituency Level Effects", "Region Level Effects", "Log Marginal Likelihood", "Log Bayes Factor", "Bayes Factor", "Evidence")
+
+tab_comparison |> 
+  kbl(caption = "Comparison of models across parties, ranked by decreasing log marginal likelihood, alongside the degree of evidence for model improvement provided by Bayes factor comparison with the model immediately below it. The sequence is generally the same for each party with Model 7 being the most plausible.", 
+      booktabs = TRUE, linesep = "", escape = FALSE, format = "latex", 
+      align = c("c","l","l","r","l","l","l"), table.envir = "table*", label = "tablik") |> 
+  kable_classic(font_size = 8) |> 
+  pack_rows(index = c("Conservative" = 8,
+                      "Labour" = 8,
+                      "Reform UK" = 8,
+                      "Liberal Democrat" = 8),
+            hline_before = TRUE) |> 
+  # column_spec(1, width = "1.8cm") |> 
+  # column_spec(2, width = "2.6cm") |> 
+  # column_spec(3, width = "3.8cm") |> 
+  # column_spec(5, width = "1.4cm") |> 
+  # column_spec(6, width = "1.4cm")
+  column_spec(1, width = "2.1cm") |> 
+  column_spec(2, width = "2.5cm") |> 
+  column_spec(3, width = "4cm") |> 
+  column_spec(4, width = "2.5cm") |> 
+  column_spec(5, width = "1.4cm") |> 
+  column_spec(6, width = "1.4cm")
+
+```
+
+## Covariate estimates from optimal models
+
+Having established which of our competing models is most appropriate for each of the parties, we can examine the posterior distributions of some parameters from the most favoured models for each party. All of these distributions are from Model 7. Looking at the socio-economic components (Figure \ref{fig:figsocecposts}), we can see differences in directions of association for each party. The proportion of people with a *degree* is negatively associated with Reform votes, while the association is positive for the Conservatives and Liberal Democrats. The opposite is the case for *health not good*, having a suggestion of positive association with Reform votes and negative for Conservatives and Liberal Democrats. The proportion of a constituency of *white* ethnicity is most strongly positively associated with Reform votes, but is also positive for Labour.
+
+```{r}
+# read in most plausible model for each party
+mod7_con <- readRDS(here("models","mod7_con.rds"))
+mod7_lab <- readRDS(here("models","mod7_lab.rds"))
+mod7_ld <- readRDS(here("models","mod7_ld.rds"))
+mod7_ruk <- readRDS(here("models","mod7_ruk.rds"))
+
+```
+
+```{r}
+# con mod7 brms
+draws_con <- as_draws_df(mod7_con)
+modmat <- model.matrix(con24 ~
+                         first_party19 + second_party19comp * majority_prop_scale +
+                         degree_scale + notgoodhealth_scale + white_scale, 
+                       data=dfnbcon)
+names(draws_con)[1:(ncol(modmat)-1)] <- colnames(modmat)[2:ncol(modmat)]
+draws_con <- draws_con |> 
+  select(degree_scale, notgoodhealth_scale, white_scale, first_party19lab, first_party19ld, first_party19other) |> 
+  mutate(party = "con")
+
+# lab mod7 brms
+draws_lab <- as_draws_df(mod7_lab)
+modmat <- model.matrix(lab24 ~
+                         first_party19 + second_party19comp * majority_prop_scale +
+                         degree_scale + notgoodhealth_scale + white_scale, 
+                       data=dfnblab)
+names(draws_lab)[1:(ncol(modmat)-1)] <- colnames(modmat)[2:ncol(modmat)]
+draws_lab <- draws_lab |> 
+  select(degree_scale, notgoodhealth_scale, white_scale, first_party19con, first_party19ld, first_party19other) |> 
+  mutate(party = "lab")
+
+# libdem mod4 brms
+draws_ld <- as_draws_df(mod7_ld)
+modmat <- model.matrix(ld24 ~
+                         first_party19 + second_party19comp * majority_prop_scale +
+                         degree_scale + notgoodhealth_scale + white_scale, 
+                       data=dfnbld)
+names(draws_ld)[1:(ncol(modmat)-1)] <- colnames(modmat)[2:ncol(modmat)]
+draws_ld <- draws_ld |> 
+  select(degree_scale, notgoodhealth_scale, white_scale, first_party19con, first_party19lab, first_party19other) |> 
+  mutate(party = "ld")
+
+# ruk mod7 brms
+draws_ruk <- as_draws_df(mod7_ruk)
+modmat <- model.matrix(ruk24 ~
+                         first_party19 + second_party19comp * majority_prop_scale +
+                         degree_scale + notgoodhealth_scale + white_scale, 
+                       data=dfnbruk)
+names(draws_ruk)[1:(ncol(modmat)-1)] <- colnames(modmat)[2:ncol(modmat)]
+draws_ruk <- draws_ruk |> 
+  select(degree_scale, notgoodhealth_scale, white_scale, first_party19ld, first_party19con, first_party19other) |>  
+  mutate(party = "ruk")
+
+draws <-
+  bind_rows(
+    draws_con,
+    draws_lab,
+    draws_ld,
+    draws_ruk
+  )
+
+```
+
+```{r}
+draws_covariates <- draws |> 
+  mutate(party = c(
+    rep("con", nrow(draws_con)),
+    rep("lab", nrow(draws_lab)),
+    rep("ld", nrow(draws_ld)),
+    rep("ruk", nrow(draws_ruk))
+  )) |> 
+  gather(key, value, -party) |> 
+  mutate(key = factor(key,
+                      levels = c("degree_scale","notgoodhealth_scale","white_scale", 
+                                 "first_party19con", "first_party19lab", 
+                                 "first_party19ld", "first_party19other")))
+
+```
+
+```{r, figsocecposts, fig.width=8, fig.height=2.5, out.width="85%", fig.align='center', fig.cap="Posterior distributions of coefficients for socio-economic variables from Model 7 for Conservatives, Labour, Liberal Democrats and Reform."}
+draws_covariates |> 
+  filter(key %in% c("degree_scale", "notgoodhealth_scale", "white_scale")) |> 
+  mutate(key = case_when(key == "degree_scale" ~ "degree",
+                         key == "notgoodhealth_scale" ~ "health not good",
+                         TRUE ~ "white")) |> 
+  mutate(party = factor(party,
+                        levels = c("ruk","ld","lab","con")),
+         party = fct_recode(party,
+                         "Reform UK" = "ruk",
+                         "Liberal Democrat" = "ld", 
+                         "Labour" = "lab",
+                         "Conservative" = "con")) |> 
+  drop_na(value) |> 
+  ggplot(aes(x = value, y = party, colour=party)) +
+  scale_colour_manual(values=custom_palette2) + 
+  geom_vline(xintercept = 0) + 
+  stat_halfeye(size=1) +
+  labs(x = "posterior distribution of coefficient",
+       y = "party") + 
+  facet_wrap(~key, nrow = 1, 
+             # labeller = label_parsed, 
+             scales = "free_x") + 
+  # guides(color = guide_legend(reverse = TRUE)) + 
+  guides(color = "none") + 
+  theme_minimal() +
+  theme(strip.background = element_rect(fill = "white"),
+        strip.text = element_text(size = 8, hjust = 0.5, face = "bold"),
+        axis.title = element_text(size = 8, hjust = 0.5, face = "bold"),
+        axis.text.y = element_text(size = 8, face = "bold"),
+        plot.margin = margin(t = 5, r = 5, b = 10, l = 5),
+        axis.title.x = element_text(margin = margin(t = 10))
+  )
+
+```
+
+The associations of votes in 2024 with the winning party from 2019, and also with the second placed party, the majority, and their interaction are treated in this example as nuisance variables for control purposes. Interpretation of their posterior distributions is complicated because of their calibration with different relative baselines. For this reason, they are not examined here.
+
+
+## Spatial estimates from optimal models
+
+Moving to the spatial components, the mean posterior values of the ICAR component (which have regionally varying $\sigma_k$) are shown as maps (a-d) in row 1 of Figure \ref{fig:figspatialposts}. Differences in the degree of smoothness are clearly visible such as in the South West region for Labour, where strongly negative and positive values occur contiguously.
+
+The second row (e-h) shows the mean posterior of the varying standard deviations mapped by region. These varying levels of spatial cohesion have been split into quintiles. These are quintiles of mean values of all parties in all regions. At the lower end of the scale, we have quintiles 1 and 2 in blue, which are 'most' and 'somewhat' cohesive respectively. Areas close to median spatial cohesion ('moderate') are shown in white, with more extreme values ('less' or 'least' cohesive) shown in orange. 
+
+Much of the Conservative vote pattern lies within the 'moderate' cohesion category. Exceptions to this are across southern regions where it is more cohesive and in Yorkshire and the Humber where neighbouring constituencies are not similar to the neighbours in terms of voting Conservative. Labour only shows 'moderate' levels of cohesion in London. Its cohesion pattern is split largely along a north-south divide with neighbouring constituencies showing similar behaviour in the north as opposed to the south.
+
+The mean posterior ICAR $\sigma_k$ values for the Liberal Democrats are all in the higher categories. Those of Reform UK, on the other hand, are all below the median level (with the exception of London), with most in fact falling into the category of 'most' cohesive. This is consistent with the notion of that party having a relatively consistent widespread level of support, although not quite to the extent where the first-past-the-post system would benefit them.
+
+Plots (i)-(l) on row 3 focus on the 95% credible intervals rather than the means of the posterior $\sigma_k$ values, and place their ranges within the context of the overall quintile levels. These plots tell a similar story, showing not only higher values of $\sigma_k$ for Liberal Democrat voters, but a greater degree of uncertainty as to their value.
+
+The results of this model comparison, which show strong evidence of differences in the level of spatial cohesion of voting patterns for different parties, clearly raises the question of why this would be the case. We could hypothesise that it is connected to unaccounted-for strategic voting, regional organisation, identity, urban versus rural constituencies, or other factors. There is, however, no evidence for any of this in the data. Further research would be required to rigorously investigate this.
+
+
+```{r}
+# get sdcar posteriors for each party
+
+# con
+summary_mod7_con <- summary(mod7_con)$summary |> 
+  data.frame() |> 
+  rownames_to_column("par")
+
+modmat <- model.matrix(con24 ~
+                         first_party19 + second_party19comp * majority_prop_scale +
+                         degree_scale + notgoodhealth_scale + white_scale, 
+                       data=dfnbcon)
+summary_mod7_con$par[1:(ncol(modmat)-1)] <- colnames(modmat)[2:ncol(modmat)]
+summary_mod7_con$par[str_detect(summary_mod7_con$par, "sdcar")] <- paste0("sdcar_", levels(dfnbcon$region_name))
+
+# lab
+summary_mod7_lab <- summary(mod7_lab)$summary |> 
+  data.frame() |> 
+  rownames_to_column("par")
+
+modmat <- model.matrix(lab24 ~
+                         first_party19 + second_party19comp * majority_prop_scale +
+                         degree_scale + notgoodhealth_scale + white_scale, 
+                       data=dfnblab)
+summary_mod7_lab$par[1:(ncol(modmat)-1)] <- colnames(modmat)[2:ncol(modmat)]
+summary_mod7_lab$par[str_detect(summary_mod7_lab$par, "sdcar")] <- paste0("sdcar_", levels(dfnblab$region_name))
+
+# ld
+summary_mod7_ld <- summary(mod7_ld)$summary |> 
+  data.frame() |> 
+  rownames_to_column("par")
+
+modmat <- model.matrix(ld24 ~
+                         first_party19 + second_party19comp * majority_prop_scale +
+                         degree_scale + notgoodhealth_scale + white_scale, 
+                       data=dfnbld)
+summary_mod7_ld$par[1:(ncol(modmat)-1)] <- colnames(modmat)[2:ncol(modmat)]
+summary_mod7_ld$par[str_detect(summary_mod7_ld$par, "sdcar")] <- paste0("sdcar_", levels(dfnbld$region_name))
+
+# ruk
+summary_mod7_ruk <- summary(mod7_ruk)$summary |> 
+  data.frame() |> 
+  rownames_to_column("par")
+
+modmat <- model.matrix(ruk24 ~
+                         first_party19 + second_party19comp * majority_prop_scale +
+                         degree_scale + notgoodhealth_scale + white_scale, 
+                       data=dfnbruk)
+summary_mod7_ruk$par[1:(ncol(modmat)-1)] <- colnames(modmat)[2:ncol(modmat)]
+summary_mod7_ruk$par[str_detect(summary_mod7_ruk$par, "sdcar")] <- paste0("sdcar_", levels(dfnbruk$region_name))
+
+
+mapicar_con <- summary_mod7_con |> 
+  filter(str_detect(par, "rcar")) |> 
+  cbind(dfnbcon$geometry) |> 
+  st_as_sf()
+
+mapicar_lab <- summary_mod7_lab |> 
+  filter(str_detect(par, "rcar")) |> 
+  cbind(dfnblab$geometry) |> 
+  st_as_sf()
+
+mapicar_ld <- summary_mod7_ld |> 
+  filter(str_detect(par, "rcar")) |> 
+  cbind(dfnbld$geometry) |> 
+  st_as_sf()
+
+mapicar_ruk <- summary_mod7_ruk |> 
+  filter(str_detect(par, "rcar")) |> 
+  cbind(dfnbruk$geometry) |> 
+  st_as_sf()
+
+```
+
+```{r}
+icarsd_df <- rbind(
+  summary_mod7_con |> filter(str_detect(par, "sdcar")),
+  summary_mod7_lab |> filter(str_detect(par, "sdcar")),
+  summary_mod7_ld |> filter(str_detect(par, "sdcar")),
+  summary_mod7_ruk |> filter(str_detect(par, "sdcar"))
+) |> 
+  mutate(party = c(rep("con",9),
+                   rep("lab",9),
+                   rep("ld",9),
+                   rep("ruk",9))) |> 
+  mutate(reg_name = str_extract(par, "(?<=sdcar_).*")) |> 
+  mutate(reg_name = case_when(reg_name == "Yorkshire and The Humber" ~ "Yorkshire and the Humber",
+                              TRUE ~ reg_name)) |> 
+  left_join(regions) |> 
+  st_as_sf()
+
+```
+
+```{r, fig.width=12, fig.height=5}
+icarsd_df_temp <- icarsd_df |> 
+  mutate(reg_name = case_when(reg_name == "South West" ~ "SW",
+                              reg_name == "South East" ~ "SE",
+                              reg_name == "London" ~ "Lon",
+                              reg_name == "East of England" ~ "East",
+                              reg_name == "West Midlands" ~ "WM",
+                              reg_name == "East Midlands" ~ "EM",
+                              reg_name == "Yorkshire and the Humber" ~ "Y&H",
+                              reg_name == "North West" ~ "NW",
+                              reg_name == "North East" ~ "NE"
+                              )) |> 
+  mutate(reg_name = factor(reg_name,
+                                levels = c(
+                                  "SW",
+                                  "SE",
+                                  "Lon",
+                                  "East",
+                                  "WM",
+                                  "EM",
+                                  "Y&H",
+                                  "NW",
+                                  "NE"
+                                )))
+
+```
+
+```{r, fig.width=12, fig.height=5}
+#  define quintile breaks and levels
+quintile_levels <- c(
+  "Q1 (most cohesive)",
+  "Q2 (somewhat cohesive)",
+  "Q3 (moderate cohesion)",
+  "Q4 (less cohesive)",
+  "Q5 (least cohesive)"
+)
+
+mean_quintile_breaks <- quantile(icarsd_df_temp$mean, probs = seq(0, 1, 0.2), na.rm = TRUE)
+
+quintile_colors <- c(
+  "Q1 (most cohesive)" = "#6baed6",
+  "Q2 (somewhat cohesive)" = "#c6dbef",
+  "Q3 (moderate cohesion)" = "white",
+  "Q4 (less cohesive)" = "#fd8d3c",
+  "Q5 (least cohesive)" = "#e6550d"
+)
+
+# create background data with adjusted bounds to extend to zero and max
+quintile_bg <- data.frame(
+  xmin = c(0, mean_quintile_breaks[2:5]),
+  xmax = c(mean_quintile_breaks[2:5], max(icarsd_df_temp$X97.5., na.rm = TRUE)),
+  quintile = quintile_levels
+)
+
+region_levels <- levels(icarsd_df_temp$reg_name)
+
+icarsd_df_temp <- icarsd_df_temp |>
+  mutate(reg_name = factor(reg_name, levels = region_levels)) |>
+  arrange(reg_name) |>
+  mutate(y_pos = as.numeric(reg_name))
+
+# for the top axis, place labels at the midpoints of each quintile interval:
+# Original breaks (5 quintile edges)
+breaks <- mean_quintile_breaks
+
+# shift Q1 midpoint a bit right of 0
+q1_mid <- breaks[1] + 0.1 * (breaks[2] - breaks[1])
+
+# shift Q5 midpoint a bit left of max
+q5_mid <- breaks[5] + 0.9 * (breaks[6] - breaks[5])
+
+# midpoints for Q2-Q4 (usual midpoints)
+midpoints <- (breaks[-length(breaks)] + breaks[-1]) / 2
+
+top_axis_positions <- c(q1_mid, midpoints[2:4], q5_mid)
+
+plot_party <- function(party_name) {
+  party_long <- case_when(
+    party_name == "con" ~ "Conservative",
+    party_name == "lab" ~ "Labour",
+    party_name == "ld"  ~ "Liberal Democrat",
+    party_name == "ruk" ~ "Reform UK",
+    TRUE ~ party_name
+  )
+  
+  data_sub <- icarsd_df_temp |> 
+    filter(party == party_name)
+  
+  ggplot() +
+    geom_rect(
+      data = quintile_bg,
+      aes(xmin = xmin, xmax = xmax, ymin = -Inf, ymax = Inf, fill = quintile),
+      alpha = 0.35
+    ) +
+    geom_errorbar(
+      data = data_sub,
+      aes(x = mean, xmin = X2.5., xmax = X97.5., y = y_pos),
+      position = position_dodge(width = 0.7), width = 0.3
+    ) +
+    geom_point(
+      data = data_sub,
+      size=2,
+      aes(x = mean, y = y_pos, colour = party),
+      position = position_dodge(width = 0.7)
+    ) +
+    geom_vline(
+      xintercept = mean_quintile_breaks[-c(1, length(mean_quintile_breaks))],
+      linetype = "dotted",
+      color = "grey40"
+    ) +
+    scale_y_continuous(
+      breaks = 1:length(region_levels),
+      labels = region_levels
+    ) +
+    scale_x_continuous(
+      breaks = breaks[-c(1, length(breaks))],
+      labels = round(breaks[-c(1, length(breaks))], 2),
+      sec.axis = sec_axis(
+        trans = ~ .,
+        breaks = top_axis_positions,
+        labels = c("Q1","Q2","Q3","Q4","Q5"),
+        name = "quintile cohesion category"
+      )
+    ) +
+    scale_colour_manual(values = custom_palette) +
+    scale_fill_manual(values = quintile_colors, guide = "none") +
+    labs(
+      x = paste0(party_long," posterior icar sd\n95% credible interval"),
+      y = NULL,
+      colour = "party"
+    ) +
+    theme_minimal() +
+    theme(
+      panel.grid.major.x = element_blank(),
+      panel.grid.minor.x = element_blank(),
+      axis.title = element_text(size = 8, face = "bold"),
+      axis.text.y = element_text(size = 6, face = "bold"),
+      axis.ticks.y = element_blank(),
+      legend.position = "none",  # no legend on individual plots
+      strip.text = element_text(face = "bold", size = 8),
+      axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
+      axis.title.x.top = element_text(face = "bold", size = 9, vjust = -1),
+      axis.text.x.top = element_text(face = "bold", size = 8, angle = 0, hjust = 0.5, vjust=-1)
+    )
+}
+
+parties <- unique(icarsd_df_temp$party)
+
+p_list <- lapply(parties, plot_party)
+
+icar_errorbar <- ggarrange(
+  plotlist = p_list,
+  ncol = 4, nrow = 1,
+  labels = c("(i)", "(j)", "(k)", "(l)"),
+  font.label = list(size = 12, color = "black", face = "plain", family = NULL)
+)
+
+```
+
+```{r, fig.width=12, fig.height=5}
+firstrow <- ggarrange(
+  ggplot(mapicar_con) + 
+    geom_sf(aes(fill=mean, colour=mean)) + 
+    scale_fill_gradient2(low="gray20", mid="white", high="#0087DC") + 
+    scale_colour_gradient2(low="gray20", mid="white", high="#0087DC") + 
+    geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
+    labs(fill = "Conservative\nmean posterior\nicar",
+         colour = "Conservative\nmean posterior\nicar") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=0.5, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ggplot(mapicar_lab) + 
+    geom_sf(aes(fill=mean, colour=mean)) + 
+    scale_fill_gradient2(low="gray20", mid="white", high="#E4003B", breaks=c(-1.5,0,1)) + 
+    scale_colour_gradient2(low="gray20", mid="white", high="#E4003B", breaks=c(-1.5,0,1)) + 
+    geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
+    labs(fill = "Labour\nmean posterior\nicar",
+         colour = "Labour\nmean posterior\nicar") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=0.5, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ggplot(mapicar_ld) + 
+    geom_sf(aes(fill=mean, colour=mean)) +  
+    scale_fill_gradient2(low="gray20", mid="white", high="#FAA61A", breaks=c(-1.5,0,1)) + 
+    scale_colour_gradient2(low="gray20", mid="white", high="#FAA61A", breaks=c(-1.5,0,1)) + 
+    geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
+    labs(fill = "Liberal Democrat\nmean posterior\nicar",
+         colour = "Liberal Democrat\nmean posterior\nicar") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=0.5, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ggplot(mapicar_ruk) + 
+    geom_sf(aes(fill=mean, colour=mean)) + 
+    scale_fill_gradient2(low="gray20", mid="white", high="#12B6CF") + 
+    scale_colour_gradient2(low="gray20", mid="white", high="#12B6CF") + 
+    geom_sf(data=regions, fill=NA, colour="black", linewidth=0.1) + 
+    labs(fill = "Reform UK\nmean posterior\nicar",
+         colour = "Reform UK\nmean posterior\nicar") + 
+    theme_void() + 
+    theme(legend.title = element_text(size=8, hjust=0.5, face = "bold"),
+          legend.key.size = unit(0.4, "cm")),
+  
+  ncol = 4,
+  legend = "bottom", 
+  labels = c("(a)","(b)","(c)","(d)"),
+  font.label = list(size = 12, color = "black", face = "plain", family = NULL)
+)
+
+```
+
+
+```{r, fig.width=12, fig.height=5}
+# define quintiles
+quintile_levels <- c(
+  "Q1 (most cohesive)",
+  "Q2 (somewhat cohesive)",
+  "Q3 (moderate cohesion)",
+  "Q4 (less cohesive)",
+  "Q5 (least cohesive)"
+)
+
+mean_quintile_breaks <- quantile(icarsd_df$mean, probs = seq(0, 1, 0.2), na.rm = TRUE)
+
+# add quintile factor to the df
+icarsd_df <- icarsd_df |> 
+  mutate(mean_q = cut(
+    mean,
+    breaks = mean_quintile_breaks,
+    labels = quintile_levels,
+    include.lowest = TRUE
+  )) |> 
+  mutate(mean_q = factor(mean_q, levels = quintile_levels))
+
+# set colours as before
+quintile_colors <- c(
+  "Q1 (most cohesive)" = "#6baed6",
+  "Q2 (somewhat cohesive)" = "#c6dbef",
+  "Q3 (moderate cohesion)" = "white",
+  "Q4 (less cohesive)" = "#fd8d3c",
+  "Q5 (least cohesive)" = "#e6550d"
+)
+
+make_quintile_plot <- function(df, party_label, title_text) {
+  df_party <- df |> filter(party == party_label)
+  ggplot(df_party) +
+    geom_sf(aes(fill = mean_q), color = "black") +
+    scale_fill_manual(
+      values = quintile_colors,
+      drop = FALSE,
+      guide = guide_legend(
+        override.aes = list(color = "black")
+      )
+    ) +
+    labs(fill = title_text) +
+    coord_sf(lims_method = "geometry_bbox") +
+    theme_void() +
+    theme(
+      legend.title = element_text(size = 8, face = "bold"),
+      legend.key.size = unit(0.5, "cm"),
+      legend.key = element_rect(color = "black", size = 0.5)
+    )
+}
+
+# dummy plot to extract just the legend
+dummy_for_legend <- icarsd_df |> slice(1:5) |> mutate(mean_q = factor(quintile_levels, levels = quintile_levels))
+legend_only_plot <- ggplot(dummy_for_legend) +
+  geom_sf(aes(fill = mean_q), color = "black") +
+  scale_fill_manual(
+    values = quintile_colors,
+    drop = FALSE,
+    guide = guide_legend(
+      title = "posterior mean ICAR sd (quintile)",
+      override.aes = list(color = "black")
+    )
+  ) +
+  theme_void() +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_text(size = 8, face = "bold"),
+    legend.key.size = unit(0.5, "cm"),
+    legend.key = element_rect(color = "black", size = 0.3)
+  )
+
+# extract map plots without legends
+plots <- list(
+  make_quintile_plot(icarsd_df, "con", "conservative\nICAR sd (quintile)") + theme(legend.position = "none"),
+  make_quintile_plot(icarsd_df, "lab", "labour\nICAR sd (quintile)") + theme(legend.position = "none"),
+  make_quintile_plot(icarsd_df, "ld", "libdem\nICAR sd (quintile)") + theme(legend.position = "none"),
+  make_quintile_plot(icarsd_df, "ruk", "reform uk\nICAR sd (quintile)") + theme(legend.position = "none")
+)
+
+combined_maps <- ggarrange(
+  plotlist = plots,
+  ncol = 4,
+  labels = c("(e)", "(f)", "(g)", "(h)"),
+  font.label = list(size = 12, color = "black", face = "plain")
+)
+
+secondrow <- ggarrange(
+  combined_maps,
+  get_legend(legend_only_plot),
+  ncol = 1,
+  heights = c(10, 1)
+)
+
+```
+
+
+```{r, figspatialposts, fig.width=12, fig.height=12, fig.cap="(a-d) Mean posterior of ICAR component of Model 7 for Conservatives, Labour, Liberal Democrats and Reform UK respectively, (e-h) mean posterior value of standard deviation component from Model 7 for each party, varying by region, and (i-l) 95% credible intervals of the posterior distributions of these varying standard deviations."}
+figspatialposts <- ggarrange(
+  firstrow,
+  secondrow,
+  blank_plot,
+  icar_errorbar,
+  nrow = 4,
+  heights = c(1,1,0.05,0.95)
+)
+
+figspatialposts
+
+```
+
+## Exceedance probabilities
+
+Rather than comparing posterior means of spatial cohesion across all parties using a global average variance, we can instead calculate exceedance probabilities [@Richardson2004] separately for each party. These represent the posterior probability that a region’s variance $\sigma_k$ exceeds the party-specific mean, indicating lower spatial cohesion relative to that party’s typical pattern across England. This within-party approach allows us to identify regions with unusually weak spatial structure for each party in its own context. The resulting maps are shown in Figure \ref{fig:figexceedances}.
+
+They show patterns broadly similar to those in Figure \ref{fig:figspatialposts} for Conservative, Labour and Reform UK voters. In the case of Liberal Democrat voters, they highlight both the East and West Midlands as regions with particularly uncohesive voting patterns, even relative to the already high $\sigma_k$ values typical of Liberal Democrat support.
+
+```{r}
+region_counts <- df |>
+  group_by(region_name) |>
+  summarise(n_cons = n()) |> 
+  rename(reg_name = region_name) |> 
+  mutate(reg_name = case_when(reg_name == "Yorkshire and The Humber" ~ "Yorkshire and the Humber",
+                               TRUE ~ reg_name)) |>
+  st_drop_geometry()
+
+reg_sd_means <- icarsd_df |> 
+  select(reg_name, mean, party) |> 
+  left_join(region_counts) |> 
+  st_drop_geometry()
+
+# con mod7 brms
+draws_con <- as_draws_df(mod7_con)
+modmat <- model.matrix(con24 ~
+                         first_party19 + second_party19comp * majority_prop_scale +
+                         degree_scale + notgoodhealth_scale + white_scale, 
+                       data=dfnbcon)
+names(draws_con)[1:(ncol(modmat)-1)] <- colnames(modmat)[2:ncol(modmat)]
+draws_con <- draws_con |> 
+  select(15:23) |> 
+  mutate(party = "con")
+names(draws_con)[1:9] <- reg_sd_means$reg_name
+
+# lab mod7 brms
+draws_lab <- as_draws_df(mod7_lab)
+modmat <- model.matrix(lab24 ~
+                         first_party19 + second_party19comp * majority_prop_scale +
+                         degree_scale + notgoodhealth_scale + white_scale, 
+                       data=dfnblab)
+names(draws_lab)[1:(ncol(modmat)-1)] <- colnames(modmat)[2:ncol(modmat)]
+draws_lab <- draws_lab |> 
+  select(15:23) |> 
+  mutate(party = "lab")
+names(draws_lab)[1:9] <- reg_sd_means$reg_name
+
+# libdem mod4 brms
+draws_ld <- as_draws_df(mod7_ld)
+modmat <- model.matrix(ld24 ~
+                         first_party19 + second_party19comp * majority_prop_scale +
+                         degree_scale + notgoodhealth_scale + white_scale, 
+                       data=dfnbld)
+names(draws_ld)[1:(ncol(modmat)-1)] <- colnames(modmat)[2:ncol(modmat)]
+draws_ld <- draws_ld |> 
+  select(15:23) |> 
+  mutate(party = "ld")
+names(draws_ld)[1:9] <- reg_sd_means$reg_name
+
+# ruk mod7 brms
+draws_ruk <- as_draws_df(mod7_ruk)
+modmat <- model.matrix(ruk24 ~
+                         first_party19 + second_party19comp * majority_prop_scale +
+                         degree_scale + notgoodhealth_scale + white_scale, 
+                       data=dfnbruk)
+names(draws_ruk)[1:(ncol(modmat)-1)] <- colnames(modmat)[2:ncol(modmat)]
+draws_ruk <- draws_ruk |> 
+  select(15:23) |>  
+  mutate(party = "ruk")
+names(draws_ruk)[1:9] <- reg_sd_means$reg_name
+
+draws <-
+  bind_rows(
+    draws_con,
+    draws_lab,
+    draws_ld,
+    draws_ruk
+  )
+
+# reshape to long format
+draws_long <- draws |> 
+  pivot_longer(
+    cols = -party,
+    names_to = "reg_name",
+    values_to = "draw"
+  )
+
+reg_means_df <- draws_long |>
+  group_by(party) |>
+  summarise(reg_mean_party = mean(draw))
+
+# join party means to each draw
+draws_long <- draws_long |>
+  left_join(reg_means_df, by = "party")
+
+# exceedance: % of draws > party mean per region per party
+exceedance_by_region_party <- draws_long |> 
+  group_by(party, reg_name) |> 
+  summarise(
+    exceedance_pct = mean(draw > reg_mean_party) * 100,
+    .groups = "drop"
+  ) |> 
+  left_join(reg_means_df, by = "party") |> 
+  mutate(party = case_when(party == "con" ~ "Conservative",
+                           party == "lab" ~ "Labour",
+                           party == "ld" ~ "Liberal Democrat",
+                           party == "ruk" ~ "Reform UK")) |> 
+  mutate(label = paste0(party, "\nmean ICAR sd: ", round(reg_mean_party,2))) |> 
+  left_join(regions) |> 
+  st_as_sf()
+
+```
+
+
+```{r, figexceedances, fig.width=12, fig.height=5, fig.cap="Posterior exceedance by region, showing as percentages the posterior probability that a region’s ICAR variance exceeds the party-specific mean (shown above map), indicating lower spatial cohesion relative to that party’s typical pattern across England."}
+labels <- unique(exceedance_by_region_party$label)
+
+plot_list <- lapply(labels, function(lab) {
+  ggplot() +
+    geom_sf(data = exceedance_by_region_party %>% filter(label == lab),
+            aes(fill = exceedance_pct), color = "black", size = 0.2) +
+    geom_sf(data = regions, fill = NA, colour = "black", linewidth = 0.5) +
+    scale_fill_fermenter(palette = "Oranges", direction = 1, breaks = c(20, 40, 60, 80, 100), 
+                         name = "percentage exceedance of party mean") + 
+    ggtitle(lab) +
+    theme_void() +
+    theme(
+      plot.title = element_text(face = "bold", hjust = 0.5, size=10),
+      legend.position = "bottom",
+      legend.title = element_text(size = 8, face = "bold"),
+      legend.text = element_text(size = 7),
+      legend.key.size = unit(0.4, "cm")
+    )
+})
+
+ggarrange(plotlist = plot_list, ncol = 4, common.legend = TRUE, legend = "bottom", 
+          labels = c("(a)","(b)","(c)","(d)"), 
+          font.label = list(size = 12, color = "black", face = "plain", family = NULL))
+
+```
+
+# Conclusions
+
+In this paper, we proposed a novel structure for describing spatial processes occurring simultaneously at different levels. Rather than combining hierarchical models with a spatially autocorrelated process at the lowest level, we instead allowed the higher level differences to be reflected within the ICAR component itself, reflecting varying spatial cohesion. We constructed these models using a Bayesian framework and demonstrated how we could judge if our novel structure was more appropriate than others using log marginal likelihoods and Bayes factors.
+
+This technique was applied to voting data from the UK, based on a theory that the tendency for voters in one constituency to behave similarly to their neighbours might not be the same in all parts of England. Some regions might demonstrate greater spatial cohesion in terms of electoral preferences than others. We found evidence that such differences did exist and that this new model was an improvement over standard ICAR models for all four of the largest parties. We found that, at a national scale, votes for Reform UK showed the highest degree of spatial cohesion between neighbouring constituencies while those for the Liberal Democrats showed the lowest. On a region by region basis, Conservative votes were more spatially cohesive in the south relative to the north, while the opposite was the case for Labour.
+
+ICAR models with or without an additional hierarchical component are common in many areas of spatial analysis. This concept of allowing spatial cohesion to vary by region has wider application potential than just to voting data. In epidemiological modelling, for example, it might be desirable to allow the intensity of the spread of disease to be similarly variable by region. Rather than using region random effects, perhaps the process could be better captured by focussing only on the spatially smoothed ICAR component but allowing its degree of smoothness to vary. This idea could also be applied to studies of crime, social inequality, public health, environmental issues, ecology and housing markets. Within each of these areas, the meaning of the varying standard deviation of the ICAR structure would have its own interpretation.
+
+It is this area of interpretation which may be one of the main limitations of this model. A combination of hierarchical effects and a spatially smooth process lends itself to a more standard and less complicated narrative than discussion of spatial cohesion. However, the explicit measure of spatial cohesion which this model provides may be of interest to test specific theories. Also, if the more complex model is deemed more plausible, this can raise questions about the simpler model's assumptions.
+
+Another limitation which should be mentioned is the additional computational burden introduced by the varying $\sigma_k$ parameter. For this reason, we only sought to compare one instance of its use (in the form of Model 7) with a number of other candidate models, but there is scope for incorporating it within other similarly structured spatial frameworks as future work.
+
+While our analysis of UK election data reveals distinct patterns of spatial cohesion among parties, understanding the underlying mechanisms driving these differences requires additional investigation beyond the scope of this work. The posterior estimates from our models do, however, provide a timely spatial analysis of this recent election, offering insights into geographic voting patterns that warrant further exploration.
+
+Several extensions could strengthen this methodological framework. A more comprehensive simulation study, not conducted here due to computational constraints, would help establish the robustness of our approach across different scenarios and data structures, particularly examining performance under varying levels of spatial autocorrelation, strength of regional patterns, and sample sizes.
+
+The regional variability framework introduced here could in the future, with access to more computational power, be extended to other spatial modelling components. For instance, the $\rho$ parameter in BYM2 models, which governs the balance between structured and unstructured spatial processes, could itself vary spatially. This would allow different regions to exhibit distinct spatial dependence structures within that model's framework.
+
+Another promising avenue for future work could involve imposing spatial structure on the varying ICAR precision parameters $\sigma_k$ in our model. By smoothing these values across neighbouring regions, we could capture gradual transitions in spatial variance while preserving the model's ability to adapt to local patterns.
+
+# Data availability
+
+The data is available as a package at <https://github.com/horankev/voteReproject> and the code used to create these results can be found at <https://github.com/horankev/vary_cohesion>. Parliamentary information licensed under the Open Parliament Licence v3.0.
+
+# References
+

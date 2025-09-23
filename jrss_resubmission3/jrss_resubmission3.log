@@ -1,0 +1,1243 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.29)  23 SEP 2025 20:39
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**jrss_resubmission3.tex
+(./jrss_resubmission3.tex
+LaTeX2e <2025-06-01> patch level 1
+L3 programming layer <2025-08-13>
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/oup-authoring-template/oup-authoring-template.cls
+Document Class: oup-authoring-template 2022/03/18 1.1
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/crop/crop.sty
+Package: crop 2017/11/19 1.10 crop marks (mf)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifluatex.sty
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+))
+\CROP@index=\count275
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2025/01/14 v1.3e Standard LaTeX Color (DPC)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 149.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+)
+\CROP@offset=\count276
+Package crop Info: Local config file crop.cfg used on input line 622.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/xelatex/xetexconfig/crop.cfg))
+==> First Aid for crop.sty applied!
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+)
+\Gin@req@height=\dimen148
+\Gin@req@width=\dimen149
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen150
+\captionmargin=\dimen151
+\caption@leftmargin=\dimen152
+\caption@rightmargin=\dimen153
+\caption@width=\dimen154
+\caption@indent=\dimen155
+\caption@parindent=\dimen156
+\caption@hangindent=\dimen157
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+Package caption Info: Document class w/o caption stuff detected.
+)
+\c@caption@flags=\count277
+\c@continuedfloat=\count278
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2025/06/16 v2.17y AMS math features
+\@mathmargin=\skip51
+For additional information on amsmath, use the `?' option.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2024/11/17 v2.01 AMS text
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks18
+\ex@=\dimen158
+)) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen159
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count279
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count280
+\leftroot@=\count281
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count282
+\DOTSCASE@=\count283
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box53
+\strutbox@=\box54
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen160
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count284
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count285
+\dotsspace@=\muskip17
+\c@parentequation=\count286
+\dspbrk@lvl=\count287
+\tag@help=\toks19
+\row@=\count288
+\column@=\count289
+\maxfields@=\count290
+\andhelp@=\toks20
+\eqnshift@=\dimen161
+\alignsep@=\dimen162
+\tagshift@=\dimen163
+\tagwidth@=\dimen164
+\totwidth@=\dimen165
+\lineht@=\dimen166
+\@envbody=\toks21
+\multlinegap=\skip52
+\multlinetaggap=\skip53
+\mathdisplay@stack=\toks22
+LaTeX Info: Redefining \[ on input line 2949.
+LaTeX Info: Redefining \] on input line 2950.
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/tools/array.sty
+Package: array 2025/06/08 v2.6j Tabular extension package (FMi)
+\col@sep=\dimen167
+\ar@mcellbox=\box55
+\extrarowheight=\dimen168
+\NC@list=\toks23
+\extratabsurround=\skip54
+\backup@length=\skip55
+\ar@cellbox=\box56
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+LaTeX Info: Redefining \color on input line 762.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/xcolor/svgnam.def
+File: svgnam.def 2024/09/29 v3.02 Predefined colors according to SVG 1.1 (UK)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/xcolor/x11nam.def
+File: x11nam.def 2024/09/29 v3.02 Predefined colors according to Unix/X11 (UK)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/sttools/flushend.sty
+Package: flushend 2025/06/18 v4.3 Balancing columns in twocolumn mode (ST)
+\flushend@@lastskip@a=\skip56
+\flushend@@lastskip@b=\skip57
+\flushend@@lastnode=\count291
+\var@@loop@iter=\count292
+\var@@temp@spread=\dimen169
+\var@@temp@a=\dimen170
+\var@@temp@loop=\dimen171
+\flushend@@page@rule=\dimen172
+\flushend@@varbox@lastpage=\box57
+\flushend@@varbox@a=\box58
+\flushend@@varbox@c=\box59
+\flushend@@tempbox@a=\box60
+\flushend@@tempbox@c=\box61
+\flushend@@floatbox=\box62
+\@viper=\box63
+\hold@viper=\box64
+\atColsBreak=\toks24
+\atColsEnd=\toks25
+\oldbreak@skip=\dimen173
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/sttools/stfloats.sty
+Package: stfloats 2025/06/18 v3.4 Improve float mechanism and baselineskip settings
+\@dblbotnum=\count293
+\c@dblbotnumber=\count294
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics/rotating.sty
+Package: rotating 2025/01/14 v2.16e rotated objects in LaTeX
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+)
+\c@r@tfl@t=\count295
+\rotFPtop=\skip58
+\rotFPbot=\skip59
+\rot@float@box=\box65
+\rot@mess@toks=\toks26
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/changepage/chngpage.sty
+Package: chngpage 2009/10/20 v1.2b change page layout
+\c@cp@cnt=\count296
+\c@cp@tempcnt=\count297
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/totcount/totcount.sty
+Package: totcount 2011/01/25 v1.2 package for gettingthe total value of LaTeX counters
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/base/fix-cm.sty
+Package: fix-cm 2020/11/24 v1.1t fixes to LaTeX
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/base/ts1enc.def
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding TS1 on input line 47.
+LaTeX Encoding Info:    Redeclaring text command \capitalcedilla (encoding TS1) on input line 49.
+LaTeX Encoding Info:    Redeclaring text command \capitalogonek (encoding TS1) on input line 52.
+LaTeX Encoding Info:    Redeclaring text command \capitalgrave (encoding TS1) on input line 55.
+LaTeX Encoding Info:    Redeclaring text command \capitalacute (encoding TS1) on input line 56.
+LaTeX Encoding Info:    Redeclaring text command \capitalcircumflex (encoding TS1) on input line 57.
+LaTeX Encoding Info:    Redeclaring text command \capitaltilde (encoding TS1) on input line 58.
+LaTeX Encoding Info:    Redeclaring text command \capitaldieresis (encoding TS1) on input line 59.
+LaTeX Encoding Info:    Redeclaring text command \capitalhungarumlaut (encoding TS1) on input line 60.
+LaTeX Encoding Info:    Redeclaring text command \capitalring (encoding TS1) on input line 61.
+LaTeX Encoding Info:    Redeclaring text command \capitalcaron (encoding TS1) on input line 62.
+LaTeX Encoding Info:    Redeclaring text command \capitalbreve (encoding TS1) on input line 63.
+LaTeX Encoding Info:    Redeclaring text command \capitalmacron (encoding TS1) on input line 64.
+LaTeX Encoding Info:    Redeclaring text command \capitaldotaccent (encoding TS1) on input line 65.
+LaTeX Encoding Info:    Redeclaring text command \t (encoding TS1) on input line 66.
+LaTeX Encoding Info:    Redeclaring text command \capitaltie (encoding TS1) on input line 67.
+LaTeX Encoding Info:    Redeclaring text command \newtie (encoding TS1) on input line 68.
+LaTeX Encoding Info:    Redeclaring text command \capitalnewtie (encoding TS1) on input line 69.
+LaTeX Encoding Info:    Redeclaring text symbol \textcapitalcompwordmark (encoding TS1) on input line 70.
+LaTeX Encoding Info:    Redeclaring text symbol \textascendercompwordmark (encoding TS1) on input line 71.
+LaTeX Encoding Info:    Redeclaring text symbol \textquotestraightbase (encoding TS1) on input line 72.
+LaTeX Encoding Info:    Redeclaring text symbol \textquotestraightdblbase (encoding TS1) on input line 73.
+LaTeX Encoding Info:    Redeclaring text symbol \texttwelveudash (encoding TS1) on input line 74.
+LaTeX Encoding Info:    Redeclaring text symbol \textthreequartersemdash (encoding TS1) on input line 75.
+LaTeX Encoding Info:    Redeclaring text symbol \textleftarrow (encoding TS1) on input line 76.
+LaTeX Encoding Info:    Redeclaring text symbol \textrightarrow (encoding TS1) on input line 77.
+LaTeX Encoding Info:    Redeclaring text symbol \textblank (encoding TS1) on input line 78.
+LaTeX Encoding Info:    Redeclaring text symbol \textdollar (encoding TS1) on input line 79.
+LaTeX Encoding Info:    Redeclaring text symbol \textquotesingle (encoding TS1) on input line 80.
+LaTeX Encoding Info:    Redeclaring text command \textasteriskcentered (encoding TS1) on input line 81.
+LaTeX Encoding Info:    Redeclaring text symbol \textdblhyphen (encoding TS1) on input line 92.
+LaTeX Encoding Info:    Redeclaring text symbol \textfractionsolidus (encoding TS1) on input line 93.
+LaTeX Encoding Info:    Redeclaring text symbol \textzerooldstyle (encoding TS1) on input line 94.
+LaTeX Encoding Info:    Redeclaring text symbol \textoneoldstyle (encoding TS1) on input line 95.
+LaTeX Encoding Info:    Redeclaring text symbol \texttwooldstyle (encoding TS1) on input line 96.
+LaTeX Encoding Info:    Redeclaring text symbol \textthreeoldstyle (encoding TS1) on input line 97.
+LaTeX Encoding Info:    Redeclaring text symbol \textfouroldstyle (encoding TS1) on input line 98.
+LaTeX Encoding Info:    Redeclaring text symbol \textfiveoldstyle (encoding TS1) on input line 99.
+LaTeX Encoding Info:    Redeclaring text symbol \textsixoldstyle (encoding TS1) on input line 100.
+LaTeX Encoding Info:    Redeclaring text symbol \textsevenoldstyle (encoding TS1) on input line 101.
+LaTeX Encoding Info:    Redeclaring text symbol \texteightoldstyle (encoding TS1) on input line 102.
+LaTeX Encoding Info:    Redeclaring text symbol \textnineoldstyle (encoding TS1) on input line 103.
+LaTeX Encoding Info:    Redeclaring text symbol \textlangle (encoding TS1) on input line 104.
+LaTeX Encoding Info:    Redeclaring text symbol \textminus (encoding TS1) on input line 105.
+LaTeX Encoding Info:    Redeclaring text symbol \textrangle (encoding TS1) on input line 106.
+LaTeX Encoding Info:    Redeclaring text symbol \textmho (encoding TS1) on input line 107.
+LaTeX Encoding Info:    Redeclaring text symbol \textbigcircle (encoding TS1) on input line 108.
+LaTeX Encoding Info:    Redeclaring text command \textcircled (encoding TS1) on input line 109.
+LaTeX Encoding Info:    Redeclaring text symbol \textohm (encoding TS1) on input line 115.
+LaTeX Encoding Info:    Redeclaring text symbol \textlbrackdbl (encoding TS1) on input line 116.
+LaTeX Encoding Info:    Redeclaring text symbol \textrbrackdbl (encoding TS1) on input line 117.
+LaTeX Encoding Info:    Redeclaring text symbol \textuparrow (encoding TS1) on input line 118.
+LaTeX Encoding Info:    Redeclaring text symbol \textdownarrow (encoding TS1) on input line 119.
+LaTeX Encoding Info:    Redeclaring text symbol \textasciigrave (encoding TS1) on input line 120.
+LaTeX Encoding Info:    Redeclaring text symbol \textborn (encoding TS1) on input line 121.
+LaTeX Encoding Info:    Redeclaring text symbol \textdivorced (encoding TS1) on input line 122.
+LaTeX Encoding Info:    Redeclaring text symbol \textdied (encoding TS1) on input line 123.
+LaTeX Encoding Info:    Redeclaring text symbol \textleaf (encoding TS1) on input line 124.
+LaTeX Encoding Info:    Redeclaring text symbol \textmarried (encoding TS1) on input line 125.
+LaTeX Encoding Info:    Redeclaring text symbol \textmusicalnote (encoding TS1) on input line 126.
+LaTeX Encoding Info:    Redeclaring text symbol \texttildelow (encoding TS1) on input line 127.
+LaTeX Encoding Info:    Redeclaring text symbol \textdblhyphenchar (encoding TS1) on input line 128.
+LaTeX Encoding Info:    Redeclaring text symbol \textasciibreve (encoding TS1) on input line 129.
+LaTeX Encoding Info:    Redeclaring text symbol \textasciicaron (encoding TS1) on input line 130.
+LaTeX Encoding Info:    Redeclaring text symbol \textacutedbl (encoding TS1) on input line 131.
+LaTeX Encoding Info:    Redeclaring text symbol \textgravedbl (encoding TS1) on input line 132.
+LaTeX Encoding Info:    Redeclaring text symbol \textdagger (encoding TS1) on input line 133.
+LaTeX Encoding Info:    Redeclaring text symbol \textdaggerdbl (encoding TS1) on input line 134.
+LaTeX Encoding Info:    Redeclaring text symbol \textbardbl (encoding TS1) on input line 135.
+LaTeX Encoding Info:    Redeclaring text symbol \textperthousand (encoding TS1) on input line 136.
+LaTeX Encoding Info:    Redeclaring text symbol \textbullet (encoding TS1) on input line 137.
+LaTeX Encoding Info:    Redeclaring text symbol \textcelsius (encoding TS1) on input line 138.
+LaTeX Encoding Info:    Redeclaring text symbol \textdollaroldstyle (encoding TS1) on input line 139.
+LaTeX Encoding Info:    Redeclaring text symbol \textcentoldstyle (encoding TS1) on input line 140.
+LaTeX Encoding Info:    Redeclaring text symbol \textflorin (encoding TS1) on input line 141.
+LaTeX Encoding Info:    Redeclaring text symbol \textcolonmonetary (encoding TS1) on input line 142.
+LaTeX Encoding Info:    Redeclaring text symbol \textwon (encoding TS1) on input line 143.
+LaTeX Encoding Info:    Redeclaring text symbol \textnaira (encoding TS1) on input line 144.
+LaTeX Encoding Info:    Redeclaring text symbol \textguarani (encoding TS1) on input line 145.
+LaTeX Encoding Info:    Redeclaring text symbol \textpeso (encoding TS1) on input line 146.
+LaTeX Encoding Info:    Redeclaring text symbol \textlira (encoding TS1) on input line 147.
+LaTeX Encoding Info:    Redeclaring text symbol \textrecipe (encoding TS1) on input line 148.
+LaTeX Encoding Info:    Redeclaring text symbol \textinterrobang (encoding TS1) on input line 149.
+LaTeX Encoding Info:    Redeclaring text symbol \textinterrobangdown (encoding TS1) on input line 150.
+LaTeX Encoding Info:    Redeclaring text symbol \textdong (encoding TS1) on input line 151.
+LaTeX Encoding Info:    Redeclaring text symbol \texttrademark (encoding TS1) on input line 152.
+LaTeX Encoding Info:    Redeclaring text symbol \textpertenthousand (encoding TS1) on input line 153.
+LaTeX Encoding Info:    Redeclaring text symbol \textpilcrow (encoding TS1) on input line 154.
+LaTeX Encoding Info:    Redeclaring text symbol \textbaht (encoding TS1) on input line 155.
+LaTeX Encoding Info:    Redeclaring text symbol \textnumero (encoding TS1) on input line 156.
+LaTeX Encoding Info:    Redeclaring text symbol \textdiscount (encoding TS1) on input line 157.
+LaTeX Encoding Info:    Redeclaring text symbol \textestimated (encoding TS1) on input line 158.
+LaTeX Encoding Info:    Redeclaring text symbol \textopenbullet (encoding TS1) on input line 159.
+LaTeX Encoding Info:    Redeclaring text symbol \textservicemark (encoding TS1) on input line 160.
+LaTeX Encoding Info:    Redeclaring text symbol \textlquill (encoding TS1) on input line 161.
+LaTeX Encoding Info:    Redeclaring text symbol \textrquill (encoding TS1) on input line 162.
+LaTeX Encoding Info:    Redeclaring text symbol \textcent (encoding TS1) on input line 163.
+LaTeX Encoding Info:    Redeclaring text symbol \textsterling (encoding TS1) on input line 164.
+LaTeX Encoding Info:    Redeclaring text symbol \textcurrency (encoding TS1) on input line 165.
+LaTeX Encoding Info:    Redeclaring text symbol \textyen (encoding TS1) on input line 166.
+LaTeX Encoding Info:    Redeclaring text symbol \textbrokenbar (encoding TS1) on input line 167.
+LaTeX Encoding Info:    Redeclaring text symbol \textsection (encoding TS1) on input line 168.
+LaTeX Encoding Info:    Redeclaring text symbol \textasciidieresis (encoding TS1) on input line 169.
+LaTeX Encoding Info:    Redeclaring text symbol \textcopyright (encoding TS1) on input line 170.
+LaTeX Encoding Info:    Redeclaring text symbol \textordfeminine (encoding TS1) on input line 171.
+LaTeX Encoding Info:    Redeclaring text symbol \textcopyleft (encoding TS1) on input line 172.
+LaTeX Encoding Info:    Redeclaring text symbol \textlnot (encoding TS1) on input line 173.
+LaTeX Encoding Info:    Redeclaring text symbol \textcircledP (encoding TS1) on input line 174.
+LaTeX Encoding Info:    Redeclaring text symbol \textregistered (encoding TS1) on input line 175.
+LaTeX Encoding Info:    Redeclaring text symbol \textasciimacron (encoding TS1) on input line 176.
+LaTeX Encoding Info:    Redeclaring text symbol \textdegree (encoding TS1) on input line 177.
+LaTeX Encoding Info:    Redeclaring text symbol \textpm (encoding TS1) on input line 178.
+LaTeX Encoding Info:    Redeclaring text symbol \texttwosuperior (encoding TS1) on input line 179.
+LaTeX Encoding Info:    Redeclaring text symbol \textthreesuperior (encoding TS1) on input line 180.
+LaTeX Encoding Info:    Redeclaring text symbol \textasciiacute (encoding TS1) on input line 181.
+LaTeX Encoding Info:    Redeclaring text symbol \textmu (encoding TS1) on input line 182.
+LaTeX Encoding Info:    Redeclaring text symbol \textparagraph (encoding TS1) on input line 183.
+LaTeX Encoding Info:    Redeclaring text symbol \textperiodcentered (encoding TS1) on input line 184.
+LaTeX Encoding Info:    Redeclaring text symbol \textreferencemark (encoding TS1) on input line 185.
+LaTeX Encoding Info:    Redeclaring text symbol \textonesuperior (encoding TS1) on input line 186.
+LaTeX Encoding Info:    Redeclaring text symbol \textordmasculine (encoding TS1) on input line 187.
+LaTeX Encoding Info:    Redeclaring text symbol \textsurd (encoding TS1) on input line 188.
+LaTeX Encoding Info:    Redeclaring text symbol \textonequarter (encoding TS1) on input line 189.
+LaTeX Encoding Info:    Redeclaring text symbol \textonehalf (encoding TS1) on input line 190.
+LaTeX Encoding Info:    Redeclaring text symbol \textthreequarters (encoding TS1) on input line 191.
+LaTeX Encoding Info:    Redeclaring text symbol \texteuro (encoding TS1) on input line 192.
+LaTeX Encoding Info:    Redeclaring text symbol \texttimes (encoding TS1) on input line 193.
+LaTeX Encoding Info:    Redeclaring text symbol \textdiv (encoding TS1) on input line 194.
+))
+\croppaperwidth=\dimen174
+\croppaperheight=\dimen175
+\Croppdfwidth=\dimen176
+\Croppdfheight=\dimen177
+\Trimpdfwidth=\dimen178
+\Trimpdfheight=\dimen179
+\CP@toff@wd=\dimen180
+\CP@toff@ht=\dimen181
+\CP@boff@wd=\dimen182
+\CP@boff@ht=\dimen183
+\CP@crop@wd=\dimen184
+\CP@crop@ht=\dimen185
+\CP@bled@wd=\dimen186
+\CP@bled@ht=\dimen187
+\CP@trim@wd=\dimen188
+\CP@trim@ht=\dimen189
+\c@section=\count298
+\c@subsection=\count299
+\c@subsubsection=\count300
+\c@paragraph=\count301
+\c@subparagraph=\count302
+\c@figure=\count303
+\c@table=\count304
+\dropfromtop=\skip60
+\c@myauthcount=\count305
+\c@myauthcount@totc=\count306
+\c@myhistorycount=\count307
+\c@myhistorycount@totc=\count308
+\c@myaddcount=\count309
+\c@myaddcount@totc=\count310
+\extraspace=\skip61
+\aboveskipchk=\skip62
+\titlepagewd=\skip63
+\rotdimen=\dimen190
+\tempdime=\dimen191
+\temptbox=\box66
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip64
+\bibsep=\skip65
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count311
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen192
+\WF@size=\dimen193
+\c@WF@wrappedlines=\count312
+\WF@box=\box67
+\WF@everypar=\toks27
+Package: wrapfig 2003/01/31  v 3.6
+)
+\wraplines=\count313
+\@authorfigbox=\box68
+\@authorfigboxdim=\skip66
+\biofigadjskip=\skip67
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks28
+\thm@bodyfont=\toks29
+\thm@headfont=\toks30
+\thm@notefont=\toks31
+\thm@headpunct=\toks32
+\thm@preskip=\skip68
+\thm@postskip=\skip69
+\thm@headsep=\skip70
+\dth@everypar=\toks33
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/subfloat/subfloat.sty
+Package: subfloat 2003/08/21 version 2.14
+Package `subfloat', Version 2.14 of 2003/08/21.
+\c@subfloatfiguremax=\count314
+\c@subfloattablemax=\count315
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/anyfontsize/anyfontsize.sty
+Package: anyfontsize 2007/11/22 anyfontsize.sty by pts
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
+\multirow@colwidth=\skip71
+\multirow@cntb=\count316
+\multirow@dima=\skip72
+\bigstrutjot=\dimen194
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/mdwtools/footnote.sty
+Package: footnote 1997/01/28 1.13 Save footnotes around boxes
+\fn@notes=\box69
+\fn@width=\dimen195
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip18
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/jknapltx/mathrsfs.sty
+Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
+\symrsfs=\mathgroup6
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count317
+\float@exts=\toks34
+\float@box=\box70
+\@float@everytoks=\toks35
+\@floatcapt=\box71
+)
+\@float@every@algorithm=\toks36
+\c@algorithm=\count318
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count319
+\c@ALG@rem=\count320
+\c@ALG@nested=\count321
+\ALG@tlm=\skip73
+\ALG@thistlm=\skip74
+\c@ALG@Lnr=\count322
+\c@ALG@blocknr=\count323
+\c@ALG@storecount=\count324
+\c@ALG@tmpcounter=\count325
+\ALG@tmplength=\skip75
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count326
+\lst@gtempboxa=\box72
+\lst@token=\toks37
+\lst@length=\count327
+\lst@currlwidth=\dimen196
+\lst@column=\count328
+\lst@pos=\count329
+\lst@lostspace=\dimen197
+\lst@width=\dimen198
+\lst@newlines=\count330
+\lst@lineno=\count331
+\lst@maxwidth=\dimen199
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/listings/lstpatch.sty
+File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
+\c@lstnumber=\count332
+\lst@skipnumbers=\count333
+\lst@framebox=\box73
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2024/09/23 1.10c listings configuration
+))
+Package: listings 2024/09/23 1.10c (Carsten Heinz)
+\c@@pps=\count334
+\c@@ppsavesec=\count335
+\c@@ppsaveapp=\count336
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2025-07-12 v7.01o Hypertext links for LaTeX
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2025-06-21 v2.57 Cross-referencing by name of section
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count337
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count338
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
+)
+\@linkdim=\dimen256
+\Hy@linkcounter=\count339
+\Hy@pagecounter=\count340
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2025-07-12 v7.01o Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count341
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2025-07-12 v7.01o Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Option `unicode' set `true' on input line 4066.
+Package hyperref Info: Hyper figures OFF on input line 4195.
+Package hyperref Info: Link nesting OFF on input line 4200.
+Package hyperref Info: Hyper index ON on input line 4203.
+Package hyperref Info: Plain pages OFF on input line 4210.
+Package hyperref Info: Backreferencing OFF on input line 4215.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4462.
+\c@Hy@tempcnt=\count342
+LaTeX Info: Redefining \url on input line 4801.
+\XeTeXLinkMargin=\dimen257
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+))
+\Fld@menulength=\count343
+\Field@Width=\dimen258
+\Fld@charsize=\dimen259
+Package hyperref Info: Hyper figures OFF on input line 6078.
+Package hyperref Info: Link nesting OFF on input line 6083.
+Package hyperref Info: Hyper index ON on input line 6086.
+Package hyperref Info: backreferencing OFF on input line 6093.
+Package hyperref Info: Link coloring OFF on input line 6098.
+Package hyperref Info: Link coloring with OCG OFF on input line 6103.
+Package hyperref Info: PDF/A mode OFF on input line 6108.
+\Hy@abspage=\count344
+\c@Item=\count345
+\c@Hfootnote=\count346
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2025-07-12 v7.01o Hyperref driver for pdfTeX
+\Fld@listcount=\count347
+\c@bookmark@seq@number=\count348
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
+)
+\Hy@SectionHShift=\skip76
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks38
+\pgfutil@tempdima=\dimen260
+\pgfutil@tempdimb=\dimen261
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box74
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2025-08-14 v3.1.11 (3.1.11)
+))
+Package: pgf 2025-08-14 v3.1.11 (3.1.11)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2025-08-14 v3.1.11 (3.1.11)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks39
+\pgfkeys@temptoks=\toks40
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
+\pgfkeys@tmptoks=\toks41
+))
+\pgf@x=\dimen262
+\pgf@y=\dimen263
+\pgf@xa=\dimen264
+\pgf@ya=\dimen265
+\pgf@xb=\dimen266
+\pgf@yb=\dimen267
+\pgf@xc=\dimen268
+\pgf@yc=\dimen269
+\pgf@xd=\dimen270
+\pgf@yd=\dimen271
+\w@pgf@writea=\write3
+\r@pgf@reada=\read2
+\c@pgf@counta=\count349
+\c@pgf@countb=\count350
+\c@pgf@countc=\count351
+\c@pgf@countd=\count352
+\t@pgf@toka=\toks42
+\t@pgf@tokb=\toks43
+\t@pgf@tokc=\toks44
+\pgf@sys@id@count=\count353
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2025-08-14 v3.1.11 (3.1.11)
+)
+Driver file for pgf: pgfsys-pdftex.def
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2025-08-14 v3.1.11 (3.1.11)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2025-08-14 v3.1.11 (3.1.11)
+))) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgfsyssoftpath@smallbuffer@items=\count354
+\pgfsyssoftpath@bigbuffer@items=\count355
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2025-08-14 v3.1.11 (3.1.11)
+)) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+Package: pgfcore 2025-08-14 v3.1.11 (3.1.11)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen272
+\pgfmath@count=\count356
+\pgfmath@box=\box75
+\pgfmath@toks=\toks45
+\pgfmath@stack@operand=\toks46
+\pgfmath@stack@operation=\toks47
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count357
+)) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgf@picminx=\dimen273
+\pgf@picmaxx=\dimen274
+\pgf@picminy=\dimen275
+\pgf@picmaxy=\dimen276
+\pgf@pathminx=\dimen277
+\pgf@pathmaxx=\dimen278
+\pgf@pathminy=\dimen279
+\pgf@pathmaxy=\dimen280
+\pgf@xx=\dimen281
+\pgf@xy=\dimen282
+\pgf@yx=\dimen283
+\pgf@yy=\dimen284
+\pgf@zx=\dimen285
+\pgf@zy=\dimen286
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgf@path@lastx=\dimen287
+\pgf@path@lasty=\dimen288
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgf@shorten@end@additional=\dimen289
+\pgf@shorten@start@additional=\dimen290
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgfpic=\box76
+\pgf@hbox=\box77
+\pgf@layerbox@main=\box78
+\pgf@picture@serial@count=\count358
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgflinewidth=\dimen291
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
+File: pgfcoretransformations.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgf@pt@x=\dimen292
+\pgf@pt@y=\dimen293
+\pgf@pt@temp=\dimen294
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2025-08-14 v3.1.11 (3.1.11)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2025-08-14 v3.1.11 (3.1.11)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2025-08-14 v3.1.11 (3.1.11)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgfarrowsep=\dimen295
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgf@max=\dimen296
+\pgf@sys@shading@range@num=\count359
+\pgf@shadingcount=\count360
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2025-08-14 v3.1.11 (3.1.11)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgfexternal@startupbox=\box79
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2025-08-14 v3.1.11 (3.1.11)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+File: pgfcoretransparency.code.tex 2025-08-14 v3.1.11 (3.1.11)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2025-08-14 v3.1.11 (3.1.11)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
+File: pgfcorerdf.code.tex 2025-08-14 v3.1.11 (3.1.11)
+))) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgfnodeparttextbox=\box80
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2025-08-14 v3.1.11 (3.1.11)
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
+Package: pgfcomp-version-0-65 2025-08-14 v3.1.11 (3.1.11)
+\pgf@nodesepstart=\dimen297
+\pgf@nodesepend=\dimen298
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
+Package: pgfcomp-version-1-18 2025-08-14 v3.1.11 (3.1.11)
+)) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2025-08-14 v3.1.11 (3.1.11)
+\pgffor@iter=\dimen299
+\pgffor@skip=\dimen300
+\pgffor@stack=\toks48
+\pgffor@toks=\toks49
+)) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2025-08-14 v3.1.11 (3.1.11)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgf@plot@mark@count=\count361
+\pgfplotmarksize=\dimen301
+)
+\tikz@lastx=\dimen302
+\tikz@lasty=\dimen303
+\tikz@lastxsaved=\dimen304
+\tikz@lastysaved=\dimen305
+\tikz@lastmovetox=\dimen306
+\tikz@lastmovetoy=\dimen307
+\tikzleveldistance=\dimen308
+\tikzsiblingdistance=\dimen309
+\tikz@figbox=\box81
+\tikz@figbox@bg=\box82
+\tikz@tempbox=\box83
+\tikz@tempbox@bg=\box84
+\tikztreelevel=\count362
+\tikznumberofchildren=\count363
+\tikznumberofcurrentchild=\count364
+\tikz@fig@count=\count365
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgfmatrixcurrentrow=\count366
+\pgfmatrixcurrentcolumn=\count367
+\pgf@matrix@numberofcolumns=\count368
+)
+\tikz@expandcount=\count369
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2025-08-14 v3.1.11 (3.1.11)
+))) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarysvg.path.code.tex
+File: tikzlibrarysvg.path.code.tex 2025-08-14 v3.1.11 (3.1.11)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibrarysvg.path.code.tex
+File: pgflibrarysvg.path.code.tex 2025-08-14 v3.1.11 (3.1.11)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleparser.code.tex
+File: pgfmoduleparser.code.tex 2025-08-14 v3.1.11 (3.1.11)
+\pgfparserdef@arg@count=\count370
+)
+\pgf@lib@svg@last@x=\dimen310
+\pgf@lib@svg@last@y=\dimen311
+\pgf@lib@svg@last@c@x=\dimen312
+\pgf@lib@svg@last@c@y=\dimen313
+\pgf@lib@svg@count=\count371
+\pgf@lib@svg@max@num=\count372
+))
+\@curXheight=\skip77
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/upquote/upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verbatim
+)
+Package hyperref Info: Option `breaklinks' set `true' on input line 33.
+
+Package hyperref Warning: Option `bookmarks' has already been used,
+(hyperref)                setting the option has no effect on input line 33.
+
+Package hyperref Info: Option `colorlinks' set `true' on input line 33.
+\c@correspcnt=\count373
+\c@addrcnt=\count374
+\c@theorem=\count375
+\c@example=\count376
+\c@remark=\count377
+\c@definition=\count378
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen314
+\lightrulewidth=\dimen315
+\cmidrulewidth=\dimen316
+\belowrulesep=\dimen317
+\belowbottomsep=\dimen318
+\aboverulesep=\dimen319
+\abovetopsep=\dimen320
+\cmidrulesep=\dimen321
+\cmidrulekern=\dimen322
+\defaultaddspace=\dimen323
+\@cmidla=\count379
+\@cmidlb=\count380
+\@aboverulesep=\dimen324
+\@belowrulesep=\dimen325
+\@thisruleclass=\count381
+\@lastruleclass=\count382
+\@thisrulewidth=\dimen326
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2024-12-18 v4.23 Multi-page Table package (DPC)
+\LTleft=\skip78
+\LTright=\skip79
+\LTpre=\skip80
+\LTpost=\skip81
+\LTchunksize=\count383
+\LTcapwidth=\dimen327
+\LT@head=\box85
+\LT@firsthead=\box86
+\LT@foot=\box87
+\LT@lastfoot=\box88
+\LT@gbox=\box89
+\LT@cols=\count384
+\LT@rows=\count385
+\c@LT@tables=\count386
+\c@LT@chunks=\count387
+\LT@p@ftn=\toks50
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2024/10/29 v1.0k Color table columns (DPC)
+\everycr=\toks51
+\minrowclearance=\skip82
+\rownum=\count388
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2025-06-23 v0.14 Display of landscape pages in PDF
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty
+Package: pdflscape-nometadata 2025-06-23 v0.14 Display of landscape pages in PDF (HO)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+)) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/tabu/tabu.sty
+Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box90
+\sift@deathcycles=\count389
+\@vwid@loff=\dimen328
+\@vwid@roff=\dimen329
+)
+==> First Aid for varwidth.sty applied!
+\c@taburow=\count390
+\tabu@nbcols=\count391
+\tabu@cnt=\count392
+\tabu@Xcol=\count393
+\tabu@alloc=\count394
+\tabu@nested=\count395
+\tabu@target=\dimen330
+\tabu@spreadtarget=\dimen331
+\tabu@naturalX=\dimen332
+\tabucolX=\dimen333
+\tabu@Xsum=\dimen334
+\extrarowdepth=\dimen335
+\abovetabulinesep=\dimen336
+\belowtabulinesep=\dimen337
+\tabustrutrule=\dimen338
+\tabu@thebody=\toks52
+\tabu@footnotes=\toks53
+\tabu@box=\box91
+\tabu@arstrutbox=\box92
+\tabu@hleads=\box93
+\tabu@vleads=\box94
+\tabu@cellskip=\skip83
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/threeparttable/threeparttable.sty
+Package: threeparttable 2003/06/13  v 3.0
+\@tempboxb=\box95
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/threeparttablex/threeparttablex.sty
+Package: threeparttablex 2013/07/23 v0.3 by daleif
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/environ/environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+))
+\TPTL@width=\skip84
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box96
+\UL@hyphenbox=\box97
+\UL@skip=\skip85
+\UL@hook=\toks54
+\UL@height=\dimen339
+\UL@pe=\count396
+\UL@pixel=\dimen340
+\ULC@box=\box98
+Package: ulem 2019/11/18
+\ULdepth=\dimen341
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen342
+\c@nlinenum=\count397
+\TeXr@lab=\toks55
+) (/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2025-06-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count398
+)
+
+LaTeX Warning: Unused global option(s):
+    [webpdf,large,contemporary,namedate].
+
+(./jrss_resubmission3.aux)
+\openout1 = `jrss_resubmission3.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 152.
+LaTeX Font Info:    ... okay on input line 152.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+Package crop Info: requested driver: `' on input line 152.
+Package crop Info: detected driver: `pdftex' on input line 152.
+Package crop Info: using `pdftex' graphics driver on input line 152.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: longtable package is loaded.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
+)
+Package caption Info: rotating package is loaded.
+Package caption Info: threeparttable package is loaded.
+Package caption Info: wrapfig package is loaded.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Redeclaring symbol font `AMSa' on input line 152.
+LaTeX Font Info:    Overwriting symbol font `AMSa' in version `normal'
+(Font)                  U/msa/m/n --> U/msa/m/n on input line 152.
+LaTeX Font Info:    Overwriting symbol font `AMSa' in version `bold'
+(Font)                  U/msa/m/n --> U/msa/m/n on input line 152.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
+)
+\c@lstlisting=\count399
+Package hyperref Info: Link coloring ON on input line 152.
+(./jrss_resubmission3.out) (./jrss_resubmission3.out)
+\@outlinefile=\write4
+\openout4 = `jrss_resubmission3.out'.
+
+\c@thisauthcorresp=\count400
+\c@thisauththanks=\count401
+\c@ADDR@ABC=\count402
+\c@ADDR@DEF=\count403
+\c@ADDR@GHI=\count404
+LaTeX Font Info:    Calculating math sizes for size <13.04874> on input line 249.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 249.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 249.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 249.
+(/Users/kevinhoran/Library/TinyTeX/texmf-dist/tex/latex/jknapltx/ursfs.fd
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+)
+\c@ADDRLBL@ABC=\count405
+\c@ADDRLBL@DEF=\count406
+\c@ADDRLBL@GHI=\count407
+LaTeX Font Info:    Calculating math sizes for size <6.52437> on input line 249.
+
+
+[1
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+
+
+
+{/Users/kevinhoran/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[2
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+]
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[3
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+]
+<jrss_resubmission3_files/figure-latex/figvoteshare-1.pdf, id=211, 850.17625pt x 278.03876pt>
+File: jrss_resubmission3_files/figure-latex/figvoteshare-1.pdf Graphic file (type pdf)
+<use jrss_resubmission3_files/figure-latex/figvoteshare-1.pdf>
+Package pdftex.def Info: jrss_resubmission3_files/figure-latex/figvoteshare-1.pdf  used on input line 495.
+(pdftex.def)             Requested size: 488.5pt x 159.76073pt.
+<jrss_resubmission3_files/figure-latex/figsocec-1.pdf, id=215, 818.05624pt x 284.06125pt>
+File: jrss_resubmission3_files/figure-latex/figsocec-1.pdf Graphic file (type pdf)
+<use jrss_resubmission3_files/figure-latex/figsocec-1.pdf>
+Package pdftex.def Info: jrss_resubmission3_files/figure-latex/figsocec-1.pdf  used on input line 523.
+(pdftex.def)             Requested size: 488.5pt x 169.6275pt.
+<jrss_resubmission3_files/figure-latex/figplacement-1.pdf, id=222, 850.17625pt x 285.065pt>
+File: jrss_resubmission3_files/figure-latex/figplacement-1.pdf Graphic file (type pdf)
+<use jrss_resubmission3_files/figure-latex/figplacement-1.pdf>
+Package pdftex.def Info: jrss_resubmission3_files/figure-latex/figplacement-1.pdf  used on input line 545.
+(pdftex.def)             Requested size: 488.5pt x 163.798pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[4
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+ <./jrss_resubmission3_files/figure-latex/figvoteshare-1.pdf>]
+<jrss_resubmission3_files/figure-latex/figregionstree-1.pdf, id=253, 843.15pt x 641.39626pt>
+File: jrss_resubmission3_files/figure-latex/figregionstree-1.pdf Graphic file (type pdf)
+<use jrss_resubmission3_files/figure-latex/figregionstree-1.pdf>
+Package pdftex.def Info: jrss_resubmission3_files/figure-latex/figregionstree-1.pdf  used on input line 587.
+(pdftex.def)             Requested size: 439.64702pt x 334.44794pt.
+
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[5
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+ <./jrss_resubmission3_files/figure-latex/figsocec-1.pdf> <./jrss_resubmission3_files/figure-latex/figplacement-1.pdf>]
+<jrss_resubmission3_files/figure-latex/figspatial-1.pdf, id=282, 468.75125pt x 282.05376pt>
+File: jrss_resubmission3_files/figure-latex/figspatial-1.pdf Graphic file (type pdf)
+<use jrss_resubmission3_files/figure-latex/figspatial-1.pdf>
+Package pdftex.def Info: jrss_resubmission3_files/figure-latex/figspatial-1.pdf  used on input line 596.
+(pdftex.def)             Requested size: 488.5pt x 293.9358pt.
+
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[6
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+ <./jrss_resubmission3_files/figure-latex/figregionstree-1.pdf>]
+<jrss_resubmission3_files/figure-latex/fignonspatial-1.pdf, id=310, 837.1275pt x 285.065pt>
+File: jrss_resubmission3_files/figure-latex/fignonspatial-1.pdf Graphic file (type pdf)
+<use jrss_resubmission3_files/figure-latex/fignonspatial-1.pdf>
+Package pdftex.def Info: jrss_resubmission3_files/figure-latex/fignonspatial-1.pdf  used on input line 682.
+(pdftex.def)             Requested size: 488.5pt x 166.34695pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[7
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+ <./jrss_resubmission3_files/figure-latex/figspatial-1.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[8
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+ <./jrss_resubmission3_files/figure-latex/fignonspatial-1.pdf>]
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[9
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+]
+<jrss_resubmission3_files/figure-latex/pseudoregions-1.pdf, id=363, 244.915pt x 264.99pt>
+File: jrss_resubmission3_files/figure-latex/pseudoregions-1.pdf Graphic file (type pdf)
+<use jrss_resubmission3_files/figure-latex/pseudoregions-1.pdf>
+Package pdftex.def Info: jrss_resubmission3_files/figure-latex/pseudoregions-1.pdf  used on input line 909.
+(pdftex.def)             Requested size: 122.125pt x 132.1348pt.
+
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[10
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+ <./jrss_resubmission3_files/figure-latex/pseudoregions-1.pdf>]
+<jrss_resubmission3_files/figure-latex/narrowsds-1.pdf, id=390, 696.6025pt x 621.32124pt>
+File: jrss_resubmission3_files/figure-latex/narrowsds-1.pdf Graphic file (type pdf)
+<use jrss_resubmission3_files/figure-latex/narrowsds-1.pdf>
+Package pdftex.def Info: jrss_resubmission3_files/figure-latex/narrowsds-1.pdf  used on input line 952.
+(pdftex.def)             Requested size: 439.64702pt x 392.13602pt.
+<jrss_resubmission3_files/figure-latex/widesds-1.pdf, id=391, 696.6025pt x 411.5375pt>
+File: jrss_resubmission3_files/figure-latex/widesds-1.pdf Graphic file (type pdf)
+<use jrss_resubmission3_files/figure-latex/widesds-1.pdf>
+Package pdftex.def Info: jrss_resubmission3_files/figure-latex/widesds-1.pdf  used on input line 961.
+(pdftex.def)             Requested size: 439.64702pt x 259.73468pt.
+
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[11
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+ <./jrss_resubmission3_files/figure-latex/narrowsds-1.pdf>]
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[12
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+ <./jrss_resubmission3_files/figure-latex/widesds-1.pdf>]
+<jrss_resubmission3_files/figure-latex/figsocecposts-1.pdf, id=432, 569.12625pt x 167.62625pt>
+File: jrss_resubmission3_files/figure-latex/figsocecposts-1.pdf Graphic file (type pdf)
+<use jrss_resubmission3_files/figure-latex/figsocecposts-1.pdf>
+Package pdftex.def Info: jrss_resubmission3_files/figure-latex/figsocecposts-1.pdf  used on input line 1100.
+(pdftex.def)             Requested size: 415.22798pt x 122.30475pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[13
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+]
+<jrss_resubmission3_files/figure-latex/figspatialposts-1.pdf, id=440, 857.2025pt x 856.19875pt>
+File: jrss_resubmission3_files/figure-latex/figspatialposts-1.pdf Graphic file (type pdf)
+<use jrss_resubmission3_files/figure-latex/figspatialposts-1.pdf>
+Package pdftex.def Info: jrss_resubmission3_files/figure-latex/figspatialposts-1.pdf  used on input line 1167.
+(pdftex.def)             Requested size: 488.5pt x 487.93384pt.
+<jrss_resubmission3_files/figure-latex/figexceedances-1.pdf, id=445, 850.17625pt x 356.33125pt>
+File: jrss_resubmission3_files/figure-latex/figexceedances-1.pdf Graphic file (type pdf)
+<use jrss_resubmission3_files/figure-latex/figexceedances-1.pdf>
+Package pdftex.def Info: jrss_resubmission3_files/figure-latex/figexceedances-1.pdf  used on input line 1190.
+(pdftex.def)             Requested size: 488.5pt x 204.7475pt.
+
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[14
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+ <./jrss_resubmission3_files/figure-latex/figsocecposts-1.pdf>]
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[15
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+ <./jrss_resubmission3_files/figure-latex/figspatialposts-1.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[16
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+ <./jrss_resubmission3_files/figure-latex/figexceedances-1.pdf>] (./jrss_resubmission3.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 85--89
+\OT1/cmr/m/n/10 URL [][]$\OT1/cmtt/m/n/10 https : / / commonslibrary . parliament . uk / boundary-[]review-[]2023-[]which-[]seats-[]will-[]change/$[][]\OT1/cmr/m/n/10 .
+ []
+
+
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[17
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+])
+
+
+Overfull \vbox (1.0pt too high) has occurred while \output is active []
+
+[18
+Non-PDF special ignored!
+<special> ps: [{ThisPage} << /CropBox [0 0 595.26013 782.33696] >> /PUT pdf...
+] (./jrss_resubmission3.aux)
+ ***********
+LaTeX2e <2025-06-01> patch level 1
+L3 programming layer <2025-08-13>
+ ***********
+Package rerunfilecheck Info: File `jrss_resubmission3.out' has not changed.
+(rerunfilecheck)             Checksum: F2739FDEA7BC20130130477E307E7CB7;2782.
+ ) 
+Here is how much of TeX's memory you used:
+ 27404 strings out of 469781
+ 510319 string characters out of 5481047
+ 973680 words of memory out of 5000000
+ 55157 multiletter control sequences out of 15000+600000
+ 655265 words of font info for 148 fonts, out of 8000000 for 9000
+ 18 hyphenation exceptions out of 8191
+ 99i,18n,101p,17361b,580s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ </Users/kevinhoran/Library/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0600.650pk> </Users/kevinhoran/Library/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0500.548pk> </Users/kevinhoran/Library/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.609pk></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmb10.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></Users/kevinhoran/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on jrss_resubmission3.pdf (18 pages, 3352844 bytes).
+PDF statistics:
+ 708 PDF objects out of 1000 (max. 8388607)
+ 572 compressed objects within 6 object streams
+ 109 named destinations out of 1000 (max. 500000)
+ 233 words of extra memory for PDF output out of 10000 (max. 10000000)
+
