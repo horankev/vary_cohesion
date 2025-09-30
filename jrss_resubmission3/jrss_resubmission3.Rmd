@@ -961,7 +961,7 @@ $$
 Instead of this $\phi_i$ ICAR effect, the BYM2 formulation in Model 4 includes a random effect $\psi_i$ which is a combination of structured (ICAR) and unstructured effects at constituency level:
 
 $$
-\psi_i = \sigma\sqrt{1-\rho} \, \upsilon_i + \sqrt{\rho} \, \phi_i^*
+\psi_i = \sigma(\sqrt{1-\rho} \, \upsilon_i + \sqrt{\rho} \, \phi_i^*)
 $$
 
 where $\sigma$ is the overall standard deviation, $\phi_i^*$, the spatially structured effect, is a scaled version of the ICAR prior with unit variance, $\upsilon_i$ represents unstructured noise, with $\upsilon_i \sim \text{Normal}(0, 1)$, and $\rho$ is the proportion of spatial variance in the mixing of these structured and unstructured components. A proper, uninformative prior of $\text{Beta}(1,1)$, uniform in the interval [0,1], is used for $\rho$. A value of 0 for $\rho$ implies that all spatial variation is unstructured (independent random effects) while a value of 1 is equivalent to a pure ICAR model.
